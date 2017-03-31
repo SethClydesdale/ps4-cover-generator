@@ -73,8 +73,10 @@ a:active { color:#07C; }
 }
 
 #cover-tools, #cover-tools-title, #cover-tools-offset { transition:300ms; }
+
 #cover-tools.hidden { height:0; }
 #cover-tools-title.hidden { bottom:0; }
+.hidden + #cover-tools-offset { margin-bottom:30px; }
 
 .tools-row { margin:12px 0; }
 .tools-row:last-child { margin-bottom:0; }
@@ -420,4 +422,10 @@ footer a:active { color:#FF8; }
 @media (max-width:720px) {
   header, footer { text-align:center; }
   footer > div, header > * { float:none !important; }
+}
+
+@media (max-height:800px) {
+  #cover-tools-title { bottom:300px; }
+  #cover-tools { height:300px; }
+  #cover-tools-offset { margin-bottom:330px; }
 }
