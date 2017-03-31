@@ -330,12 +330,10 @@
     if (this.className == 'hidden') {
       this.className = '';
       tools.className = '';
-      document.getElementById('cover-tools-offset').style.marginBottom = '';
 
     } else {
       this.className = 'hidden';
       tools.className = 'hidden';
-      document.getElementById('cover-tools-offset').style.marginBottom = '30px';
     }
   });
 
