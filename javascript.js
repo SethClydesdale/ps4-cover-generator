@@ -397,11 +397,20 @@
     }
   });
 
+
   // increase / decrease canvas width and redraw when the window is resized
   window.addEventListener('resize', function () {
     PS_Cover.canvas.width = window.innerWidth;
     PS_Cover.draw();
   });
+
+
+  // stop window from scrolling while scrolling in the toolbox
+  document.getElementById('cover-tools').onwheel = function (e) {
+    if ((this.scrollTop == (this.scrollHeight - this.clientHeight) && e.deltaY > 0) || this.scrollTop == 0 && e.deltaY < 0) {
+      return false;
+    }
+  };
 
 
   // create preset
@@ -417,10 +426,6 @@
     x : (PS_Cover.canvas.width / 2) - 100,
     y : (PS_Cover.canvas.height / 2) - 100
   });
-
-  document.getElementById('cover-tools').onwheel = function (e) {
-    document.getElementById('cover-tools').insertAdjacentHTML('beforeend', '<p>wheeling</p>');
-  };
 
 
   // Detect if a font has been loaded before drawing to the canvas
