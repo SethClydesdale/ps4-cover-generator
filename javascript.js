@@ -5,7 +5,7 @@
     // used to draw images, text, etc.. onto the canvas
     draw : function () {
       PS_Cover.canvas.width = window.innerWidth;
-      PS_Cover.canvas.height = 620;
+      PS_Cover.canvas.height = 600;
 
       PS_Cover.ctx.fillStyle = document.getElementById('cover-bg-color').value;
       PS_Cover.ctx.fillRect(0, 0, PS_Cover.canvas.width, PS_Cover.canvas.height);
@@ -182,7 +182,7 @@
         } else {
           var offset = that.getBoundingClientRect();
 
-          PS_Cover.FontAwesome.list.style.marginTop = '-' + (200 + offset.height) + 'px';
+          PS_Cover.FontAwesome.list.style.marginTop = '-' + (160 + offset.height) + 'px';
           PS_Cover.FontAwesome.list.style.left = offset.left + 'px';
           that.parentNode.insertBefore(PS_Cover.FontAwesome.list, that);
         }
@@ -417,6 +417,10 @@
     x : (PS_Cover.canvas.width / 2) - 100,
     y : (PS_Cover.canvas.height / 2) - 100
   });
+
+  document.getElementById('cover-tools').onwheel = function (e) {
+    document.getElementById('cover-tools').insertAdjacentHTML('beforeend', '<p>wheeling</p>');
+  };
 
 
   // Detect if a font has been loaded before drawing to the canvas
