@@ -56,13 +56,13 @@ a:active { color:#07C; }
   position:fixed;
   left:0;
   right:0;
-  bottom:400px;
+  bottom:350px;
   cursor:pointer;
 }
 
-#cover-tools-offset { margin-bottom:430px; }
+#cover-tools-offset { margin-bottom:380px; }
 #cover-tools {
-  height:400px;
+  height:350px;
   overflow:auto;
   overflow-x:hidden;
   background:#EEE;
@@ -260,7 +260,7 @@ span.tools-delete:active { background:#C31; }
 
 
 /* text controls */
-#cover-tools input, #cover-tools select, .fa-caller {
+#cover-tools input:not([type="range"]), #cover-tools select, .fa-caller {
   color:#333;
   background:#FFF;
   border:1px solid #CCC;
@@ -288,7 +288,7 @@ span.tools-delete:active { background:#C31; }
 #fontawesome-iconlist {
   background:#FFF;
   border:1px solid #CCC;
-  height:200px;
+  height:160px;
   width:300px;
   overflow:auto;
   overflow-x:hidden;
