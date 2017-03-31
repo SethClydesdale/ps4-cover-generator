@@ -323,21 +323,6 @@
   });
 
 
-  // toggle toolbox
-  document.getElementById('cover-tools-title').addEventListener('click', function () {
-    var tools = document.getElementById('cover-tools');
-
-    if (this.className == 'hidden') {
-      this.className = '';
-      tools.className = '';
-
-    } else {
-      this.className = 'hidden';
-      tools.className = 'hidden';
-    }
-  });
-
-
   // initialize an interval to move the specified image in the specified direction while the mouse is held down
   document.addEventListener('mousedown', function (e) {
     var that = e.target;
@@ -405,12 +390,47 @@
   });
 
 
+  // cover tool event handlers
+  var tools = document.getElementById('cover-tools');
+
   // stop window from scrolling while scrolling in the toolbox
-  document.getElementById('cover-tools').onwheel = function (e) {
+  tools.onwheel = function (e) {
     if ((this.scrollTop == (this.scrollHeight - this.clientHeight) && e.deltaY > 0) || this.scrollTop == 0 && e.deltaY < 0) {
       return false;
     }
   };
+
+
+  // hide body overflow while using the tools
+  tools.onmouseover = function () {
+    if (document.body.style.overflow != 'hidden') {
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  // show body overflow when exiting the tools
+  tools.onmouseout = function () {
+    if (document.body.style.overflow == 'hidden') {
+      document.body.style.overflow = '';
+    }
+  };
+
+
+
+  // toggle toolbox
+  document.getElementById('cover-tools-title').addEventListener('click', function () {
+    var tools = document.getElementById('cover-tools');
+
+    if (this.className == 'hidden') {
+      this.className = '';
+      tools.className = '';
+
+    } else {
+      this.className = 'hidden';
+      tools.className = 'hidden';
+    }
+  });
+
 
 
   // create preset
