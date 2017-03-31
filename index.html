@@ -46,7 +46,19 @@
         <div class="bubble"><i class="fa fa-search"></i></div>
         <p class="title-desc">Any changes you make in the toolbox will be reflected in the preview below. When you're finished editing your Cover Image, scroll to the bottom of the page to generate it. Tip : You can close the toolbox to get a better view by clicking its black handle.</p>
       </div>
+
       <canvas id="ps4-cover-photo"></canvas>
+      <div id="ps4-demo-profile" class="hidden">
+        <div id="overlay-profile">
+          <div id="user-info">
+            <img id="avatar" src="image/demo-ava.png" alt="avatar">
+            <div id="username">
+              <div id="real-name">Seth Clydesdale</div>
+              <div id="psn">Seth9977</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="content-block center">
         <h2 class="title">Generate Your Cover Image</h2>
@@ -78,8 +90,8 @@
       <div class="tools-row">
         <div class="tools-title"><i class="fa fa-paint-brush"></i> Canvas Settings</div>
         <div class="tools-inner">
-          <div>Background Color :  <input id="cover-bg-color" type="text" value="#0055AA" oninput="PS_Cover.draw();"></div>
-          <div><input type="range" value="0" min="0" max="255"></div>
+          <div class="tools-row"><label for="cover-bg-color">Background Color : </label><input id="cover-bg-color" type="text" value="#0055AA" oninput="PS_Cover.draw();"></div>
+          <div class="tools-row"><label for="cover-show-profile">Show Demo Profile : </label><input id="cover-show-profile" type="checkbox"></div>
         </div>
       </div>
 
