@@ -415,7 +415,7 @@
   });
 
   PS_Cover.add('image', {
-    value : 'image/ps4.png',
+    value : 'https://github.com/SethClydesdale/ps4-cover-generator/raw/master/image/ps4.png',
     x : (PS_Cover.canvas.width / 2) - 100,
     y : (PS_Cover.canvas.height / 2) - 100
   });
