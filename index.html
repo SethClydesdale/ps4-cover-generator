@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PS4 Cover Generator</title>
+    <meta name="title" content="PS4 Cover Generator">
+    <meta name="twitter:title" content="PS4 Cover Generator">
+    <meta property="og:title" content="PS4 Cover Generator">
+    <meta name="description" content="This tool allows you to create your very own personalized Cover Image for your PlayStation Network Account.">
+    <meta property="og:description" content="This tool allows you to create your very own personalized Cover Image for your PlayStation Network Account.">
+
+    <meta name="keywords" content="PS4, PlayStation, PSN, Cover, Image, Banner, Generator, Creator, Free" lang="en">
+    <meta name="language" content="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="image/ps4.ico">
+
+    <meta property="og:site_name" content="sethclydesdale.github.io">
+    <meta property="og:url" content="https://sethclydesdale.github.io/ps4-cover-generator/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="image/ps4.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@SethC1995">
+
+    <link rel="stylesheet" href="stylesheet.css">
+    <link href="https://fonts.googleapis.com/css?family=Acme|Aldrich|Allerta+Stencil|Amatic+SC|Antic+Slab|Architects+Daughter|Arsenal|Arvo|Audiowide|Bangers|Barrio|Bevan|Boogaloo|Chewy|Cinzel|Cinzel+Decorative|Clicker+Script|Coming+Soon|Cookie|Covered+By+Your+Grace|Dancing+Script|Days+One|Exo|Fascinate+Inline|Fredericka+the+Great|Fredoka+One|Gloria+Hallelujah|Graduate|Great+Vibes|Handlee|Homemade+Apple|Indie+Flower|Kanit|Khand|Lobster|Lobster+Two|Love+Ya+Like+A+Sister|Luckiest+Guy|Macondo|Monda|Monoton|Nothing+You+Could+Do|Open+Sans|Orbitron|Permanent+Marker|Philosopher|Play|Press+Start+2P|Rajdhani|Raleway|Revalia|Righteous|Roboto|Ruda|Russo+One|Satisfy|Shadows+Into+Light|Shrikhand|Space+Mono|Special+Elite|Spirax|Teko|Tinos|VT323|Vidaloka|Yellowtail" rel="stylesheet">
+  </head>
+
+  <body>
+    <header>
+      <h1>PS4 Cover Generator</h1>
+    </header>
+
+
+    <div id="content">
+      <div class="content-block center">
+        <h2 class="title">Create the Cover of Your Dreams</h2>
+        <div class="bubble"><i class="fa fa-magic"></i></div>
+        <p class="title-desc">This tool allows you to create your very own personalized Cover Image for use on your PSN Profile. Use the Toolbox at the bottom of your screen to start creating your Cover Image. For the highest quality Cover Image, press <i class="ps-button sqaure"></i> to go into fullscreen mode.</p>
+      </div>
+
+      <div class="content-block center">
+        <h2 class="title">Cover Image Preview</h2>
+        <div class="bubble"><i class="fa fa-search"></i></div>
+        <p class="title-desc">Any changes you make in the toolbox will be reflected in the preview below. When you're finished editing your Cover Image, scroll to the bottom of the page to generate it. Tip : You can close the toolbox to get a better view by clicking its black handle.</p>
+      </div>
+      <canvas id="ps4-cover-photo"></canvas>
+
+      <div class="content-block center">
+        <h2 class="title">Generate Your Cover Image</h2>
+        <div class="bubble"><i class="fa fa-mail-forward"></i></div>
+        <p class="title-desc">When you're finished editing your Cover Image, click the button below to generate it. A new window will open so you can take a Screenshot of your Cover Image. Make sure to put your mouse cursor at the bottom of your screen!</p>
+
+        <div class="row">
+          <input id="download-ps4-cover" type="button" value="Generate Cover Image">
+        </div>
+      </div>
+    </div>
+
+
+    <footer class="clear">
+      <div id="footer-left">
+        <p>"PlayStation" is a registered trademark of Sony Interactive Entertainment Inc.</p>
+        <p>"PS4 Cover Generator" is NOT an official product of SIE.</p>
+        <p>"SONY" is a registered trademark of Sony Corporation.</p>
+      </div>
+
+      <div id="footer-right">
+        <p>Designed and Developed by <a href="https://github.com/SethClydesdale">Seth Clydesdale</a></p>
+      </div>
+    </footer>
+
+
+    <div id="cover-tools-title" title="Toggle cover tools"><i class="fa fa-gear"></i> Toolbox</div>
+    <div id="cover-tools">
+      <div class="tools-row">
+        <div class="tools-title"><i class="fa fa-paint-brush"></i> Canvas Settings</div>
+        <div class="tools-inner">
+          <div>Background Color :  <input id="cover-bg-color" type="text" value="#0055AA" oninput="PS_Cover.draw();"></div>
+          <div><input type="range" value="0" min="0" max="255"></div>
+        </div>
+      </div>
+
+      <div class="tools-row">
+        <div class="tools-title"><i class="fa fa-file"></i> Layers</div>
+        <div class="tools-inner">
+          <div id="cover-layers"></div>
+
+          <div class="tools-actions">
+            <span class="tools-add" onclick="PS_Cover.add('text');"><i class="fa fa-font"></i> Add Text</span>
+            <span class="tools-add" onclick="PS_Cover.add('image');"><i class="fa fa-image"></i> Add Image</span>
+            <span class="tools-delete"onclick="PS_Cover.deleteLayers();"><i class="fa fa-minus"></i> Delete All</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="cover-tools-offset"></div>
+
+    <script src="javascript.js"></script>
+  </body>
+</html>
