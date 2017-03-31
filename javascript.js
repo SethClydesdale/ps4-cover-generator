@@ -349,7 +349,7 @@
   });
 
 
-  // add / delete actions
+  // various canvas actions
   document.addEventListener('click', function (e) {
     var that = e.target;
 
@@ -393,28 +393,25 @@
   // cover tool event handlers
   var tools = document.getElementById('cover-tools');
 
-  // stop window from scrolling while scrolling in the toolbox
-  tools.onwheel = function (e) {
-    if ((this.scrollTop == (this.scrollHeight - this.clientHeight) && e.deltaY > 0) || this.scrollTop == 0 && e.deltaY < 0) {
-      return false;
-    }
-  };
-
-
   // hide body overflow while using the tools
-  tools.onmouseover = function () {
+  tools.addEventListener('mouseover', function () {
     if (document.body.style.overflow != 'hidden') {
       document.body.style.overflow = 'hidden';
     }
-  };
+  });
 
   // show body overflow when exiting the tools
-  tools.onmouseout = function () {
+  tools.addEventListener('mouseout', function () {
     if (document.body.style.overflow == 'hidden') {
       document.body.style.overflow = '';
     }
-  };
+  });
 
+
+  // toggle demo profile
+  document.getElementById('cover-show-profile').addEventListener('change', function () {
+    document.getElementById('ps4-demo-profile').className = this.checked ? '' : 'hidden';
+  });
 
 
   // toggle toolbox
