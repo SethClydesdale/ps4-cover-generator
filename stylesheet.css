@@ -41,6 +41,69 @@ a:active { color:#07C; }
 #download-ps4-cover:hover { background:#06B; }
 #download-ps4-cover:focus { background:#05A; }
 
+/* COVER STYLES */
+#ps4-cover-photo {
+  border-top:1px solid #000;
+  border-bottom:1px solid #000;
+}
+
+
+/* DEMO PROFILE */
+#ps4-demo-profile {
+  position:absolute;
+  left:0;
+  right:0;
+  height:600px;
+  margin-top:-604px;
+  visibility:visible;
+  opacity:1;
+  transition:300ms;
+}
+
+#ps4-demo-profile.hidden {
+  visibility:hidden;
+  opacity:0;
+}
+
+#overlay-profile {
+  height:300px;
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  background:linear-gradient(to bottom, rgba(51,51,51,0.5) 0%,rgba(51,51,51,1) 100%);
+}
+
+#user-info {
+  position:absolute;
+  left:100px;
+}
+
+#avatar {
+  margin-top:-50px;
+  height:160px;
+  width:160px;
+  float:left;
+}
+
+#username {
+  color:#FFF;
+  margin-top:25px;
+  margin-left:20px;
+  float:left;
+}
+
+#real-name {
+  font-size:38px;
+  margin-bottom:10px;
+}
+
+#psn {
+  font-size:22px;
+  font-style:italic;
+}
+
+
 /* COVER TOOLS */
 #cover-tools-title {
   color:#FFF;
@@ -77,6 +140,18 @@ a:active { color:#07C; }
 #cover-tools.hidden { height:0; }
 #cover-tools-title.hidden { bottom:0; }
 .hidden + #cover-tools-offset { margin-bottom:30px; }
+
+#cover-tools label {
+  font-size:16px;
+  font-weight:bold;
+  text-align:right;
+  display:inline-block;
+  padding-right:6px;
+  width:250px;
+  cursor:pointer;
+}
+
+#cover-tools label:hover { color:#000; }
 
 .tools-row { margin:12px 0; }
 .tools-row:last-child { margin-bottom:0; }
@@ -260,7 +335,7 @@ span.tools-delete:active { background:#C31; }
 
 
 /* text controls */
-#cover-tools input:not([type="range"]), #cover-tools select, .fa-caller {
+#cover-tools input:not([type="range"]):not([type="checkbox"]), #cover-tools select, .fa-caller {
   color:#333;
   background:#FFF;
   border:1px solid #CCC;
