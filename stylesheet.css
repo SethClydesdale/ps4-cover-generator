@@ -459,6 +459,12 @@ footer a:active { color:#FF8; }
   font-size:16px;
 }
 
+#preview-title {
+  color:#333;
+  font-size:32px;
+  text-align:center;
+}
+
 .bubble {
   color:#FFF;
   background:#333;
