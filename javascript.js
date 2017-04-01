@@ -58,7 +58,7 @@
 
 
     updateInput : function (that) {
-      var type = that.className.replace(/cover-image-|cover-text-| color-inpicker/g, ''),
+      var type = that.className.replace(/cover-image-|cover-text-/g, ''),
           input = that.parentNode.parentNode.getElementsByTagName('INPUT')[0],
           selected = that.options ? that.options[that.selectedIndex] : null,
           fa = that.parentNode.querySelector('.fa-caller');
@@ -467,7 +467,7 @@
       config = config || {};
 
       for (var a = document.querySelectorAll('.color-inpicker'), i = 0, j = a.length, picker, str; i < j; i++) {
-        a[i].className = a[i].className.replace(/color-inpicker/, '');
+        a[i].className = a[i].className.replace(/(?:\s|)color-inpicker/, '');
 
         picker = document.createElement('SPAN');
         picker.className = 'color-inpicker-box';
