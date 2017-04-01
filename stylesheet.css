@@ -20,6 +20,9 @@ a:active { color:#07C; }
 
 .row { margin:12px 0; }
 .center { text-align:center; }
+.right { float:right; }
+
+.clear { clear:both; }
 .clear:after, .main-layer-input:after {
   content:"";
   display:table;
@@ -388,7 +391,7 @@ span.tools-delete:active { background:#C31; }
 /* header */
 header {
   color:#FFF;
-  background:#05A;
+  background:#07C;
   padding:15px;
 }
 
@@ -429,14 +432,16 @@ header h1 { float:left; }
 /* footer */
 footer {
   color:#FFF;
+  background:#07C;
+  padding:30px 12px;
+}
+
+footer#footer-end {
   background:#05A;
-  padding:30px 0;
+  padding:0 12px;
 }
 
 footer > div { padding:6px; }
-
-#footer-left { float:left; }
-#footer-right { float:right; }
 
 footer a { color:#CCC; }
 footer a:hover { color:#FFF; }
