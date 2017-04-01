@@ -525,10 +525,10 @@ footer a:active { color:#FF8; }
   background:#FFF;
   border:1px solid rgba(0, 0, 0, 0.175);
   box-shadow:0 6px 12px rgba(0, 0, 0, 0.175);
-  font-size:12px;
+  font-size:14px;
+  font-weight:bold;
   font-family:Arial;
   position:absolute;
-  width:250px;
   padding:6px 12px;
   z-index:1;
 }
@@ -541,15 +541,15 @@ footer a:active { color:#FF8; }
 #color-inpicker-box #color-value-blue { color:#00F; }
 
 #color-inpicker-box .color-label {
-  font-weight:bold;
   text-align:right;
-  width:50px;
+  width:60px;
 }
 
 #color-inpicker-box .color-bar {
   border:1px solid #CCC;
   width:120px;
-  height:10px;
+  height:20px;
+  vertical-align:middle;
   position:relative;
   overflow:hidden;
 }
@@ -564,19 +564,26 @@ footer a:active { color:#FF8; }
 #color-inpicker-box .color-down, #color-inpicker-box .color-up {
   width:0;
   height:0;
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
   margin:0 6px;
+  vertical-align:middle;
   cursor:pointer;
 }
 
 #color-inpicker-box .color-down {
-  border-right:10px solid #333;
+  border-right:15px solid #999;
 }
 
 #color-inpicker-box .color-up {
-  border-left:10px solid #333;
+  border-left:15px solid #999;
 }
+
+#color-inpicker-box .color-up:hover { border-left-color:#666; }
+#color-inpicker-box .color-down:hover { border-right-color:#666; }
+
+#color-inpicker-box .color-up:active { border-left-color:#333; }
+#color-inpicker-box .color-down:active { border-right-color:#333; }
 
 #color-inpicker-box .color-value {
   text-align:center;
