@@ -329,7 +329,7 @@
 
       '<div id="creation-info">'+
         '<p>Created with PS4 Cover Generator</p>'+
-        '<p>github.com/SethClydesdale/ps4-cover-generator/</p>'+
+        '<p>sethclydesdale.github.io/ps4-cover-generator/</p>'+
       '</div>'
     );
   });
