@@ -66,7 +66,7 @@ a:active { color:#07C; }
 }
 
 #overlay-profile {
-  height:300px;
+  height:290px;
   position:absolute;
   left:0;
   right:0;
@@ -76,7 +76,7 @@ a:active { color:#07C; }
 
 #user-info {
   position:absolute;
-  left:100px;
+  left:120px;
 }
 
 #avatar {
