@@ -82,8 +82,8 @@
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-text-tools">'+
+          '<input class="cover-text-color color-inpicker" type="text" value="' + ( settings.color || '#FFFFFF' ) + '" oninput="PS_Cover.updateText(this);">'+
           '<input class="cover-text-size" type="number" value="' + ( settings.size || '20' ) + '" oninput="PS_Cover.updateText(this);">'+
-          '<input class="cover-text-color" type="text" value="' + ( settings.color || '#FFFFFF' ) + '" oninput="PS_Cover.updateText(this);">'+
           '<i class="fa fa-smile-o fa-caller" onclick="PS_Cover.FontAwesome.call(this);" style="display:none;"></i>'+
           '<select class="cover-text-font" onchange="PS_Cover.updateText(this);">'+
             opts+
@@ -133,7 +133,7 @@
 
 
     updateText : function (that) {
-      var type = that.className.replace(/cover-text-/, ''),
+      var type = that.className.replace(/cover-text-| color-inpicker/g, ''),
           input = that.parentNode.parentNode.getElementsByTagName('INPUT')[0],
           selected = that.options ? that.options[that.selectedIndex] : null,
           fa = that.parentNode.querySelector('.fa-caller');
@@ -148,7 +148,10 @@
         }, null, { msTimeout : 3000 });
 
       } else {
-        input.style.fontFamily = that.value;
+        if (type == 'font') {
+          input.style.fontFamily = that.value;
+        }
+
         input.dataset[type] = that.value;
         PS_Cover.draw();
       }
@@ -455,6 +458,179 @@
     x : (PS_Cover.canvas.width / 2) - 100,
     y : (PS_Cover.canvas.height / 2) - 100
   });
+
+
+  // ColorPicker Prototype for PS4 and browsers that don't support input[type="color"]
+  // Created by Seth Clydesdale
+  window.ColorInpicker = {
+
+    // init the color picker
+    init : function (config) {
+      config = config || {};
+
+      for (var a = document.querySelectorAll('.color-inpicker'), i = 0, j = a.length, picker, str; i < j; i++) {
+        picker = document.createElement('SPAN');
+        picker.className = 'color-inpicker-box';
+        picker.style.background = a[i].value || '#000000';
+
+        picker.addEventListener('click', function () {
+          ColorInpicker.call(this);
+        });
+
+        if (config.hide) {
+          a[i].style.display = 'none';
+        } else {
+          a[i].addEventListener('input', function() {
+            var picker = this.previousSibling;
+            picker.style.background = this.value || '#000000';
+          });
+        }
+
+        a[i].parentNode.insertBefore(picker, a[i]);
+      }
+
+      picker = document.createElement('DIV');
+      picker.id = 'color-inpicker-box';
+
+      picker.addEventListener('mouseleave', function() {
+        this.parentNode.removeChild(this);
+      });
+
+      for (a = ['Red', 'Green', 'Blue'], i = 0, j = a.length, str = ''; i < j; i++) {
+        str += '<div id="color-value-' + a[i].toLowerCase() + '" class="color-inpicker-row">'+
+          '<span class="color-label">' + a[i] + ' : </span>'+
+          '<span class="color-down" onmousedown="ColorInpicker.color(this, 0);" onmouseup="ColorInpicker.stop();" onmouseout="ColorInpicker.stop();"></span>'+
+          '<span class="color-bar"><span class="color-bar-inner"></span></span>'+
+          '<span class="color-up" onmousedown="ColorInpicker.color(this, 1);" onmouseup="ColorInpicker.stop();" onmouseout="ColorInpicker.stop();"></span>'+
+          '<span class="color-value">0</span>'+
+        '</div>';
+      }
+
+      picker.innerHTML = str + '<div id="color-value-result"></div>';
+
+      this.picker = picker;
+    },
+
+
+    // call the color selector
+    call : function (that) {
+      if (document.getElementById('color-inpicker-box')) {
+        ColorInpicker.picker.parentNode.removeChild(ColorInpicker.picker);
+
+        if (ColorInpicker.last != that) {
+          ColorInpicker.call(that);
+        }
+
+      } else {
+        ColorInpicker.last = that;
+        ColorInpicker.input = that.nextSibling;
+        ColorInpicker.picker.style.left = that.getBoundingClientRect().left + 'px';
+
+        var rgb = that.style.background.replace(/rgb\(|\)/g, '').split(','),
+            bar = ColorInpicker.picker.querySelectorAll('.color-bar-inner'),
+            val = ColorInpicker.picker.querySelectorAll('.color-value'),
+            i, j;
+
+        for (i = 0, j = bar.length; i < j; i++) {
+          bar[i].style.background = 'rgb(' + ( [rgb[i] + ', 0, 0', '0, ' + rgb[i] + ', 0', '0, 0, ' + rgb[i]][i] ) + ')';
+          bar[i].style.width = (rgb[i] / 255 * 100) + '%';
+
+          val[i].innerHTML = rgb[i];
+        }
+
+        ColorInpicker.picker.querySelector('#color-value-result').style.background = that.style.background;
+
+        that.parentNode.insertBefore(ColorInpicker.picker, that);
+      }
+    },
+
+
+    // edit the color
+    color : function (that, inc) {
+      var active = that.parentNode.querySelectorAll('.color-bar-inner, .color-value'),
+
+          color = {
+            red : 0,
+            green : 1,
+            blue : 2
+          }[that.parentNode.id.replace(/color-value-/, '')],
+
+          result = ColorInpicker.picker.querySelector('#color-value-result'),
+          values = ColorInpicker.picker.querySelectorAll('.color-value'),
+          n = +active[1].innerHTML,
+          rgb,
+          hex;
+
+
+      if (!ColorInpicker.coloring) {
+        ColorInpicker.coloring = true;
+
+        ColorInpicker.int = window.setInterval(function() {
+          if (inc && n > 254 || !inc && n < 1) {
+            ColorInpicker.stop();
+
+          } else {
+            active[1].innerHTML = +active[1].innerHTML + (inc ? +1 : -1);
+
+            n = +active[1].innerHTML;
+
+            rgb = [
+              +values[0].innerHTML,
+              +values[1].innerHTML,
+              +values[2].innerHTML
+            ];
+
+            hex = [
+              rgb[0].toString(16),
+              rgb[1].toString(16),
+              rgb[2].toString(16)
+            ];
+
+            active[0].style.background = 'rgb(' + ( [
+              n + ', 0, 0',
+              '0, ' + n + ', 0',
+              '0, 0, ' + n
+            ][color] ) + ')';
+
+            active[0].style.width = (n / 255 * 100) + '%';
+            result.style.background = 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')';
+
+            // color-inpicker-box
+            ColorInpicker.picker.nextSibling.style.background = result.style.background;
+
+            // original input
+            ColorInpicker.picker.nextSibling.nextSibling.value = ('#' + (hex[0].length == 1 ? '0' + hex[0] : hex[0]) +
+                                                                        (hex[1].length == 1 ? '0' + hex[1] : hex[1]) +
+                                                                        (hex[2].length == 1 ? '0' + hex[2] : hex[2])).toUpperCase();
+
+            ColorInpicker.callback && ColorInpicker.callback(that);
+          }
+        }, 25);
+      }
+    },
+
+
+    // kill the interval
+    stop : function () {
+      ColorInpicker.coloring = false;
+      window.clearInterval(ColorInpicker.int);
+    }
+  };
+
+  ColorInpicker.init({
+    hide : true
+  });
+
+  // universal callback to execute when the color picker value changes
+  ColorInpicker.callback = function (that) {
+    if (/cover-text-/.test(ColorInpicker.input.className)) {
+      PS_Cover.updateText(ColorInpicker.input);
+
+    } else {
+
+      PS_Cover.draw();
+    }
+  };
 
 
   // Detect if a font has been loaded before drawing to the canvas
