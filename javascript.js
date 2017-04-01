@@ -24,8 +24,11 @@
             input.previousSibling.src = input.value;
           }
 
+          if (input.style.borderColor) {
+            input.style.borderColor = '';
+          }
 
-          PS_Cover.loadImage(img, input.dataset.x, input.dataset.y, +input.dataset.scale / 100);
+          PS_Cover.loadImage(img, input.dataset.x, input.dataset.y, +input.dataset.scale / 100, input);
 
         } else if (/text-layer/.test(layer[i].className)) {
           input = layer[i].querySelector('.cover-text');
@@ -40,7 +43,7 @@
 
 
     // wait for images to load before drawing them
-    loadImage : function (img, x, y, scale) {
+    loadImage : function (img, x, y, scale, input) {
       if (img.complete) {
         PS_Cover.ctx.save();
         PS_Cover.ctx.scale(scale, scale);
@@ -54,6 +57,12 @@
           PS_Cover.ctx.restore();
         });
       }
+
+      img.addEventListener('error', function () {
+        if (input.value) {
+          input.style.borderColor = '#F00';
+        }
+      });
     },
 
 
