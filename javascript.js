@@ -25,7 +25,7 @@
           }
 
 
-          PS_Cover.loadImage(img, input.dataset.x, input.dataset.y)
+          PS_Cover.loadImage(img, input.dataset.x, input.dataset.y, +input.dataset.scale / 100);
 
         } else if (/text-layer/.test(layer[i].className)) {
           input = layer[i].querySelector('.cover-text');
@@ -33,6 +33,60 @@
           PS_Cover.ctx.fillStyle = input.dataset.color;
           PS_Cover.ctx.font = input.dataset.size + 'px ' + input.dataset.font;
           PS_Cover.ctx.fillText(input.value, input.dataset.x, input.dataset.y);
+        }
+      }
+
+    },
+
+
+    // wait for images to load before drawing them
+    loadImage : function (img, x, y, scale) {
+      if (img.complete) {
+        PS_Cover.ctx.save();
+        PS_Cover.ctx.scale(scale, scale);
+        PS_Cover.ctx.drawImage(img, x, y);
+        PS_Cover.ctx.restore();
+      } else {
+        img.addEventListener('load', function () {
+          PS_Cover.ctx.save();
+          PS_Cover.ctx.scale(scale, scale);
+          PS_Cover.ctx.drawImage(img, x, y);
+          PS_Cover.ctx.restore();
+        });
+      }
+    },
+
+
+    updateInput : function (that) {
+      var type = that.className.replace(/cover-image-|cover-text-| color-inpicker/g, ''),
+          input = that.parentNode.parentNode.getElementsByTagName('INPUT')[0],
+          selected = that.options ? that.options[that.selectedIndex] : null,
+          fa = that.parentNode.querySelector('.fa-caller');
+
+      if (type == 'font' && !selected.dataset.loaded) {
+        input.style.fontFamily = that.value;
+        input.dataset[type] = that.value;
+
+        FontDetect.onFontLoaded(that.value, function () {
+          selected.dataset.loaded = true;
+          PS_Cover.draw();
+        }, null, { msTimeout : 3000 });
+
+      } else {
+        if (type == 'font') {
+          input.style.fontFamily = that.value;
+        }
+
+        input.dataset[type] = that.value;
+        PS_Cover.draw();
+      }
+
+      // show fontawesome icon toggler
+      if (type == 'font') {
+        if (that.value == 'FontAwesome' && fa && fa.style.display == 'none') {
+          fa.style.display = '';
+        } else if (fa && fa.style.display != 'none') {
+          fa.style.display = 'none';
         }
       }
 
@@ -82,10 +136,10 @@
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-text-tools">'+
-          '<input class="cover-text-color color-inpicker" type="text" value="' + ( settings.color || '#FFFFFF' ) + '" oninput="PS_Cover.updateText(this);">'+
-          '<input class="cover-text-size" type="number" value="' + ( settings.size || '20' ) + '" oninput="PS_Cover.updateText(this);">'+
+          '<input class="cover-text-color color-inpicker" type="text" value="' + ( settings.color || '#FFFFFF' ) + '" oninput="PS_Cover.updateInput(this);">'+
+          '<input class="cover-text-size" type="number" value="' + ( settings.size || '20' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<i class="fa fa-smile-o fa-caller" onclick="PS_Cover.FontAwesome.call(this);" style="display:none;"></i>'+
-          '<select class="cover-text-font" onchange="PS_Cover.updateText(this);">'+
+          '<select class="cover-text-font" onchange="PS_Cover.updateInput(this);">'+
             opts+
           '</select>'+
         '</div>';
@@ -98,8 +152,11 @@
         row.innerHTML =
         '<div class="main-layer-input">'+
           '<img class="image-thumb" src="" alt="">'+
-          '<input class="cover-image big" type="text" value="' + ( settings.value || '' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="cover-image big" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
           PS_Cover.templates.layer_controls+
+        '</div>'+
+        '<div class="cover-image-tools">'+
+          '<input class="cover-image-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
         '</div>';
       }
 
@@ -117,54 +174,6 @@
 
         PS_Cover.draw();
       }
-    },
-
-
-    // wait for images to load before drawing them
-    loadImage : function (img, x, y) {
-      if (img.complete) {
-        PS_Cover.ctx.drawImage(img, x, y);
-      } else {
-        img.addEventListener('load', function () {
-          PS_Cover.ctx.drawImage(img, x, y);
-        });
-      }
-    },
-
-
-    updateText : function (that) {
-      var type = that.className.replace(/cover-text-| color-inpicker/g, ''),
-          input = that.parentNode.parentNode.getElementsByTagName('INPUT')[0],
-          selected = that.options ? that.options[that.selectedIndex] : null,
-          fa = that.parentNode.querySelector('.fa-caller');
-
-      if (type == 'font' && !selected.dataset.loaded) {
-        input.style.fontFamily = that.value;
-        input.dataset[type] = that.value;
-
-        FontDetect.onFontLoaded(that.value, function () {
-          selected.dataset.loaded = true;
-          PS_Cover.draw();
-        }, null, { msTimeout : 3000 });
-
-      } else {
-        if (type == 'font') {
-          input.style.fontFamily = that.value;
-        }
-
-        input.dataset[type] = that.value;
-        PS_Cover.draw();
-      }
-
-      // show fontawesome icon toggler
-      if (type == 'font') {
-        if (that.value == 'FontAwesome' && fa && fa.style.display == 'none') {
-          fa.style.display = '';
-        } else if (fa && fa.style.display != 'none') {
-          fa.style.display = 'none';
-        }
-      }
-
     },
 
 
@@ -624,7 +633,7 @@
   // universal callback to execute when the color picker value changes
   ColorInpicker.callback = function (that) {
     if (/cover-text-/.test(ColorInpicker.input.className)) {
-      PS_Cover.updateText(ColorInpicker.input);
+      PS_Cover.updateInput(ColorInpicker.input);
 
     } else {
 
