@@ -322,7 +322,7 @@
     window.open().document.write(
       '<style>'+
         'body{padding:0;margin:0;background:#000}'+
-        '#creation-info{postion:fixed;left:0;bottom:0;color:#CCC;font-size:16px;font-family:Arial;padding:6px;}'+
+        '#creation-info{position:fixed;left:0;bottom:0;color:#CCC;font-size:16px;font-family:Arial;padding:6px;}'+
       '</style>'+
 
       '<img src="' + PS_Cover.canvas.toDataURL('image/png') + '" alt="PS4 Cover">'+
