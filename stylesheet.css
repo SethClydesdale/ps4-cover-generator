@@ -550,10 +550,16 @@ footer a:active { color:#FF8; }
   border:1px solid #CCC;
   width:120px;
   height:10px;
+  position:relative;
   overflow:hidden;
 }
 
-#color-inpicker-box .color-bar-inner { height:11px; }
+#color-inpicker-box .color-bar-inner {
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+}
 
 #color-inpicker-box .color-down, #color-inpicker-box .color-up {
   width:0;
