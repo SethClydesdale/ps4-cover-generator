@@ -321,7 +321,7 @@
   document.getElementById('download-ps4-cover').addEventListener('click', function () {
     window.open().document.write(
       '<style>'+
-        'body{padding:0;margin:0;background:#000}'+
+        'body{padding:0;margin:0;background:#000;cursor:none}'+
         '#creation-info{position:fixed;left:0;bottom:0;color:#CCC;font-size:16px;font-family:Arial;padding:6px;}'+
       '</style>'+
 
