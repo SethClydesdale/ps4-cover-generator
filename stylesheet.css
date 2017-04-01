@@ -126,6 +126,8 @@ a:active { color:#07C; }
   cursor:pointer;
 }
 
+#cover-tools-title:hover { background:#222; }
+
 #cover-tools-offset { margin-bottom:380px; }
 #cover-tools {
   height:350px;
@@ -136,6 +138,7 @@ a:active { color:#07C; }
   left:0;
   right:0;
   bottom:0;
+  z-index:1;
 }
 
 #cover-tools, #cover-tools-title, #cover-tools-offset { transition:300ms; }
@@ -501,6 +504,83 @@ footer a:active { color:#FF8; }
   position:absolute;
   top:6px;
   left:6px;
+}
+
+/* COLOR PICKER */
+.color-inpicker-box {
+  display:inline-block;
+  border:2px solid rgba(0, 0, 0, 0.2);
+  height:20px;
+  width:40px;
+  vertical-align:middle;
+  cursor:pointer;
+}
+
+.color-inpicker-box:hover {
+  border-color:rgba(0, 0, 0, 0.4);
+}
+
+#color-inpicker-box {
+  color:#333;
+  background:#FFF;
+  border:1px solid rgba(0, 0, 0, 0.175);
+  box-shadow:0 6px 12px rgba(0, 0, 0, 0.175);
+  font-size:12px;
+  font-family:Arial;
+  position:absolute;
+  width:250px;
+  padding:6px 12px;
+  z-index:1;
+}
+
+#color-inpicker-box .color-inpicker-row { margin:6px 0; }
+#color-inpicker-box .color-inpicker-row span { display:inline-block; }
+
+#color-inpicker-box #color-value-red { color:#F00; }
+#color-inpicker-box #color-value-green { color:#090; }
+#color-inpicker-box #color-value-blue { color:#00F; }
+
+#color-inpicker-box .color-label {
+  font-weight:bold;
+  text-align:right;
+  width:50px;
+}
+
+#color-inpicker-box .color-bar {
+  border:1px solid #CCC;
+  width:120px;
+  height:10px;
+  overflow:hidden;
+}
+
+#color-inpicker-box .color-bar-inner { height:11px; }
+
+#color-inpicker-box .color-down, #color-inpicker-box .color-up {
+  width:0;
+  height:0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  margin:0 6px;
+  cursor:pointer;
+}
+
+#color-inpicker-box .color-down {
+  border-right:10px solid #333;
+}
+
+#color-inpicker-box .color-up {
+  border-left:10px solid #333;
+}
+
+#color-inpicker-box .color-value {
+  text-align:center;
+  width:30px;
+}
+
+#color-value-result {
+  height:25px;
+  width:100%;
+  border:1px solid #CCC;
 }
 
 
