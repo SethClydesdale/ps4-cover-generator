@@ -319,7 +319,19 @@
 
   // open the cover in a new window so the user can take a screenshot / download the image
   document.getElementById('download-ps4-cover').addEventListener('click', function () {
-    window.open().document.write('<style>body{padding:0;margin:0;background:#000}</style><img src="' + PS_Cover.canvas.toDataURL('image/png') + '" alt="PS4 Cover">');
+    window.open().document.write(
+      '<style>'+
+        'body{padding:0;margin:0;background:#000}'+
+        '#creation-info{postion:fixed;left:0;bottom:0;color:#CCC;font-size:16px;font-family:Arial;padding:6px;}'+
+      '</style>'+
+
+      '<img src="' + PS_Cover.canvas.toDataURL('image/png') + '" alt="PS4 Cover">'+
+
+      '<div id="creation-info">'+
+        '<p>Created with PS4 Cover Generator</p>'+
+        '<p>github.com/SethClydesdale/ps4-cover-generator/</p>'+
+      '</div>'+
+    );
   });
 
 
