@@ -161,6 +161,11 @@
       }
 
       document.getElementById('cover-layers').appendChild(row);
+
+      ColorInpicker.init({
+        hide : true
+      });
+
       PS_Cover.draw();
     },
 
@@ -453,22 +458,6 @@
   });
 
 
-
-  // create preset
-  PS_Cover.add('text', {
-    value : 'PS4 Cover Generator',
-    size : 40,
-    x : (PS_Cover.canvas.width / 2) - 175,
-    y : 120
-  });
-
-  PS_Cover.add('image', {
-    value : 'https://sethclydesdale.github.io/ps4-cover-generator/image/ps4.png',
-    x : (PS_Cover.canvas.width / 2) - 100,
-    y : (PS_Cover.canvas.height / 2) - 100
-  });
-
-
   // ColorPicker Prototype for PS4 and browsers that don't support input[type="color"]
   // Created by Seth Clydesdale
   window.ColorInpicker = {
@@ -478,6 +467,8 @@
       config = config || {};
 
       for (var a = document.querySelectorAll('.color-inpicker'), i = 0, j = a.length, picker, str; i < j; i++) {
+        a[i].className = a[i].className.replace(/color-inpicker/, '');
+
         picker = document.createElement('SPAN');
         picker.className = 'color-inpicker-box';
         picker.style.background = a[i].value || '#000000';
@@ -505,19 +496,21 @@
         this.parentNode.removeChild(this);
       });
 
-      for (a = ['Red', 'Green', 'Blue'], i = 0, j = a.length, str = ''; i < j; i++) {
-        str += '<div id="color-value-' + a[i].toLowerCase() + '" class="color-inpicker-row">'+
-          '<span class="color-label">' + a[i] + ' : </span>'+
-          '<span class="color-down" onmousedown="ColorInpicker.color(this, 0);" onmouseup="ColorInpicker.stop();" onmouseout="ColorInpicker.stop();"></span>'+
-          '<span class="color-bar"><span class="color-bar-inner"></span></span>'+
-          '<span class="color-up" onmousedown="ColorInpicker.color(this, 1);" onmouseup="ColorInpicker.stop();" onmouseout="ColorInpicker.stop();"></span>'+
-          '<span class="color-value">0</span>'+
-        '</div>';
+      if (!ColorInpicker.picker) {
+        for (a = ['Red', 'Green', 'Blue'], i = 0, j = a.length, str = ''; i < j; i++) {
+          str += '<div id="color-value-' + a[i].toLowerCase() + '" class="color-inpicker-row">'+
+            '<span class="color-label">' + a[i] + ' : </span>'+
+            '<span class="color-down" onmousedown="ColorInpicker.color(this, 0);" onmouseup="ColorInpicker.stop();" onmouseout="ColorInpicker.stop();"></span>'+
+            '<span class="color-bar"><span class="color-bar-inner"></span></span>'+
+            '<span class="color-up" onmousedown="ColorInpicker.color(this, 1);" onmouseup="ColorInpicker.stop();" onmouseout="ColorInpicker.stop();"></span>'+
+            '<span class="color-value">0</span>'+
+          '</div>';
+        }
+
+        picker.innerHTML = str + '<div id="color-value-result"></div>';
+
+        this.picker = picker;
       }
-
-      picker.innerHTML = str + '<div id="color-value-result"></div>';
-
-      this.picker = picker;
     },
 
 
@@ -531,14 +524,15 @@
         }
 
       } else {
-        ColorInpicker.last = that;
-        ColorInpicker.input = that.nextSibling;
-        ColorInpicker.picker.style.left = that.getBoundingClientRect().left + 'px';
-
         var rgb = that.style.background.replace(/rgb\(|\)/g, '').split(','),
             bar = ColorInpicker.picker.querySelectorAll('.color-bar-inner'),
             val = ColorInpicker.picker.querySelectorAll('.color-value'),
+            offset = that.getBoundingClientRect(),
             i, j;
+
+        ColorInpicker.last = that;
+        ColorInpicker.input = that.nextSibling;
+        ColorInpicker.picker.style.left = offset.left + 'px';
 
         for (i = 0, j = bar.length; i < j; i++) {
           bar[i].style.background = 'rgb(' + ( [rgb[i] + ', 0, 0', '0, ' + rgb[i] + ', 0', '0, 0, ' + rgb[i]][i] ) + ')';
@@ -626,9 +620,12 @@
     }
   };
 
-  ColorInpicker.init({
-    hide : true
-  });
+
+  // Detect if a font has been loaded before drawing to the canvas
+  // FontDetect created by JenniferSimonds : https://github.com/JenniferSimonds/FontDetect
+  FontDetect=function(){function e(){if(!n){n=!0;var e=document.body,t=document.body.firstChild,i=document.createElement("div");i.id="fontdetectHelper",r=document.createElement("span"),r.innerText="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",i.appendChild(r),e.insertBefore(i,t),i.style.position="absolute",i.style.visibility="hidden",i.style.top="-200px",i.style.left="-100000px",i.style.width="100000px",i.style.height="200px",i.style.fontSize="100px"}}function t(e,t){return e instanceof Element?window.getComputedStyle(e).getPropertyValue(t):window.jQuery?$(e).css(t):""}var n=!1,i=["serif","sans-serif","monospace","cursive","fantasy"],r=null;return{onFontLoaded:function(t,i,r,o){if(t){var s=o&&o.msInterval?o.msInterval:100,a=o&&o.msTimeout?o.msTimeout:2e3;if(i||r){if(n||e(),this.isFontLoaded(t))return void(i&&i(t));var l=this,f=(new Date).getTime(),d=setInterval(function(){if(l.isFontLoaded(t))return clearInterval(d),void i(t);var e=(new Date).getTime();e-f>a&&(clearInterval(d),r&&r(t))},s)}}},isFontLoaded:function(t){var o=0,s=0;n||e();for(var a=0;a<i.length;++a){if(r.style.fontFamily='"'+t+'",'+i[a],o=r.offsetWidth,a>0&&o!=s)return!1;s=o}return!0},whichFont:function(e){for(var n=t(e,"font-family"),r=n.split(","),o=r.shift();o;){o=o.replace(/^\s*['"]?\s*([^'"]*)\s*['"]?\s*$/,"$1");for(var s=0;s<i.length;s++)if(o==i[s])return o;if(this.isFontLoaded(o))return o;o=r.shift()}return null}}}();
+
+
 
   // universal callback to execute when the color picker value changes
   ColorInpicker.callback = function (that) {
@@ -641,8 +638,17 @@
     }
   };
 
+  // create preset
+  PS_Cover.add('text', {
+    value : 'PS4 Cover Generator',
+    size : 40,
+    x : (PS_Cover.canvas.width / 2) - 175,
+    y : 120
+  });
 
-  // Detect if a font has been loaded before drawing to the canvas
-  // FontDetect created by JenniferSimonds : https://github.com/JenniferSimonds/FontDetect
-  FontDetect=function(){function e(){if(!n){n=!0;var e=document.body,t=document.body.firstChild,i=document.createElement("div");i.id="fontdetectHelper",r=document.createElement("span"),r.innerText="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",i.appendChild(r),e.insertBefore(i,t),i.style.position="absolute",i.style.visibility="hidden",i.style.top="-200px",i.style.left="-100000px",i.style.width="100000px",i.style.height="200px",i.style.fontSize="100px"}}function t(e,t){return e instanceof Element?window.getComputedStyle(e).getPropertyValue(t):window.jQuery?$(e).css(t):""}var n=!1,i=["serif","sans-serif","monospace","cursive","fantasy"],r=null;return{onFontLoaded:function(t,i,r,o){if(t){var s=o&&o.msInterval?o.msInterval:100,a=o&&o.msTimeout?o.msTimeout:2e3;if(i||r){if(n||e(),this.isFontLoaded(t))return void(i&&i(t));var l=this,f=(new Date).getTime(),d=setInterval(function(){if(l.isFontLoaded(t))return clearInterval(d),void i(t);var e=(new Date).getTime();e-f>a&&(clearInterval(d),r&&r(t))},s)}}},isFontLoaded:function(t){var o=0,s=0;n||e();for(var a=0;a<i.length;++a){if(r.style.fontFamily='"'+t+'",'+i[a],o=r.offsetWidth,a>0&&o!=s)return!1;s=o}return!0},whichFont:function(e){for(var n=t(e,"font-family"),r=n.split(","),o=r.shift();o;){o=o.replace(/^\s*['"]?\s*([^'"]*)\s*['"]?\s*$/,"$1");for(var s=0;s<i.length;s++)if(o==i[s])return o;if(this.isFontLoaded(o))return o;o=r.shift()}return null}}}();
+  PS_Cover.add('image', {
+    value : 'https://sethclydesdale.github.io/ps4-cover-generator/image/ps4.png',
+    x : (PS_Cover.canvas.width / 2) - 100,
+    y : (PS_Cover.canvas.height / 2) - 100
+  });
 }());
