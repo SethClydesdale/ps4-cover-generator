@@ -540,6 +540,26 @@ footer a:active { color:#FF8; }
   margin:16px 0;
 }
 
+.site-links {
+  padding-left:30px;
+  list-style-type:none;
+}
+
+.site-links li {
+  font-size:16px;
+  margin:6px 0;
+}
+
+.site-links li:before {
+  content:"";
+  background:#07C;
+  display:inline-block;
+  vertical-align:2px;
+  margin:0 8px 0 -8px;
+  height:8px;
+  width:8px;
+}
+
 #content p {
   font-size:16px;
 }
