@@ -268,7 +268,10 @@
 
           document.body.appendChild(PS_Cover.Images.overlay);
           document.body.appendChild(PS_Cover.Images.modal);
-          document.body.overflow = 'hidden';
+          
+          window.setTimeout(function() {
+            document.body.overflow = 'hidden';
+          }, 10);
         }
 
       },
