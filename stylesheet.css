@@ -506,7 +506,7 @@ footer a:active { color:#FF8; }
 .content-block {
   max-width:1000px;
   margin:0 auto;
-  padding:15px;
+  padding:30px;
 }
 
 .title {
@@ -515,6 +515,28 @@ footer a:active { color:#FF8; }
 }
 
 .title-desc {
+  font-size:16px;
+}
+
+.title-med {
+  font-size:18px;
+  margin:10px 0;
+}
+
+.section-title {
+  color:#07C;
+  border-bottom:2px solid #07C;
+  font-size:24px;
+  margin:0;
+  padding-bottom:6px;
+}
+
+.sub-title {
+  font-size:18px;
+  margin:16px 0;
+}
+
+#content p {
   font-size:16px;
 }
 
