@@ -250,7 +250,7 @@
         if (!document.getElementById('select-image-modal')) {
           var overlay = document.createElement('DIV'),
               modal = document.createElement('DIV'),
-              str = '<h1 id="select-image-title">Select a Category</h1><div id="select-image-container">',
+              str = '<h1 id="select-image-title">Select a Category</h1>' + PS_Cover.templates.Images.close + '<div id="select-image-container">',
               i;
 
           overlay.addEventListener('click', PS_Cover.Images.close);
@@ -280,7 +280,7 @@
 
       // get a category's images
       get : function (category) {
-        for (var str = '<h1 id="select-image-title">Select an Image</h1><span class="select-image-back" onclick="PS_Cover.Images.close();PS_Cover.Images.call();"><i class="fa fa-chevron-left"></i> Back</span><div id="select-image-container"><div id="select-image-list">', i = 0, j = PS_Cover.Images.list[category].images.length; i < j; i++) {
+        for (var str = '<h1 id="select-image-title">Select an Image</h1><span class="select-image-button select-image-back" onclick="PS_Cover.Images.close();PS_Cover.Images.call();"><i class="fa fa-chevron-left"></i> Back</span>' + PS_Cover.templates.Images.close + '<div id="select-image-container"><div id="select-image-list">', i = 0, j = PS_Cover.Images.list[category].images.length; i < j; i++) {
           str += '<img class="select-image-option" src="' + PS_Cover.Images.list[category].images[i] + '" onclick="PS_Cover.Images.insert(this.src);">';
         }
 
@@ -392,7 +392,11 @@
         '</span>'+
 
         '<i class="fa fa-times"></i>'+
-      '</div>'
+      '</div>',
+
+      Images : {
+        close : '<span class="select-image-button select-image-close" onclick="PS_Cover.Images.close();"><i class="fa fa-times"></i> Close</span>'
+      }
     },
 
     // fonts available for text
@@ -507,7 +511,7 @@
   document.addEventListener('mousedown', function (e) {
     var that = e.target;
 
-    if (/fa-arrow/.test(that.className) && !PS_Cover.moving) {
+    if (that.parentNode.className == 'arrow-box' && /fa-arrow/.test(that.className) && !PS_Cover.moving) {
       PS_Cover.moving = true;
       PS_Cover.mover = window.setInterval(function() {
         var input = that.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0],
@@ -533,7 +537,7 @@
   document.addEventListener('click', function (e) {
     var that = e.target;
 
-    if (that.className == 'fa fa-times') {
+    if (that.className == 'fa fa-times' && that.parentNode.className == 'layer-controls') {
       if (confirm('You are about to delete this layer.\nDo you want to continue?')) {
         that.parentNode.parentNode.parentNode.parentNode.removeChild(that.parentNode.parentNode.parentNode);
         PS_Cover.draw();
@@ -546,12 +550,12 @@
     } else if (!/fa-icon-opt|fa-caller|fa-icon-list/.test(that.className) && document.getElementById('fontawesome-iconlist')) {
       PS_Cover.FontAwesome.call();
 
-    } else if (/fa-sort-asc/.test(that.className)) {
+    } else if (/fa-sort-asc/.test(that.className) && that.parentNode.className == 'layer-move-box') {
       var row = that.parentNode.parentNode.parentNode.parentNode;
       document.getElementById('cover-layers').insertBefore(row, row.previousSibling);
       PS_Cover.draw();
 
-    } else if (/fa-sort-desc/.test(that.className)) {
+    } else if (/fa-sort-desc/.test(that.className) && that.parentNode.className == 'layer-move-box') {
       var layers = document.getElementById('cover-layers'),
           row = that.parentNode.parentNode.parentNode.parentNode,
           next = row.nextSibling.nextSibling;
