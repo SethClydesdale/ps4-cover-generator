@@ -256,6 +256,7 @@ a:active { color:#07C; }
   background:#05A;
 }
 
+/* object arrows */
 .arrow-box {
   position:relative;
   display:inline-block;
@@ -288,14 +289,36 @@ a:active { color:#07C; }
 }
 
 /* move layer up / down */
-.fa-sort-asc { vertical-align:-4px; }
-.layer-controls .fa-sort-asc { line-height:37px }
+.layer-move-box {
+  position:relative;
+  display:inline-block;
+  height:50px;
+  width:28px;
+  margin:12px 3px;
+  vertical-align:-30px;
+}
 
-.fa-sort-desc { vertical-align:4px; }
-.layer-controls .fa-sort-desc { line-height:20px }
+.layer-move-box i {
+  position:absolute;
+  left:-3px;
+}
+
+.layer-move-box .fa-sort-asc {
+  top:-15px;
+  line-height:37px;
+  vertical-align:-4px;
+}
+
+.layer-move-box .fa-sort-desc {
+  bottom:-15px;
+  line-height:20px;
+  vertical-align:4px;
+}
 
 #cover-layers .tools-row:first-child .fa-sort-asc, #cover-layers .tools-row:last-child .fa-sort-desc {
-  display:none;
+  opacity:0.5;
+  cursor:default;
+  pointer-events:none;
 }
 
 /* delete */
@@ -637,10 +660,10 @@ footer a:active { color:#FF8; }
 }
 
 .select-image-category {
-  background:#EEE;
+  background-color:#EEE;
+  background-repeat:no-repeat;
+  background-position:center center;
   border:1px solid #CCC;
-  text-align:center;
-  line-height:160px;
   height:150px;
   width:250px;
   margin:12px;
@@ -655,7 +678,29 @@ footer a:active { color:#FF8; }
 }
 
 .select-image-category:hover, .select-image-option:hover {
-  opacity:0.7;
+  background-color:#DDD;
+}
+
+.select-image-back {
+  color:#FFF;
+  background:#05A;
+  font-size:16px;
+  height:30px;
+  line-height:32px;
+  font-weight:bold;
+  text-transform:uppercase;
+  border-radius:5px;
+  padding:0 12px;
+  position:absolute;
+  top:12px;
+  left:12px;
+  cursor:pointer;
+  transition:200ms;
+}
+
+.select-image-back:hover {
+  color:#333;
+  background:#FFF;
 }
 
 
@@ -669,4 +714,10 @@ footer a:active { color:#FF8; }
   #cover-tools-title { bottom:300px; }
   #cover-tools { height:300px; }
   #cover-tools-offset { margin-bottom:330px; }
+}
+
+@media (max-height:600px) {
+  #cover-tools-title { bottom:200px; }
+  #cover-tools { height:200px; }
+  #cover-tools-offset { margin-bottom:230px; }
 }
