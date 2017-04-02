@@ -268,6 +268,7 @@
 
           document.body.appendChild(PS_Cover.Images.overlay);
           document.body.appendChild(PS_Cover.Images.modal);
+          document.body.style.overflow = 'hidden';
         }
 
       },
