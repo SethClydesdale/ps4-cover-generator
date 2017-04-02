@@ -162,10 +162,10 @@
         '<div class="main-layer-input">'+
           '<img class="image-thumb" src="" alt="">'+
           '<input class="cover-image big" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
+          '<i class="fa fa-search image-caller layer-button" onclick="PS_Cover.Images.call(this);"></i>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-image-tools">'+
-          '<i class="fa fa-search image-caller layer-button" onclick="PS_Cover.Images.call(this);"></i>'+
           '<input class="cover-image-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
         '</div>';
       }
@@ -242,7 +242,7 @@
     Images : {
 
       // call and build the image overlay
-      call : function (that) {
+      call : function (caller) {
         if (!document.getElementById('select-image-modal')) {
           var overlay = document.createElement('DIV'),
               modal = document.createElement('DIV'),
@@ -254,17 +254,21 @@
           modal.id = 'select-image-modal';
 
           for (i in PS_Cover.Images.list) {
-            str += '<div class="select-image-category" onclick="PS_Cover.Images.get(\'' + i + '\');"><img src="' + PS_Cover.Images.list[i].thumb + '" alt="' + i + '"></div>';
+            str += '<div class="select-image-category" onclick="PS_Cover.Images.get(\'' + i + '\');" style="background-image:url(' + PS_Cover.Images.list[i].thumb + ')"></div>';
           }
 
           modal.innerHTML = str + '</div>';
 
           PS_Cover.Images.overlay = overlay;
           PS_Cover.Images.modal = modal;
-          PS_Cover.Images.caller = that;
+
+          if (caller) {
+            PS_Cover.Images.caller = caller;
+          }
 
           document.body.appendChild(PS_Cover.Images.overlay);
           document.body.appendChild(PS_Cover.Images.modal);
+          document.body.overflow = 'hidden';
         }
 
       },
@@ -272,7 +276,7 @@
 
       // get a category's images
       get : function (category) {
-        for (var str = '<h1 id="select-image-title">Select an Image</h1><div id="select-image-container"><div id="select-image-list">', i = 0, j = PS_Cover.Images.list[category].images.length; i < j; i++) {
+        for (var str = '<h1 id="select-image-title">Select an Image</h1><span class="select-image-back" onclick="PS_Cover.Images.close();PS_Cover.Images.call();"><i class="fa fa-chevron-left"></i> Back</span><div id="select-image-container"><div id="select-image-list">', i = 0, j = PS_Cover.Images.list[category].images.length; i < j; i++) {
           str += '<img class="select-image-option" src="' + PS_Cover.Images.list[category].images[i] + '" onclick="PS_Cover.Images.insert(this.src);">';
         }
 
@@ -283,7 +287,7 @@
       // insert the image url into the input
       insert : function (img) {
         PS_Cover.Images.close();
-        PS_Cover.Images.caller.parentNode.parentNode.getElementsByTagName('INPUT')[0].value = img;
+        PS_Cover.Images.caller.previousSibling.value = img;
         PS_Cover.draw();
       },
 
@@ -293,6 +297,7 @@
         if (document.getElementById('select-image-modal')) {
           document.body.removeChild(PS_Cover.Images.overlay);
           document.body.removeChild(PS_Cover.Images.modal);
+          document.body.overflow = '';
         }
       },
 
@@ -302,13 +307,61 @@
         'Uncharted' : {
           thumb : 'https://i58.servimg.com/u/f58/18/21/60/73/unchar10.png',
           images : [
-            'https://i58.servimg.com/u/f58/18/21/60/73/nathan10.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/nathan11.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/elena_10.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/elena_11.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/chloe_10.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/eddy-r10.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/flynn-10.png'
+            'https://i58.servimg.com/u/f58/18/21/60/73/nate-r11.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/nathan13.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/nathan12.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/elena_13.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/elena_12.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/chloe_11.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/victor11.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/eddy-r11.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/flynn-11.png'
+          ]
+        },
+
+        'inFAMOUS' : {
+          thumb : 'https://i58.servimg.com/u/f58/18/21/60/73/infamo10.png',
+          images : [
+            'https://i58.servimg.com/u/f58/18/21/60/73/cole11.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/cole110.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/cole211.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/cole311.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/cole411.png'
+          ]
+        },
+
+        'Persona' : {
+          thumb : 'https://i58.servimg.com/u/f58/18/45/41/65/person10.png',
+          images : [
+            'https://i58.servimg.com/u/f58/18/45/41/65/aigis10.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/aigis110.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/aigis210.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/aigis310.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/aigis410.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/aigis510.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/aigis610.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/aigis710.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/aigis810.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/akihik10.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/chie10.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/elizab11.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/elizab10.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/elizab12.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/femc10.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/mc10.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/izanag10.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/izanag11.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/izanag12.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/mitsur11.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/mitsur10.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/mitsur12.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/person12.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/person11.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/yu11.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/yu110.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/yu210.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/yu310.png',
+            'https://i58.servimg.com/u/f58/18/45/41/65/yukari10.png'
           ]
         }
 
@@ -321,15 +374,20 @@
     templates : {
       layer_controls :
       '<div class="layer-controls">'+
-        '<i class="fa fa-times"></i>'+
+
         '<span class="arrow-box">'+
           '<i class="fa fa-arrow-up"></i>'+
           '<i class="fa fa-arrow-down"></i>'+
           '<i class="fa fa-arrow-left"></i>'+
           '<i class="fa fa-arrow-right"></i>'+
         '</span>'+
-        '<i class="fa fa-sort-asc"></i>'+
-        '<i class="fa fa-sort-desc"></i>'+
+
+        '<span class="layer-move-box">'+
+          '<i class="fa fa-sort-asc"></i>'+
+          '<i class="fa fa-sort-desc"></i>'+
+        '</span>'+
+
+        '<i class="fa fa-times"></i>'+
       '</div>'
     },
 
@@ -485,12 +543,13 @@
       PS_Cover.FontAwesome.call();
 
     } else if (/fa-sort-asc/.test(that.className)) {
-      document.getElementById('cover-layers').insertBefore(that.parentNode.parentNode.parentNode, that.parentNode.parentNode.parentNode.previousSibling);
+      var row = that.parentNode.parentNode.parentNode.parentNode;
+      document.getElementById('cover-layers').insertBefore(row, row.previousSibling);
       PS_Cover.draw();
 
     } else if (/fa-sort-desc/.test(that.className)) {
       var layers = document.getElementById('cover-layers'),
-          row = that.parentNode.parentNode.parentNode,
+          row = that.parentNode.parentNode.parentNode.parentNode,
           next = row.nextSibling.nextSibling;
 
       next ? layers.insertBefore(row, next) : layers.appendChild(row);
