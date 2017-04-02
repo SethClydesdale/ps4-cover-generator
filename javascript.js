@@ -519,7 +519,7 @@
 
         input.dataset[coord] = +input.dataset[coord] + (/up|left/.test(that.className) ? -1 : +1);
         PS_Cover.draw();
-      }, 10);
+      }, 1);
     }
   });
 
