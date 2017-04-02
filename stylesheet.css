@@ -629,6 +629,7 @@ footer a:active { color:#FF8; }
   margin:-1px -1px 12px -1px;
 }
 
+#select-image-list { columns:4; }
 #select-image-container {
   height:90%;
   overflow-x:hidden;
@@ -647,19 +648,14 @@ footer a:active { color:#FF8; }
   cursor:pointer;
 }
 
-.select-image-category:hover, .select-image-option:hover {
-  opacity:0.7;
-}
-
-#select-image-list {
-  columns:4;
-  column-gap:12px;
-  column-fill:balance;
-}
-
 .select-image-option {
   width:100%;
+  margin-bottom:12px;
   cursor:pointer;
+}
+
+.select-image-category:hover, .select-image-option:hover {
+  opacity:0.7;
 }
 
 
