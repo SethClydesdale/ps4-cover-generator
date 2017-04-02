@@ -755,7 +755,7 @@ footer a:active { color:#FF8; }
   background-color:#DDD;
 }
 
-.select-image-back {
+.select-image-button {
   color:#FFF;
   background:#05A;
   font-size:16px;
@@ -766,15 +766,23 @@ footer a:active { color:#FF8; }
   border-radius:5px;
   padding:0 12px;
   position:absolute;
-  top:12px;
-  left:12px;
   cursor:pointer;
   transition:200ms;
 }
 
-.select-image-back:hover {
+.select-image-button:hover {
   color:#333;
   background:#FFF;
+}
+
+.select-image-back {
+  top:12px;
+  left:12px;
+}
+
+.select-image-close {
+  top:12px;
+  right:12px;
 }
 
 
