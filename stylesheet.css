@@ -530,6 +530,7 @@ footer a:active { color:#FF8; }
   font-family:Arial;
   position:absolute;
   padding:6px 12px;
+  user-select:none;
   z-index:1;
 }
 
