@@ -432,6 +432,10 @@ header h1 {
   font-family:'Play', Arial;
 }
 
+header h1 a { color:#FFF; }
+header h1 a:hover { color:#CCC; }
+header h1 a:active { color:#FF8; }
+
 header h1:after {
   content:"Beta";
   color:#FF8;
