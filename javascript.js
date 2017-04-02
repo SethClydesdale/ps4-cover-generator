@@ -480,7 +480,7 @@
 
         picker = document.createElement('SPAN');
         picker.className = 'color-inpicker-box';
-        picker.style.background = a[i].value || '#000000';
+        picker.style.backgroundColor = a[i].value || '#000000';
 
         picker.addEventListener('click', function () {
           ColorInpicker.call(this);
@@ -491,7 +491,7 @@
         } else {
           a[i].addEventListener('input', function() {
             var picker = this.previousSibling;
-            picker.style.background = this.value || '#000000';
+            picker.style.backgroundColor = this.value || '#000000';
           });
         }
 
@@ -533,7 +533,7 @@
         }
 
       } else {
-        var rgb = that.style.background.replace(/rgb\(|\)/g, '').split(','),
+        var rgb = that.style.backgroundColor.replace(/rgb\(|\)/g, '').split(','),
             bar = ColorInpicker.picker.querySelectorAll('.color-bar-inner'),
             val = ColorInpicker.picker.querySelectorAll('.color-value'),
             offset = that.getBoundingClientRect(),
@@ -544,13 +544,13 @@
         ColorInpicker.picker.style.left = offset.left + 'px';
 
         for (i = 0, j = bar.length; i < j; i++) {
-          bar[i].style.background = 'rgb(' + ( [rgb[i] + ', 0, 0', '0, ' + rgb[i] + ', 0', '0, 0, ' + rgb[i]][i] ) + ')';
+          bar[i].style.backgroundColor = 'rgb(' + ( [rgb[i] + ', 0, 0', '0, ' + rgb[i] + ', 0', '0, 0, ' + rgb[i]][i] ) + ')';
           bar[i].style.width = (rgb[i] / 255 * 100) + '%';
 
           val[i].innerHTML = rgb[i];
         }
 
-        ColorInpicker.picker.querySelector('#color-value-result').style.background = that.style.background;
+        ColorInpicker.picker.querySelector('#color-value-result').style.backgroundColor = that.style.backgroundColor;
 
         that.parentNode.insertBefore(ColorInpicker.picker, that);
       }
@@ -598,17 +598,17 @@
               rgb[2].toString(16)
             ];
 
-            active[0].style.background = 'rgb(' + ( [
+            active[0].style.backgroundColor = 'rgb(' + ( [
               n + ', 0, 0',
               '0, ' + n + ', 0',
               '0, 0, ' + n
             ][color] ) + ')';
 
             active[0].style.width = (n / 255 * 100) + '%';
-            result.style.background = 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')';
+            result.style.backgroundColor = 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')';
 
             // color-inpicker-box
-            ColorInpicker.picker.nextSibling.style.background = result.style.background;
+            ColorInpicker.picker.nextSibling.style.backgroundColor = result.style.backgroundColor;
 
             // original input
             ColorInpicker.picker.nextSibling.nextSibling.value = ('#' + (hex[0].length == 1 ? '0' + hex[0] : hex[0]) +
