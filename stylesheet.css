@@ -20,6 +20,7 @@ a:active { color:#07C; }
 
 .row { margin:12px 0; }
 .center { text-align:center; }
+.left { float:left; }
 .right { float:right; }
 
 .clear { clear:both; }
@@ -468,6 +469,28 @@ footer#footer-end {
 }
 
 footer > div { padding:6px; }
+footer .content-block { padding:0; }
+
+.footer-column {
+  width:40%;
+  margin-left:10%;
+}
+
+.footer-title {
+  color:#FFF;
+  font-size:24px;
+  margin:0;
+}
+
+.footer-linklist {
+  padding:0;
+  list-style-type:none;
+}
+
+.footer-linklist li {
+  font-size:16px;
+  margin:6px 0;
+}
 
 footer a { color:#CCC; }
 footer a:hover { color:#FFF; }
@@ -707,7 +730,16 @@ footer a:active { color:#FF8; }
 /* responsiveness */
 @media (max-width:720px) {
   header, footer { text-align:center; }
-  footer > div, header > * { float:none !important; }
+  footer > div, header > *, .footer-column { float:none !important; }
+
+  .footer-column {
+    width:100%;
+    margin:0 0 24px 0;
+  }
+
+  .footer-column:last-child {
+    margin-bottom:0;
+  }
 }
 
 @media (max-height:800px) {
