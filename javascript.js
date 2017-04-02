@@ -268,10 +268,6 @@
 
           document.body.appendChild(PS_Cover.Images.overlay);
           document.body.appendChild(PS_Cover.Images.modal);
-          
-          window.setTimeout(function() {
-            document.body.overflow = 'hidden';
-          }, 10);
         }
 
       },
@@ -300,7 +296,7 @@
         if (document.getElementById('select-image-modal')) {
           document.body.removeChild(PS_Cover.Images.overlay);
           document.body.removeChild(PS_Cover.Images.modal);
-          document.body.overflow = '';
+          document.body.style.overflow = '';
         }
       },
 
@@ -582,7 +578,7 @@
 
   // show body overflow when exiting the tools
   tools.addEventListener('mouseout', function () {
-    if (document.body.style.overflow == 'hidden') {
+    if (document.body.style.overflow == 'hidden' && !document.getElementById('select-image-modal')) {
       document.body.style.overflow = '';
     }
   });
