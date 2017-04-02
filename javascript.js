@@ -303,8 +303,14 @@
           thumb : 'https://i58.servimg.com/u/f58/18/21/60/73/unchar10.png',
           images : [
             'https://i58.servimg.com/u/f58/18/21/60/73/nathan10.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/nathan11.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/nate-r10.png',
             'https://i58.servimg.com/u/f58/18/21/60/73/elena_10.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/elena_11.png'
+            'https://i58.servimg.com/u/f58/18/21/60/73/elena_11.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/chloe_10.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/victor10.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/eddy-r10.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/flynn-10.png'
           ]
         }
 
