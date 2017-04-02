@@ -147,7 +147,7 @@
         '<div class="cover-text-tools">'+
           '<input class="cover-text-color color-inpicker" type="text" value="' + ( settings.color || '#FFFFFF' ) + '" oninput="PS_Cover.updateInput(this);">'+
           '<input class="cover-text-size" type="number" value="' + ( settings.size || '20' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
-          '<i class="fa fa-smile-o fa-caller" onclick="PS_Cover.FontAwesome.call(this);" style="display:none;"></i>'+
+          '<i class="fa fa-smile-o fa-caller layer-button" onclick="PS_Cover.FontAwesome.call(this);" style="display:none;"></i>'+
           '<select class="cover-text-font" onchange="PS_Cover.updateInput(this);">'+
             opts+
           '</select>'+
@@ -165,6 +165,7 @@
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-image-tools">'+
+          '<i class="fa fa-search image-caller layer-button" onclick="PS_Cover.Images.call(this);"></i>'+
           '<input class="cover-image-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
         '</div>';
       }
@@ -234,6 +235,81 @@
 
         PS_Cover.FontAwesome.list = list;
       }
+    },
+
+
+    // image resources for use in cover images
+    Images : {
+
+      // call and build the image overlay
+      call : function (that) {
+        if (!document.getElementById('select-image-modal')) {
+          var overlay = document.createElement('DIV'),
+              modal = document.createElement('DIV'),
+              str = '<h1 id="select-image-title">Select a Category</h1><div id="select-image-container">',
+              i;
+
+          overlay.addEventListener('click', PS_Cover.Images.close);
+          overlay.id = 'select-image-overlay';
+          modal.id = 'select-image-modal';
+
+          for (i in PS_Cover.Images.list) {
+            str += '<div class="select-image-category" onclick="PS_Cover.Images.get(\'' + i + '\');"><img src="' + PS_Cover.Images.list[i].thumb + '" alt="' + i + '"></div>';
+          }
+
+          modal.innerHTML = str + '</div>';
+
+          PS_Cover.Images.overlay = overlay;
+          PS_Cover.Images.modal = modal;
+          PS_Cover.Images.caller = that;
+
+          document.body.appendChild(PS_Cover.Images.overlay);
+          document.body.appendChild(PS_Cover.Images.modal);
+        }
+
+      },
+
+
+      // get a category's images
+      get : function (category) {
+        for (var str = '<h1 id="select-image-title">Select an Image</h1><div id="select-image-container"><div id="select-image-list">', i = 0, j = PS_Cover.Images.list[category].images.length; i < j; i++) {
+          str += '<img class="select-image-option" src="' + PS_Cover.Images.list[category].images[i] + '" onclick="PS_Cover.Images.insert(this.src);">';
+        }
+
+        PS_Cover.Images.modal.innerHTML = str + '</div></div>';
+      },
+
+
+      // insert the image url into the input
+      insert : function (img) {
+        PS_Cover.Images.close();
+        PS_Cover.Images.caller.parentNode.parentNode.getElementsByTagName('INPUT')[0].value = img;
+        PS_Cover.draw();
+      },
+
+
+      // close the image selector
+      close : function () {
+        if (document.getElementById('select-image-modal')) {
+          document.body.removeChild(PS_Cover.Images.overlay);
+          document.body.removeChild(PS_Cover.Images.modal);
+        }
+      },
+
+
+      // list of available images
+      list : {
+        'Uncharted' : {
+          thumb : 'https://i58.servimg.com/u/f58/18/21/60/73/unchar10.png',
+          images : [
+            'https://i58.servimg.com/u/f58/18/21/60/73/nathan10.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/elena_10.png',
+            'https://i58.servimg.com/u/f58/18/21/60/73/elena_11.png'
+          ]
+        }
+
+      }
+
     },
 
 
