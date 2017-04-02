@@ -107,6 +107,7 @@
       settings = settings ? settings : {};
 
       var row = document.createElement('DIV'),
+          cleanName,
           opts,
           i,
           j,
@@ -119,34 +120,33 @@
       if (type == 'text') {
 
         for (opts = '', i = 0, j = PS_Cover.fonts.length; i < j; i++) {
+          cleanName = PS_Cover.fonts[i].replace(/:loaded|:selected/g, '');
           loaded = false;
           selected = false;
 
           // set loaded attr
           if (/:loaded/.test(PS_Cover.fonts[i])) {
             loaded = true;
-            PS_Cover.fonts[i] = PS_Cover.fonts[i].replace(/:loaded/, '');
           }
 
           // set selected attr
           if (/:selected/.test(PS_Cover.fonts[i])) {
             selected = true;
-            PS_Cover.fonts[i] = PS_Cover.fonts[i].replace(/:selected/, '');
           }
 
-          opts += '<option value="' + PS_Cover.fonts[i] + '"' + ( loaded ? ' data-loaded="true"' : '' ) + ( selected ? ' selected' : '' ) + '>' + PS_Cover.fonts[i] + '</option>';
+          opts += '<option value="' + cleanName + '"' + ( loaded ? ' data-loaded="true"' : '' ) + ( selected ? ' selected' : '' ) + '>' + cleanName + '</option>';
         }
 
 
         row.className += ' text-layer';
         row.innerHTML =
         '<div class="main-layer-input">'+
-          '<input class="cover-text big" type="text" value="' + (settings.value || '') + '" data-size="' + ( settings.size || '20' ) + '" data-color="' + ( settings.color || '#FFFFFF' ) + '" data-font="PlayStation" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="cover-text big" type="text" value="' + (settings.value || '') + '" data-size="' + ( settings.size || '40' ) + '" data-color="' + ( settings.color || '#FFFFFF' ) + '" data-font="PlayStation" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-text-tools">'+
           '<input class="cover-text-color color-inpicker" type="text" value="' + ( settings.color || '#FFFFFF' ) + '" oninput="PS_Cover.updateInput(this);">'+
-          '<input class="cover-text-size" type="number" value="' + ( settings.size || '20' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+          '<input class="cover-text-size" type="number" value="' + ( settings.size || '40' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<i class="fa fa-smile-o fa-caller layer-button" onclick="PS_Cover.FontAwesome.call(this);" style="display:none;"></i>'+
           '<select class="cover-text-font" onchange="PS_Cover.updateInput(this);">'+
             opts+
@@ -168,6 +168,10 @@
         '<div class="cover-image-tools">'+
           '<input class="cover-image-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
         '</div>';
+
+        if (!settings.value) {
+          PS_Cover.Images.call(row.querySelector('.image-caller'));
+        }
       }
 
       document.getElementById('cover-layers').appendChild(row);
