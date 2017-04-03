@@ -258,7 +258,7 @@
           modal.id = 'select-image-modal';
 
           for (i in PS_Cover.Images.list) {
-            str += '<div class="select-image-category" onclick="PS_Cover.Images.get(\'' + i + '\');" style="background-image:url(' + PS_Cover.Images.list[i].thumb + ')"></div>';
+            str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + PS_Cover.Images.list[i].thumb + ')"></a>';
           }
 
           modal.innerHTML = str + '</div>';
@@ -281,7 +281,7 @@
       // get a category's images
       get : function (category) {
         for (var str = '<h1 id="select-image-title">Select an Image</h1><span class="select-image-button select-image-back" onclick="PS_Cover.Images.close();PS_Cover.Images.call();"><i class="fa fa-chevron-left"></i> Back</span>' + PS_Cover.templates.Images.close + '<div id="select-image-container"><div id="select-image-list">', i = 0, j = PS_Cover.Images.list[category].images.length; i < j; i++) {
-          str += '<img class="select-image-option" src="' + PS_Cover.Images.list[category].images[i] + '" onclick="PS_Cover.Images.insert(this.src);">';
+          str += '<a class="select-image-option" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + PS_Cover.Images.list[category].images[i] + '"></a>';
         }
 
         PS_Cover.Images.modal.innerHTML = str + '</div></div>';
@@ -600,7 +600,7 @@
 
 
   // toggle toolbox
-  document.getElementById('cover-tools-title').addEventListener('click', function () {
+  document.getElementById('cover-tools-title').addEventListener('click', function (e) {
     var tools = document.getElementById('cover-tools');
 
     if (this.className == 'hidden') {
@@ -611,6 +611,8 @@
       this.className = 'hidden';
       tools.className = 'hidden';
     }
+
+    e.preventDefault();
   });
 
 
