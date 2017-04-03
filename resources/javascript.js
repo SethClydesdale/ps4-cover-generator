@@ -1,5 +1,7 @@
 (function () {
   window.PS_Cover = {
+    isPS4 : /PlayStation 4/.test(navigator.userAgent),
+
     canvas : document.getElementById('ps4-cover-photo'),
 
     // used to draw images, text, etc.. onto the canvas
@@ -506,7 +508,7 @@
   document.getElementById('download-ps4-cover').addEventListener('click', function () {
     window.open().document.write(
       '<style>'+
-        'body{padding:0;margin:0;background:#000;cursor:none}'+
+        'body{padding:0;margin:0;background:#000;' + ( PS_Cover.isPS4 ? 'cursor:none' : '' ) + '}'+
         '#creation-info{position:fixed;left:0;bottom:0;color:#CCC;font-size:16px;font-family:Arial;padding:6px;}'+
       '</style>'+
 
