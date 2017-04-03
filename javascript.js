@@ -380,10 +380,10 @@
       '<div class="layer-controls">'+
 
         '<span class="arrow-box">'+
-          '<a class="fa fa-arrow-up" href="#" onclick="return false;" onmousedown="return false;"></a>'+
-          '<a class="fa fa-arrow-down" href="#" onclick="return false;" onmousedown="return false;"></a>'+
-          '<a class="fa fa-arrow-left" href="#" onclick="return false;" onmousedown="return false;"></a>'+
-          '<a class="fa fa-arrow-right" href="#" onclick="return false;" onmousedown="return false;"></a>'+
+          '<a class="fa fa-arrow-up"></a>'+
+          '<a class="fa fa-arrow-down"></a>'+
+          '<a class="fa fa-arrow-left"></a>'+
+          '<a class="fa fa-arrow-right"></a>'+
         '</span>'+
 
         '<span class="layer-move-box">'+
