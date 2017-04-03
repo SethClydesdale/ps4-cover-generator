@@ -191,10 +191,8 @@
 
       document.getElementById('cover-layers').appendChild(row);
 
-      ColorInpicker.init({
-        hide : true
-      });
-
+      ColorInpicker.init({ hide : true }); // create color pickers
+      if (PS_Cover.isPS4) Inumber.init(); // create number input arrows
       PS_Cover.draw();
     },
 
@@ -636,16 +634,23 @@
   });
 
 
-  // universal callback to execute when the color picker value changes
-  ColorInpicker.callback = function (that) {
+  // draw to the canvas when the color value changes
+  ColorInpicker.callback = function (input) {
     if (/cover-text-/.test(ColorInpicker.input.className)) {
       PS_Cover.updateInput(ColorInpicker.input);
 
     } else {
-
       PS_Cover.draw();
     }
   };
+
+  // draw to the canvas when the number value changes
+  if (PS_Cover.isPS4) {
+    Inumber.callback = function (input) {
+      PS_Cover.updateInput(input);
+      PS_Cover.draw();
+    };
+  }
 
 
   // create example presets

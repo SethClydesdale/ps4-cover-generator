@@ -695,6 +695,40 @@ footer a:active { color:#FF8; }
 }
 
 
+/* NUMBER INPUT ARROWS */
+.Inumber-arrows {
+  position:absolute;
+  width:16px;
+  margin-left:-26px;
+  margin-top:3px;
+}
+
+.Inumber-arrows > span {
+  width:0;
+  height:0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  cursor:pointer;
+  position:absolute;
+}
+
+.Inumber-up {
+  border-bottom:15px solid #999;
+  top:5px;
+}
+
+.Inumber-down {
+  border-top:15px solid #999;
+  bottom:5px;
+}
+
+.Inumber-up:hover { border-bottom-color:#666; }
+.Inumber-down:hover { border-top-color:#666; }
+
+.Inumber-up:active { border-bottom-color:#333; }
+.Inumber-down:active { border-top-color:#333; }
+
+
 /* IMAGE SELECTOR */
 #select-image-overlay {
   background:rgba(0, 0, 0, 0.7);

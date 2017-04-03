@@ -1,3 +1,10 @@
+/* UTILITIES
+* 01. ColorPicker
+* 02. Inumber
+* 03. Font Detect
+**/
+
+/* -- 01. Color Picker -- */
 // ColorPicker Prototype for PS4 and browsers that don't support input[type="color"]
 // Created by Seth Clydesdale
 window.ColorInpicker = {
@@ -163,6 +170,57 @@ window.ColorInpicker = {
 };
 
 
+/* -- 01. Inumber -- */
+// Prototype for adding arrow controls to input[type="number"] on the PS4 web browser or browsers that don't support it
+// Created by Seth Clydesdale
+window.Inumber = {
+
+  // add arrows to number inputs
+  init : function () {
+    for (var a = document.querySelectorAll('input[type="number"]:not([data-inumbered])'), i = 0, j = a.length, offset; i < j; i++) {
+      offset = a[i].getBoundingClientRect();
+      a[i].dataset.inumbered = true;
+
+      a[i].insertAdjacentHTML('afterend',
+        '<span class="Inumber-arrows" style="height:' + Math.abs(offset.top - offset.bottom) + 'px">'+
+          '<span class="Inumber-up" onmousedown="Inumber.update(this.parentNode.previousSibling, +1);" onmouseup="Inumber.stop();" onmouseleave="Inumber.stop();"></span>'+
+          '<span class="Inumber-down" onmousedown="Inumber.update(this.parentNode.previousSibling, -1);" onmouseup="Inumber.stop();" onmouseleave="Inumber.stop();"></span>'+
+        '</span>'
+      );
+    }
+  },
+
+  // update the input field's value every 50ms
+  update : function (caller, addition) {
+    if (!Inumber.counting) {
+      Inumber.counting = true;
+
+      Inumber.int = window.setInterval(function () {
+        var sum = +caller.value + addition,
+            max = caller.max || Infinity,
+            min = caller.min || -Infinity;
+
+        if (sum > max || sum < min) {
+          Inumber.stop();
+        } else {
+          caller.value = sum;
+          Inumber.callback && Inumber.callback(caller);
+        }
+      }, 50);
+    }
+  },
+
+  // stop updating the input field's value
+  stop : function () {
+    if (Inumber.counting) {
+      Inumber.counting = false;
+      window.clearInterval(Inumber.int);
+    }
+  }
+};
+
+
+/* -- 01. FontDetect -- */
 // Detect if a font has been loaded before drawing to the canvas
 // FontDetect created by JenniferSimonds : https://github.com/JenniferSimonds/FontDetect
 FontDetect=function(){function e(){if(!n){n=!0;var e=document.body,t=document.body.firstChild,i=document.createElement("div");i.id="fontdetectHelper",r=document.createElement("span"),r.innerText="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",i.appendChild(r),e.insertBefore(i,t),i.style.position="absolute",i.style.visibility="hidden",i.style.top="-200px",i.style.left="-100000px",i.style.width="100000px",i.style.height="200px",i.style.fontSize="100px"}}function t(e,t){return e instanceof Element?window.getComputedStyle(e).getPropertyValue(t):window.jQuery?$(e).css(t):""}var n=!1,i=["serif","sans-serif","monospace","cursive","fantasy"],r=null;return{onFontLoaded:function(t,i,r,o){if(t){var s=o&&o.msInterval?o.msInterval:100,a=o&&o.msTimeout?o.msTimeout:2e3;if(i||r){if(n||e(),this.isFontLoaded(t))return void(i&&i(t));var l=this,f=(new Date).getTime(),d=setInterval(function(){if(l.isFontLoaded(t))return clearInterval(d),void i(t);var e=(new Date).getTime();e-f>a&&(clearInterval(d),r&&r(t))},s)}}},isFontLoaded:function(t){var o=0,s=0;n||e();for(var a=0;a<i.length;++a){if(r.style.fontFamily='"'+t+'",'+i[a],o=r.offsetWidth,a>0&&o!=s)return!1;s=o}return!0},whichFont:function(e){for(var n=t(e,"font-family"),r=n.split(","),o=r.shift();o;){o=o.replace(/^\s*['"]?\s*([^'"]*)\s*['"]?\s*$/,"$1");for(var s=0;s<i.length;s++)if(o==i[s])return o;if(this.isFontLoaded(o))return o;o=r.shift()}return null}}}();
