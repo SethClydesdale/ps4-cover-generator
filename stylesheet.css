@@ -21,7 +21,7 @@ a {
 }
 
 a:hover { color:#06B; }
-a:active { color:#07C; }
+a:active { color:#049; }
 
 .row { margin:12px 0; }
 .center { text-align:center; }
@@ -238,7 +238,7 @@ a:active { color:#07C; }
   margin-top:-10px;
 }
 
-.layer-controls i {
+.layer-controls a {
   color:#333;
   background:#AAA;
   text-align:center;
@@ -252,12 +252,12 @@ a:active { color:#07C; }
   cursor:pointer;
 }
 
-.layer-controls i:hover {
+.layer-controls a:hover {
   color:#FFF;
   background:#07C;
 }
 
-.layer-controls i:active {
+.layer-controls a:active {
   color:#DDD;
   background:#05A;
 }
@@ -272,7 +272,7 @@ a:active { color:#07C; }
   vertical-align:-30px;
 }
 
-.arrow-box i { position:absolute; }
+.arrow-box a { position:absolute; }
 
 .arrow-box .fa-arrow-up {
   top:-15px;
@@ -304,7 +304,7 @@ a:active { color:#07C; }
   vertical-align:-30px;
 }
 
-.layer-move-box i {
+.layer-move-box a {
   position:absolute;
   left:-3px;
 }
