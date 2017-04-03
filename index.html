@@ -115,7 +115,7 @@
     </footer>
 
 
-    <div id="cover-tools-title"><i class="fa fa-gear"></i> Toolbox</div>
+    <a id="cover-tools-title" href="#"><i class="fa fa-gear"></i> Toolbox</a>
     <div id="cover-tools">
       <div class="tools-row">
         <div class="tools-title"><i class="fa fa-paint-brush"></i> Canvas Settings</div>
@@ -131,9 +131,9 @@
           <div id="cover-layers"></div>
 
           <div class="tools-actions">
-            <span class="tools-add" onclick="PS_Cover.add('text');"><i class="fa fa-font"></i> Add Text</span>
-            <span class="tools-add" onclick="PS_Cover.add('image');"><i class="fa fa-image"></i> Add Image</span>
-            <span class="tools-delete"onclick="PS_Cover.deleteLayers();"><i class="fa fa-times"></i> Delete All</span>
+            <a class="tools-add" href="#" onclick="PS_Cover.add('text');return false;"><i class="fa fa-font"></i> Add Text</a>
+            <a class="tools-add" href="#" onclick="PS_Cover.add('image');return false;"><i class="fa fa-image"></i> Add Image</a>
+            <a class="tools-delete" href="#" onclick="PS_Cover.deleteLayers();return false;"><i class="fa fa-times"></i> Delete All</a>
           </div>
         </div>
       </div>
