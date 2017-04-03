@@ -380,18 +380,18 @@
       '<div class="layer-controls">'+
 
         '<span class="arrow-box">'+
-          '<i class="fa fa-arrow-up"></i>'+
-          '<i class="fa fa-arrow-down"></i>'+
-          '<i class="fa fa-arrow-left"></i>'+
-          '<i class="fa fa-arrow-right"></i>'+
+          '<i class="fa fa-arrow-up"><a></a></i>'+
+          '<i class="fa fa-arrow-down"><a></a></i>'+
+          '<i class="fa fa-arrow-left"><a></a></i>'+
+          '<i class="fa fa-arrow-right"><a></a></i>'+
         '</span>'+
 
         '<span class="layer-move-box">'+
-          '<i class="fa fa-sort-asc"></i>'+
-          '<i class="fa fa-sort-desc"></i>'+
+          '<i class="fa fa-sort-asc"><a></a></i>'+
+          '<i class="fa fa-sort-desc"><a></a></i>'+
         '</span>'+
 
-        '<i class="fa fa-times"></i>'+
+        '<i class="fa fa-times"><a></a></i>'+
       '</div>',
 
       Images : {
@@ -625,12 +625,14 @@
       for (var a = document.querySelectorAll('.color-inpicker'), i = 0, j = a.length, picker, str; i < j; i++) {
         a[i].className = a[i].className.replace(/(?:\s|)color-inpicker/, '');
 
-        picker = document.createElement('SPAN');
+        picker = document.createElement('A');
+        picker.href = '#';
         picker.className = 'color-inpicker-box';
         picker.style.backgroundColor = a[i].value || '#000000';
 
-        picker.addEventListener('click', function () {
+        picker.addEventListener('click', function (e) {
           ColorInpicker.call(this);
+          e.preventDefault();
         });
 
         if (config.hide) {
