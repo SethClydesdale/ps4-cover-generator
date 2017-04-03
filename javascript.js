@@ -147,7 +147,7 @@
         '<div class="cover-text-tools">'+
           '<input class="cover-text-color color-inpicker" type="text" value="' + ( settings.color || '#FFFFFF' ) + '" oninput="PS_Cover.updateInput(this);">'+
           '<input class="cover-text-size" type="number" value="' + ( settings.size || '40' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
-          '<i class="fa fa-smile-o fa-caller layer-button" onclick="PS_Cover.FontAwesome.call(this);" style="display:none;"></i>'+
+          '<i class="fa fa-smile-o fa-caller layer-button" onclick="PS_Cover.FontAwesome.call(this);" style="display:none;"><a href="#" onclick="return false;"></a></i>'+
           '<select class="cover-text-font" onchange="PS_Cover.updateInput(this);">'+
             opts+
           '</select>'+
@@ -162,7 +162,7 @@
         '<div class="main-layer-input">'+
           '<img class="image-thumb" src="" alt="">'+
           '<input class="cover-image big" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
-          '<i class="fa fa-search image-caller layer-button" onclick="PS_Cover.Images.call(this);"></i>'+
+          '<i class="fa fa-search image-caller layer-button" onclick="PS_Cover.Images.call(this);"><a href="#" onclick="return false;"></a></i>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-image-tools">'+
@@ -380,18 +380,18 @@
       '<div class="layer-controls">'+
 
         '<span class="arrow-box">'+
-          '<i class="fa fa-arrow-up"><a></a></i>'+
-          '<i class="fa fa-arrow-down"><a></a></i>'+
-          '<i class="fa fa-arrow-left"><a></a></i>'+
-          '<i class="fa fa-arrow-right"><a></a></i>'+
+          '<i class="fa fa-arrow-up"><a href="#" onclick="return false;"></a></i>'+
+          '<i class="fa fa-arrow-down"><a href="#" onclick="return false;"></a></i>'+
+          '<i class="fa fa-arrow-left"><a href="#" onclick="return false;"></a></i>'+
+          '<i class="fa fa-arrow-right"><a href="#" onclick="return false;"></a></i>'+
         '</span>'+
 
         '<span class="layer-move-box">'+
-          '<i class="fa fa-sort-asc"><a></a></i>'+
-          '<i class="fa fa-sort-desc"><a></a></i>'+
+          '<i class="fa fa-sort-asc"><a href="#" onclick="return false;"></a></i>'+
+          '<i class="fa fa-sort-desc"><a href="#" onclick="return false;"></a></i>'+
         '</span>'+
 
-        '<i class="fa fa-times"><a></a></i>'+
+        '<i class="fa fa-times"><a href="#" onclick="return false;"></a></i>'+
       '</div>',
 
       Images : {
