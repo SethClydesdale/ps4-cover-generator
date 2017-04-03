@@ -343,7 +343,32 @@
             'https://i58.servimg.com/u/f58/18/21/60/73/cole110.png',
             'https://i58.servimg.com/u/f58/18/21/60/73/cole211.png',
             'https://i58.servimg.com/u/f58/18/21/60/73/cole311.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/cole411.png'
+            'https://i58.servimg.com/u/f58/18/21/60/73/cole411.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/delsin11.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/delsin12.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/delsin10.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/fetch10.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/fetch110.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/nix10.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/reaper10.png'
+          ]
+        },
+
+        'God of War' : {
+          thumb : 'https://i58.servimg.com/u/f58/18/21/41/30/gow-lo10.png',
+          images : [
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos14.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos10.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos13.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos11.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos12.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos15.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos16.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos17.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos18.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos21.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos20.png',
+            'https://i58.servimg.com/u/f58/18/21/41/30/kratos19.png'
           ]
         },
 
