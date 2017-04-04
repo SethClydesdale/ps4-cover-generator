@@ -241,10 +241,6 @@
 
       document.getElementById('cover-layers').appendChild(row);
 
-      if (type == 'text') {
-        row.querySelector('.cover-text').focus();
-      }
-
       ColorInpicker.init({ hide : true }); // create color pickers
       if (PS_Cover.isPS4) Inumber.init(); // create number input arrows
       PS_Cover.draw();

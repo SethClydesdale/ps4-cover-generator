@@ -763,7 +763,6 @@ footer a:active { color:#FF8; }
   margin:-1px -1px 12px -1px;
 }
 
-#select-image-list { columns:4; }
 #select-image-container {
   height:90%;
   overflow-x:hidden;
@@ -782,10 +781,18 @@ footer a:active { color:#FF8; }
   cursor:pointer;
 }
 
-.select-image-option img { width:100%; }
-.select-image-option {
+.select-image-option img {
   width:100%;
-  margin-bottom:12px;
+  margin-top:0;
+  transition:300ms;
+}
+
+.select-image-option {
+  width:19%;
+  margin:0 0 1% 1%;
+  height:200px;
+  float:left;
+  overflow:hidden;
   display:inline-block;
   cursor:pointer;
 }
