@@ -440,11 +440,27 @@
 
       // get a category's images
       get : function (category) {
-        for (var str = '<h1 id="select-image-title">Select an Image</h1><a class="select-image-button select-image-back" href="#" onclick="PS_Cover.Images.close();PS_Cover.Images.call();return false;"><i class="fa fa-chevron-left"></i> Back</a>' + PS_Cover.templates.Images.close + '<div id="select-image-container"><div id="select-image-list">', i = 0, j = PS_Cover.Images.list[category].images.length; i < j; i++) {
-          str += '<a class="select-image-option" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + PS_Cover.Images.list[category].images[i] + '"></a>';
+        for (var str = '<h1 id="select-image-title">Select an Image</h1><a class="select-image-button select-image-back" href="#" onclick="PS_Cover.Images.close();PS_Cover.Images.call();return false;"><i class="fa fa-chevron-left"></i> Back</a>' + PS_Cover.templates.Images.close + '<div id="select-image-container" onscroll="PS_Cover.Images.fadeInOut();"><div id="select-image-list" class="clear">', i = 0, j = PS_Cover.Images.list[category].images.length; i < j; i++) {
+          str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + PS_Cover.Images.list[category].images[i] + '"></a>';
         }
 
         PS_Cover.Images.modal.innerHTML = str + '</div></div>' + PS_Cover.templates.Images.request;
+        PS_Cover.Images.fadeInOut();
+      },
+
+      // show / hide images as the user scrolls
+      fadeInOut : function () {
+        for (var a = document.querySelectorAll('.select-image-option'), i = 0, j = a.length; i < j; i++) {
+          var rect = a[i].getBoundingClientRect(),
+              visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+
+          if (visible && a[i].dataset.hidden == 'true') {
+            a[i].dataset.hidden = false;
+
+          } else if (!visible && a[i].dataset.hidden == 'false') {
+            a[i].dataset.hidden = true;
+          }
+        }
       },
 
 

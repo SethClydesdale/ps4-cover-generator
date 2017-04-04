@@ -808,6 +808,16 @@ footer a:active { color:#FF8; }
   margin:0 0 1% 1%;
   overflow:hidden;
   cursor:pointer;
+
+  opacity:1;
+  visibility:visible;
+  transition-property:opacity, visibility;
+  transition-duration:1000ms;
+}
+
+.select-image-option[data-hidden="true"] {
+  opacity:0;
+  visibility:hidden;
 }
 
 .select-image-category:hover, .select-image-option:hover {
