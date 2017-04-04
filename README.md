@@ -5,3 +5,10 @@ A tool for creating profile Cover Images directly in the PS4 web browser.
 
 You can beta test this tool both on desktop and the PS4 browser. Simply go to the link below to try it out !
 https://sethclydesdale.github.io/ps4-cover-generator/
+
+**Help :** If you need help with PS4 Cover Generator, feel free to check out our wiki or contact me. (See links below) I'll be adding to the wiki as development continues, so check back from time to time!
+- Wiki : https://github.com/SethClydesdale/ps4-cover-generator/wiki
+- Contact Seth @
+  - Github - SethClydesdale
+  - Twitter - @SethC1995
+  - PSN - Seth9977
