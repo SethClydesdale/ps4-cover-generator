@@ -441,7 +441,7 @@
       // get a category's images
       get : function (category) {
         for (var str = '<h1 id="select-image-title">Select an Image</h1><a class="select-image-button select-image-back" href="#" onclick="PS_Cover.Images.close();PS_Cover.Images.call();return false;"><i class="fa fa-chevron-left"></i> Back</a>' + PS_Cover.templates.Images.close + '<div id="select-image-container" onscroll="PS_Cover.Images.fadeInOut();"><div id="select-image-list" class="clear">', i = 0, j = PS_Cover.Images.list[category].images.length; i < j; i++) {
-          str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + PS_Cover.Images.list[category].images[i] + '"></a>';
+          str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/imgur/.test(PS_Cover.Images.list[category].images[i]) ? PS_Cover.Images.list[category].images[i].replace(/(\.[^\.]*?)$/, 'm$1') : PS_Cover.Images.list[category].images[i]) + '"></a>';
         }
 
         PS_Cover.Images.modal.innerHTML = str + '</div></div>' + PS_Cover.templates.Images.request;
@@ -467,7 +467,7 @@
       // insert the image url into the input
       insert : function (img) {
         PS_Cover.Images.close();
-        PS_Cover.Images.caller.previousSibling.value = img;
+        PS_Cover.Images.caller.previousSibling.value = /imgur/.test(img) ? img.replace(/m(\.[^\.]*?)$/, '$1') : img;
         PS_Cover.draw();
       },
 

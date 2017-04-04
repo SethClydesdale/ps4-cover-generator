@@ -811,8 +811,8 @@ footer a:active { color:#FF8; }
 
   opacity:1;
   visibility:visible;
-  /*transition-property:opacity, visibility;
-  transition-duration:1000ms;*/
+  transition-property:opacity, visibility;
+  transition-duration:1000ms;
 }
 
 .select-image-option[data-hidden="true"] {
