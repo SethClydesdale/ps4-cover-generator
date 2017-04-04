@@ -294,8 +294,8 @@ a:active { color:#049; }
   right:-15px;
 }
 
-/* move layer up / down */
-.layer-move-box {
+/* two button layer actions */
+.two-buttons {
   position:relative;
   display:inline-block;
   height:50px;
@@ -304,22 +304,24 @@ a:active { color:#049; }
   vertical-align:-30px;
 }
 
-.layer-move-box a {
+.two-buttons a {
   position:absolute;
   left:-3px;
 }
 
-.layer-move-box .fa-sort-asc {
+.two-buttons a:first-child {
   top:-15px;
-  line-height:37px;
   vertical-align:-4px;
 }
 
-.layer-move-box .fa-sort-desc {
+.two-buttons a:last-child {
   bottom:-15px;
-  line-height:20px;
   vertical-align:4px;
 }
+
+/* move layer up / down */
+.layer-move-box .fa-sort-asc { line-height:37px; }
+.layer-move-box .fa-sort-desc { line-height:20px; }
 
 #cover-layers .tools-row:first-child .fa-sort-asc, #cover-layers .tools-row:last-child .fa-sort-desc {
   opacity:0.5;
@@ -407,6 +409,7 @@ input[type="number"] { width:60px; }
 }
 
 #fontawesome-iconlist .fa-icon-opt {
+  color:#333;
   font-size:30px;
   text-align:center;
   width:40px;

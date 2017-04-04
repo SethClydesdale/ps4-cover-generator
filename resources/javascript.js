@@ -72,33 +72,33 @@
 
 
     // update the input of elements and draw the new value to the canvas
-    updateInput : function (that) {
-      var type = that.className.replace(/cover-image-|cover-text-/g, ''),
-          input = that.parentNode.parentNode.getElementsByTagName('INPUT')[0],
-          selected = that.options ? that.options[that.selectedIndex] : null,
-          fa = that.parentNode.querySelector('.fa-caller');
+    updateInput : function (caller) {
+      var type = caller.className.replace(/cover-image-|cover-text-/g, ''),
+          input = caller.parentNode.parentNode.getElementsByTagName('INPUT')[0],
+          selected = caller.options ? caller.options[caller.selectedIndex] : null,
+          fa = caller.parentNode.querySelector('.fa-caller');
 
       if (type == 'font' && !selected.dataset.loaded) {
-        input.style.fontFamily = that.value;
-        input.dataset[type] = that.value;
+        input.style.fontFamily = caller.value;
+        input.dataset[type] = caller.value;
 
-        FontDetect.onFontLoaded(that.value, function () {
+        FontDetect.onFontLoaded(caller.value, function () {
           selected.dataset.loaded = true;
           PS_Cover.draw();
         }, null, { msTimeout : 3000 });
 
       } else {
         if (type == 'font') {
-          input.style.fontFamily = that.value;
+          input.style.fontFamily = caller.value;
         }
 
-        input.dataset[type] = that.value;
+        input.dataset[type] = caller.value;
         PS_Cover.draw();
       }
 
       // show fontawesome icon toggler
       if (type == 'font') {
-        if (that.value == 'FontAwesome' && fa && fa.style.display == 'none') {
+        if (caller.value == 'FontAwesome' && fa && fa.style.display == 'none') {
           fa.style.display = '';
         } else if (fa && fa.style.display != 'none') {
           fa.style.display = 'none';
@@ -114,6 +114,56 @@
       PS_Cover.ctx.scale(scale, scale);
       callback();
       PS_Cover.ctx.restore();
+    },
+
+
+    // moves the image, text, etc.. in the specified direction
+    move : function (caller) {
+      if (!PS_Cover.moving && caller != 'stop') {
+        PS_Cover.moving = true;
+
+        PS_Cover.mover = window.setInterval(function() {
+          var input = caller.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0],
+              coord = /up|down/.test(caller.className) ? 'y' : 'x';
+
+          input.dataset[coord] = +input.dataset[coord] + (/up|left/.test(caller.className) ? -1 : +1);
+          PS_Cover.draw();
+        }, 1);
+
+      } else if (PS_Cover.moving && caller == 'stop') {
+        PS_Cover.moving = false;
+        window.clearInterval(PS_Cover.mover);
+      }
+    },
+
+
+    // move layers up / down
+    moveLayer : function (where, caller) {
+      var row = caller.parentNode.parentNode.parentNode.parentNode,
+          layers = document.getElementById('cover-layers');
+
+      switch (where.toLowerCase()) {
+        case 'up' :
+          layers.insertBefore(row, row.previousSibling);
+          break;
+
+        case 'down' :
+          var next = row.nextSibling.nextSibling;
+          next ? layers.insertBefore(row, next) : layers.appendChild(row);
+          break;
+      }
+
+      PS_Cover.draw();
+    },
+
+
+    // delete the specified layer
+    deleteLayer : function (caller) {
+      if (confirm('You are about to delete this layer.\nDo you want to continue?')) {
+        var layer = caller.parentNode.parentNode.parentNode;
+        layer.parentNode.removeChild(layer);
+        PS_Cover.draw();
+      }
     },
 
 
@@ -191,6 +241,10 @@
 
       document.getElementById('cover-layers').appendChild(row);
 
+      if (type == 'text') {
+        row.querySelector('.cover-text').focus();
+      }
+
       ColorInpicker.init({ hide : true }); // create color pickers
       if (PS_Cover.isPS4) Inumber.init(); // create number input arrows
       PS_Cover.draw();
@@ -214,7 +268,7 @@
     FontAwesome : {
 
       // call the fontawesome icon list to the textarea
-      call : function (that) {
+      call : function (caller) {
         if (!PS_Cover.FontAwesome.list) {
           PS_Cover.FontAwesome.build();
         }
@@ -224,11 +278,11 @@
         if (list) {
           list.parentNode.removeChild(list);
         } else {
-          var offset = that.getBoundingClientRect();
+          var offset = caller.getBoundingClientRect();
 
           PS_Cover.FontAwesome.list.style.marginTop = '-' + (160 + offset.height) + 'px';
           PS_Cover.FontAwesome.list.style.left = offset.left + 'px';
-          that.parentNode.insertBefore(PS_Cover.FontAwesome.list, that);
+          caller.parentNode.insertBefore(PS_Cover.FontAwesome.list, caller);
         }
       },
 
@@ -243,14 +297,25 @@
         j = fa.length;
 
         for (; i < j; i++) {
-          html += '<i class="fa fa-icon-opt">' + fa[i] + '</i>';
+          html += '<a class="fa fa-icon-opt" href="#" onclick="PS_Cover.FontAwesome.insert(this); return false;">' + fa[i] + '</a>';
         }
 
         list.id = 'fontawesome-iconlist';
         list.className = 'fa-icon-list';
         list.innerHTML = html;
 
+        list.addEventListener('mouseleave', function () {
+          this.parentNode.removeChild(this);
+        });
+
         PS_Cover.FontAwesome.list = list;
+      },
+
+
+      // insert the icon into the input area
+      insert : function (caller) {
+        caller.parentNode.parentNode.parentNode.querySelector('.cover-text').value += ' ' + caller.innerHTML;
+        PS_Cover.draw();
       }
     },
 
@@ -417,19 +482,24 @@
       layer_controls :
       '<div class="layer-controls">'+
 
-        '<span class="arrow-box">'+
-          '<a class="fa fa-arrow-up"></a>'+
-          '<a class="fa fa-arrow-down"></a>'+
-          '<a class="fa fa-arrow-left"></a>'+
-          '<a class="fa fa-arrow-right"></a>'+
+        '<span class="layer-rotate-box two-buttons">'+
+          '<a class="fa fa-rotate-right" href="#" onclick="return false;"></a>'+
+          '<a class="fa fa-refresh" href="#" onclick="return false;"></a>'+
         '</span>'+
 
-        '<span class="layer-move-box">'+
-          '<a class="fa fa-sort-asc" href="#" onclick="return false;"></a>'+
-          '<a class="fa fa-sort-desc" href="#" onclick="return false;"></a>'+
+        '<span class="arrow-box four-buttons">'+
+          '<a class="fa fa-arrow-up" onmousedown="PS_Cover.move(this);" onmouseup="PS_Cover.move(\'stop\');" onmouseleave="PS_Cover.move(\'stop\');"></a>'+
+          '<a class="fa fa-arrow-down" onmousedown="PS_Cover.move(this);" onmouseup="PS_Cover.move(\'stop\');" onmouseleave="PS_Cover.move(\'stop\');"></a>'+
+          '<a class="fa fa-arrow-left" onmousedown="PS_Cover.move(this);" onmouseup="PS_Cover.move(\'stop\');" onmouseleave="PS_Cover.move(\'stop\');"></a>'+
+          '<a class="fa fa-arrow-right" onmousedown="PS_Cover.move(this);" onmouseup="PS_Cover.move(\'stop\');" onmouseleave="PS_Cover.move(\'stop\');"></a>'+
         '</span>'+
 
-        '<a class="fa fa-times" href="#" onclick="return false;"></a>'+
+        '<span class="layer-move-box two-buttons">'+
+          '<a class="fa fa-sort-asc" href="#" onclick="PS_Cover.moveLayer(\'up\', this); return false;"></a>'+
+          '<a class="fa fa-sort-desc" href="#" onclick="PS_Cover.moveLayer(\'down\', this); return false;"></a>'+
+        '</span>'+
+
+        '<a class="fa fa-times" href="#" onclick="PS_Cover.deleteLayer(this); return false;"></a>'+
       '</div>',
 
       Images : {
@@ -518,15 +588,6 @@
   PS_Cover.draw();
 
 
-  // clone text, image, etc.. rows
-  for (var a = document.querySelectorAll('.tools-add'), i = 0, j = a.length; i < j; i++) {
-    a[i].dataset.clone = a[i].parentNode.parentNode.getElementsByTagName('DIV')[0].innerHTML
-                         .replace(/value=".*?"/, 'value=""')
-                         .replace(/data-x=".*?"/, 'data-x="0"')
-                         .replace(/data-y=".*?"/, 'data-y="0"');
-  }
-
-
   // open the cover in a new window so the user can take a screenshot / download the image
   document.getElementById('download-ps4-cover').addEventListener('click', function () {
     window.open().document.write(
@@ -542,72 +603,6 @@
         '<p>sethclydesdale.github.io/ps4-cover-generator/</p>'+
       '</div>'
     );
-  });
-
-
-  // initialize an interval to move the specified image in the specified direction while the mouse is held down
-  document.addEventListener('mousedown', function (e) {
-    var that = e.target;
-
-    if (that.parentNode.className == 'arrow-box' && /fa-arrow/.test(that.className) && !PS_Cover.moving) {
-      PS_Cover.moving = true;
-      PS_Cover.mover = window.setInterval(function() {
-        var input = that.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0],
-            coord = /up|down/.test(that.className) ? 'y' : 'x';
-
-        input.dataset[coord] = +input.dataset[coord] + (/up|left/.test(that.className) ? -1 : +1);
-        PS_Cover.draw();
-      }, 1);
-    }
-  });
-
-
-  // clear the movement interval when the mouse button is released
-  document.addEventListener('mouseup', function () {
-    if (PS_Cover.moving) {
-      PS_Cover.moving = false;
-      window.clearInterval(PS_Cover.mover);
-    }
-  });
-
-
-  // various canvas actions
-  document.addEventListener('click', function (e) {
-    var that = e.target;
-
-    // delete layer action
-    if (that.className == 'fa fa-times' && that.parentNode.className == 'layer-controls') {
-      if (confirm('You are about to delete this layer.\nDo you want to continue?')) {
-        that.parentNode.parentNode.parentNode.parentNode.removeChild(that.parentNode.parentNode.parentNode);
-        PS_Cover.draw();
-      }
-
-      // inserting FontAwesome icons
-    } else if (/fa-icon-opt/.test(that.className)) {
-      that.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0].value += ' ' + that.innerHTML;
-      PS_Cover.draw();
-
-      // auto-hide FontAwesome icon list
-    } else if (!/fa-icon-opt|fa-caller|fa-icon-list/.test(that.className) && document.getElementById('fontawesome-iconlist')) {
-      PS_Cover.FontAwesome.call();
-
-      // move layers up
-    } else if (/fa-sort-asc/.test(that.className) && that.parentNode.className == 'layer-move-box') {
-      var row = that.parentNode.parentNode.parentNode.parentNode;
-      document.getElementById('cover-layers').insertBefore(row, row.previousSibling);
-      PS_Cover.draw();
-
-      // move layers down
-    } else if (/fa-sort-desc/.test(that.className) && that.parentNode.className == 'layer-move-box') {
-      var layers = document.getElementById('cover-layers'),
-          row = that.parentNode.parentNode.parentNode.parentNode,
-          next = row.nextSibling.nextSibling;
-
-      next ? layers.insertBefore(row, next) : layers.appendChild(row);
-
-      PS_Cover.draw();
-
-    }
   });
 
 

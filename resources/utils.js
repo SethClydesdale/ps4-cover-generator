@@ -1,12 +1,11 @@
-/* UTILITIES
-* 01. ColorPicker
-* 02. Inumber
-* 03. Font Detect
-**/
+/****** UTILITIES ********
+** 01. ColorPicker
+** 02. Inumber
+** 03. Font Detect
+**************************/
 
 /* -- 01. Color Picker -- */
 // ColorPicker Prototype for PS4 and browsers that don't support input[type="color"]
-// Created by Seth Clydesdale
 window.ColorInpicker = {
 
   // init the color picker
@@ -172,7 +171,6 @@ window.ColorInpicker = {
 
 /* -- 01. Inumber -- */
 // Prototype for adding arrow controls to input[type="number"] on the PS4 web browser or browsers that don't support it
-// Created by Seth Clydesdale
 window.Inumber = {
 
   // add arrows to number inputs
