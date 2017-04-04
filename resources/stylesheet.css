@@ -733,6 +733,11 @@ footer a:active { color:#FF8; }
 
 
 /* IMAGE SELECTOR */
+.loading {
+  text-align:center;
+  font-size:24px;
+}
+
 #select-image-overlay {
   background:rgba(0, 0, 0, 0.7);
   position:fixed;
@@ -778,7 +783,15 @@ footer a:active { color:#FF8; }
   width:250px;
   margin:12px;
   display:inline-block;
+  position:relative;
   cursor:pointer;
+}
+
+.select-image-total {
+  color:#666;
+  position:absolute;
+  right:3px;
+  bottom:3px;
 }
 
 .select-image-option img {
@@ -830,6 +843,25 @@ footer a:active { color:#FF8; }
   top:12px;
   right:12px;
 }
+
+a.select-image-request {
+  color:#FFF;
+  background:#07C;
+  font-size:18px;
+  text-align:center;
+  text-transform:uppercase;
+  display:inline-block;
+  position:absolute;
+  bottom:3px;
+  left:50%;
+  margin-left:-100px;
+  width:200px;
+  height:40px;
+  line-height:42px;
+}
+
+a.select-image-request:hover { background:#06B; }
+a.select-image-request:active { background:#05A; }
 
 
 /* responsiveness */

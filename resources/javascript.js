@@ -388,6 +388,12 @@
 
       // call and build the image overlay
       call : function (caller) {
+        if (!PS_Cover.Images.list) {
+          var script = document.createElement('SCRIPT');
+          script.src = 'resources/images-list.js';
+          document.body.appendChild(script);
+        }
+
         if (!document.getElementById('select-image-modal')) {
           var overlay = document.createElement('DIV'),
               modal = document.createElement('DIV'),
@@ -398,11 +404,17 @@
           overlay.id = 'select-image-overlay';
           modal.id = 'select-image-modal';
 
-          for (i in PS_Cover.Images.list) {
-            str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + PS_Cover.Images.list[i].thumb + ')"></a>';
+          if (PS_Cover.Images.list) {
+            for (i in PS_Cover.Images.list) {
+              str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + PS_Cover.Images.list[i].thumb + ')"><span class="select-image-total">' + PS_Cover.Images.list[i].images.length + ' images</span></a>';
+            }
+          } else {
+            str +=
+              '<p class="loading"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></p>'+
+              '<p class="loading">Loading images...</p>';
           }
 
-          modal.innerHTML = str + '</div>';
+          modal.innerHTML = str + '</div>' + PS_Cover.templates.Images.request;
 
           PS_Cover.Images.overlay = overlay;
           PS_Cover.Images.modal = modal;
@@ -414,6 +426,13 @@
           document.body.appendChild(PS_Cover.Images.overlay);
           document.body.appendChild(PS_Cover.Images.modal);
           document.body.style.overflow = 'hidden';
+
+          if (!document.querySelector('.select-image-category')) {
+            window.setTimeout(function() {
+              PS_Cover.Images.close();
+              PS_Cover.Images.call();
+            }, 100);
+          }
         }
 
       },
@@ -425,7 +444,7 @@
           str += '<a class="select-image-option" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + PS_Cover.Images.list[category].images[i] + '"></a>';
         }
 
-        PS_Cover.Images.modal.innerHTML = str + '</div></div>';
+        PS_Cover.Images.modal.innerHTML = str + '</div></div>' + PS_Cover.templates.Images.request;
       },
 
 
@@ -444,97 +463,6 @@
           document.body.removeChild(PS_Cover.Images.modal);
           document.body.style.overflow = '';
         }
-      },
-
-
-      // list of available images
-      list : {
-        'Uncharted' : {
-          thumb : 'https://i58.servimg.com/u/f58/18/21/60/73/unchar10.png',
-          images : [
-            'https://i58.servimg.com/u/f58/18/21/60/73/nate-r11.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/nathan13.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/nathan12.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/elena_13.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/elena_12.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/chloe_11.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/victor11.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/eddy-r11.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/flynn-11.png'
-          ]
-        },
-
-        'inFAMOUS' : {
-          thumb : 'https://i58.servimg.com/u/f58/18/21/60/73/infamo10.png',
-          images : [
-            'https://i58.servimg.com/u/f58/18/21/60/73/cole11.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/cole110.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/cole211.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/cole311.png',
-            'https://i58.servimg.com/u/f58/18/21/60/73/cole411.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/delsin11.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/delsin12.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/delsin10.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/fetch10.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/fetch110.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/nix10.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/reaper10.png'
-          ]
-        },
-
-        'God of War' : {
-          thumb : 'https://i58.servimg.com/u/f58/18/21/41/30/gow-lo10.png',
-          images : [
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos14.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos10.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos13.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos11.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos12.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos15.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos16.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos17.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos18.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos21.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos20.png',
-            'https://i58.servimg.com/u/f58/18/21/41/30/kratos19.png'
-          ]
-        },
-
-        'Persona' : {
-          thumb : 'https://i58.servimg.com/u/f58/18/45/41/65/person10.png',
-          images : [
-            'https://i58.servimg.com/u/f58/18/45/41/65/aigis10.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/aigis110.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/aigis210.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/aigis310.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/aigis410.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/aigis510.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/aigis610.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/aigis710.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/aigis810.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/akihik10.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/chie10.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/elizab11.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/elizab10.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/elizab12.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/femc10.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/mc10.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/izanag10.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/izanag11.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/izanag12.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/mitsur11.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/mitsur10.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/mitsur12.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/person12.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/person11.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/yu11.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/yu110.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/yu210.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/yu310.png',
-            'https://i58.servimg.com/u/f58/18/45/41/65/yukari10.png'
-          ]
-        }
-
       }
 
     },
@@ -566,7 +494,8 @@
       '</div>',
 
       Images : {
-        close : '<a class="select-image-button select-image-close" href="#" onclick="PS_Cover.Images.close();return false;"><i class="fa fa-times"></i> Close</a>'
+        close : '<a class="select-image-button select-image-close" href="#" onclick="PS_Cover.Images.close();return false;"><i class="fa fa-times"></i> Close</a>',
+        request : '<a class="select-image-request" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Requesting-Images" target="_blank">Request Images</a>'
       }
     },
 
