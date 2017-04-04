@@ -30,29 +30,47 @@
             input.style.borderColor = '';
           }
 
-          PS_Cover.loadImage(img, input.dataset.x, input.dataset.y, +input.dataset.scale / 100, input);
+          PS_Cover.loadImage(img, input.dataset.x, input.dataset.y, input, {
+            scale : +input.dataset.scale / 100,
+            rotate : +input.dataset.rotate
+          });
 
         } else if (/text-layer/.test(layer[i].className)) {
           input = layer[i].querySelector('.cover-text');
 
-          PS_Cover.ctx.fillStyle = input.dataset.color;
-          PS_Cover.ctx.font = input.dataset.size + 'px ' + input.dataset.font;
-          PS_Cover.ctx.fillText(input.value, input.dataset.x, input.dataset.y);
+          PS_Cover.transform({
+            rotate : +input.dataset.rotate
+
+          }, function () {
+            PS_Cover.ctx.fillStyle = input.dataset.color;
+            PS_Cover.ctx.font = input.dataset.size + 'px ' + input.dataset.font;
+            PS_Cover.ctx.fillText(input.value, input.dataset.x, input.dataset.y);
+          });
         }
+
       }
 
     },
 
 
     // wait for images to load before drawing them
-    loadImage : function (img, x, y, scale, input) {
+    loadImage : function (img, x, y, input, transform) {
       if (img.complete) {
-        PS_Cover.scale(scale, function() {
+        PS_Cover.transform({
+          scale : transform.scale,
+          rotate : transform.rotate
+
+        }, function () {
           PS_Cover.ctx.drawImage(img, x, y);
         });
+
       } else {
         img.addEventListener('load', function () {
-          PS_Cover.scale(scale, function() {
+          PS_Cover.transform({
+            scale : transform.scale,
+            rotate : transform.rotate
+
+          }, function () {
             PS_Cover.ctx.drawImage(img, x, y);
           });
 
@@ -109,11 +127,59 @@
 
 
     // adjusts the scale of a single canvas element
-    scale : function (scale, callback) {
+    transform : function (config, callback) {
       PS_Cover.ctx.save();
-      PS_Cover.ctx.scale(scale, scale);
+
+      if (config.scale) {
+        PS_Cover.ctx.scale(config.scale, config.scale);
+      }
+
+      if (config.rotate) {
+        PS_Cover.ctx.translate(PS_Cover.canvas.width / 2, PS_Cover.canvas.height / 2);
+        PS_Cover.ctx.rotate(config.rotate * Math.PI / 180);
+        PS_Cover.ctx.translate(-PS_Cover.canvas.width / 2, -PS_Cover.canvas.height / 2);
+      }
+
       callback();
       PS_Cover.ctx.restore();
+    },
+
+
+    // rotate the specified layer
+    rotateLayer : function (caller, amount) {
+
+      if (!PS_Cover.rotating && caller != 'stop' && amount == 1) {
+        PS_Cover.rotating = true;
+
+        var input = caller.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0];
+
+        PS_Cover.rotator = window.setInterval(function () {
+          var total = +input.dataset.rotate + amount;
+          input.dataset.rotate = total > 360 ? 0 : total;
+          PS_Cover.draw();
+        }, 10);
+
+      } else if (PS_Cover.rotating && caller == 'stop') {
+        PS_Cover.rotating = false;
+        window.clearInterval(PS_Cover.rotator);
+
+      } else if (amount == 90) {
+        var input = caller.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0],
+            total = +input.dataset.rotate;
+
+        if (total < 90) {
+          total = 90;
+        } else if (total < 180) {
+          total = 180;
+        } else if (total < 270) {
+          total = 270;
+        } else if (total < 360 || total > 360) {
+          total = 0;
+        }
+
+        input.dataset.rotate = total;
+        PS_Cover.draw();
+      }
     },
 
 
@@ -122,11 +188,12 @@
       if (!PS_Cover.moving && caller != 'stop') {
         PS_Cover.moving = true;
 
-        PS_Cover.mover = window.setInterval(function() {
-          var input = caller.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0],
-              coord = /up|down/.test(caller.className) ? 'y' : 'x';
+        var input = caller.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0],
+            coord = /up|down/.test(caller.className) ? 'y' : 'x',
+            amount = /up|left/.test(caller.className) ? -1 : +1;
 
-          input.dataset[coord] = +input.dataset[coord] + (/up|left/.test(caller.className) ? -1 : +1);
+        PS_Cover.mover = window.setInterval(function () {
+          input.dataset[coord] = +input.dataset[coord] + amount;
           PS_Cover.draw();
         }, 1);
 
@@ -206,7 +273,7 @@
         row.className += ' text-layer';
         row.innerHTML =
         '<div class="main-layer-input">'+
-          '<input class="cover-text big" type="text" value="' + (settings.value || '') + '" data-size="' + ( settings.size || '40' ) + '" data-color="' + ( settings.color || '#FFFFFF' ) + '" data-font="PlayStation" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="cover-text big" type="text" value="' + (settings.value || '') + '" data-size="' + ( settings.size || '40' ) + '" data-color="' + ( settings.color || '#FFFFFF' ) + '" data-font="PlayStation" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-text-tools">'+
@@ -226,7 +293,7 @@
         row.innerHTML =
         '<div class="main-layer-input">'+
           '<img class="image-thumb" src="" alt="">'+
-          '<input class="cover-image big" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="cover-image big" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
           '<a class="fa fa-search image-caller layer-button" href="#" onclick="PS_Cover.Images.call(this);return false;"></a>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
@@ -479,8 +546,8 @@
       '<div class="layer-controls">'+
 
         '<span class="layer-rotate-box two-buttons">'+
-          '<a class="fa fa-rotate-right" href="#" onclick="return false;"></a>'+
-          '<a class="fa fa-refresh" href="#" onclick="return false;"></a>'+
+          '<a class="fa fa-rotate-right" onmousedown="PS_Cover.rotateLayer(this, 1);" onmouseup="PS_Cover.rotateLayer(\'stop\');" onmouseleave="PS_Cover.rotateLayer(\'stop\');"></a>'+
+          '<a class="fa fa-refresh" href="#" onclick="PS_Cover.rotateLayer(this, 90); return false;"></a>'+
         '</span>'+
 
         '<span class="arrow-box four-buttons">'+

@@ -782,18 +782,18 @@ footer a:active { color:#FF8; }
 }
 
 .select-image-option img {
-  width:100%;
-  margin-top:0;
-  transition:300ms;
+  max-width:100%;
+  max-height:100%;
 }
 
 .select-image-option {
-  width:19%;
-  margin:0 0 1% 1%;
-  height:200px;
-  float:left;
-  overflow:hidden;
+  text-align:center;
   display:inline-block;
+  float:left;
+  width:19%;
+  height:200px;
+  margin:0 0 1% 1%;
+  overflow:hidden;
   cursor:pointer;
 }
 
