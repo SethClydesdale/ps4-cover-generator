@@ -1,171 +1,171 @@
 PS_Cover.Images.list = {
   'Uncharted' : {
-    thumb : 'https://i58.servimg.com/u/f58/18/21/60/73/unchar10.png',
+    thumb : 'http://i.imgur.com/hHEH0MP.png',
     images : [
       // # RENDERS
       // Nate
-      'https://i58.servimg.com/u/f58/18/21/60/73/nate-r11.png',
-      'https://i58.servimg.com/u/f58/18/21/60/73/nathan13.png',
-      'https://i58.servimg.com/u/f58/18/21/60/73/nathan12.png',
+      'http://i.imgur.com/2ntT1JF.png',
+      'http://i.imgur.com/PAWQZk5.png',
+      'http://i.imgur.com/geHq6wW.png',
       // Elena
-      'https://i58.servimg.com/u/f58/18/21/60/73/elena_13.png',
-      'https://i58.servimg.com/u/f58/18/21/60/73/elena_12.png',
-      // Chole
-      'https://i58.servimg.com/u/f58/18/21/60/73/chloe_11.png',
+      'http://i.imgur.com/V1qEW6L.png',
+      'http://i.imgur.com/E6eEnaP.png',
+      // Chloe
+      'http://i.imgur.com/krM7GTn.png',
       // Sully
-      'https://i58.servimg.com/u/f58/18/21/60/73/victor11.png',
+      'http://i.imgur.com/wDRSDgr.png',
       // Eddy
-      'https://i58.servimg.com/u/f58/18/21/60/73/eddy-r11.png',
+      'http://i.imgur.com/tBeQTzq.png',
       // Flynn
-      'https://i58.servimg.com/u/f58/18/21/60/73/flynn-11.png',
+      'http://i.imgur.com/cNUGqP9.png',
 
       // # BACKGROUNDS / WALLPAPERS
       // UC4
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar12.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar15.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar17.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar20.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar13.jpg',
+      'http://i.imgur.com/I0y94qq.jpg',
+      'http://i.imgur.com/N24My8i.jpg',
+      'http://i.imgur.com/8lRjUvp.jpg',
+      'http://i.imgur.com/qKZjPFG.jpg',
+      'http://i.imgur.com/sHh6UdF.jpg',
       // UC3
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar11.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar10.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar16.jpg',
+      'http://i.imgur.com/U5gcOmq.jpg',
+      'http://i.imgur.com/HfV0Z8W.jpg',
+      'http://i.imgur.com/NoEdJgX.jpg',
       // UC2
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar14.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar18.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar19.jpg',
+      'http://i.imgur.com/2CdQcAx.jpg',
+      'http://i.imgur.com/sT9HdZg.jpg',
+      'http://i.imgur.com/qtTLT4M.jpg',
       // UC1
-      'https://i58.servimg.com/u/f58/18/21/41/30/unchar21.jpg'
+      'http://i.imgur.com/Wwtg7IU.jpg'
     ]
   },
 
   'inFAMOUS' : {
-    thumb : 'https://i58.servimg.com/u/f58/18/21/60/73/infamo10.png',
+    thumb : 'http://i.imgur.com/XsEGwnw.png',
     images : [
       // # RENDERS
       // Cole
-      'https://i58.servimg.com/u/f58/18/21/60/73/cole11.png',
-      'https://i58.servimg.com/u/f58/18/21/60/73/cole110.png',
-      'https://i58.servimg.com/u/f58/18/21/60/73/cole211.png',
-      'https://i58.servimg.com/u/f58/18/21/60/73/cole311.png',
-      'https://i58.servimg.com/u/f58/18/21/60/73/cole411.png',
+      'http://i.imgur.com/wcqHa8b.png',
+      'http://i.imgur.com/rIqtX5T.png',
+      'http://i.imgur.com/9B1etUX.png',
+      'http://i.imgur.com/8MDALHX.png',
+      'http://i.imgur.com/ybQpgoo.png',
       // Delsin
-      'https://i58.servimg.com/u/f58/18/21/41/30/delsin11.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/delsin12.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/delsin10.png',
+      'http://i.imgur.com/psAAlti.png',
+      'http://i.imgur.com/pwHQLub.png',
+      'http://i.imgur.com/1xlroyQ.png',
       // Fetch
-      'https://i58.servimg.com/u/f58/18/21/41/30/fetch10.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/fetch110.png',
+      'http://i.imgur.com/3IvbazM.png',
+      'http://i.imgur.com/lMwYjoj.png',
       // Nix
-      'https://i58.servimg.com/u/f58/18/21/41/30/nix10.png',
+      'http://i.imgur.com/ULPBw4E.png',
       // Misc
-      'https://i58.servimg.com/u/f58/18/21/41/30/reaper10.png',
+      'http://i.imgur.com/FhfkefY.png',
 
       // # BACKGROUNDS / WALLPAPERS
       // inFAMOUS
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo12.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo21.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo22.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo10.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo25.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo14.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo11.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo15.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo24.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo16.jpg',
+      'http://i.imgur.com/1CHnJgH.jpg',
+      'http://i.imgur.com/WdrLgEb.jpg',
+      'http://i.imgur.com/5MaG0Nv.jpg',
+      'http://i.imgur.com/Sn9i4bO.jpg',
+      'http://i.imgur.com/TUHyPdp.jpg',
+      'http://i.imgur.com/XaIz0Ko.jpg',
+      'http://i.imgur.com/9VXL4wt.jpg',
+      'http://i.imgur.com/CfQkD5z.jpg',
+      'http://i.imgur.com/XbHO7p9.jpg',
+      'http://i.imgur.com/cJUl5gv.jpg',
 
       // inFAMOUS 2
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo13.jpg',
+      'http://i.imgur.com/7HeywWc.jpg',
 
       // Second Son
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo18.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo23.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo17.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo20.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/infamo19.jpg'
+      'http://i.imgur.com/BI1DnWA.jpg',
+      'http://i.imgur.com/I6DJpzU.jpg',
+      'http://i.imgur.com/Wrj9iC2.jpg',
+      'http://i.imgur.com/TyhrVfc.jpg',
+      'http://i.imgur.com/LEHX87S.jpg'
     ]
   },
 
   'God of War' : {
-    thumb : 'https://i58.servimg.com/u/f58/18/21/41/30/gow-lo10.png',
+    thumb : 'http://i.imgur.com/mmJMbCA.png',
     images : [
       // # RENDERS
       // Kratos
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos14.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos10.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos13.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos11.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos12.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos15.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos16.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos17.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos18.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos21.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos20.png',
-      'https://i58.servimg.com/u/f58/18/21/41/30/kratos19.png',
+      'http://i.imgur.com/PCLPgfc.png',
+      'http://i.imgur.com/t0MG7Bs.png',
+      'http://i.imgur.com/3Bjm5BH.png',
+      'http://i.imgur.com/him2cPx.png',
+      'http://i.imgur.com/sCsItGE.png',
+      'http://i.imgur.com/DM2LkIz.png',
+      'http://i.imgur.com/H6itRrq.png',
+      'http://i.imgur.com/6j0nadU.png',
+      'http://i.imgur.com/2Ks6Bsr.png',
+      'http://i.imgur.com/UN9641g.png',
+      'http://i.imgur.com/mS9SFXJ.png',
+      'http://i.imgur.com/qvxGVWB.png',
+      'http://i.imgur.com/PGElfXy.jpg',
 
       // # BACKGROUNDS / WALLPAPERS
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow12.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow212.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow312.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow412.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow512.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow712.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow1112.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow1212.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow1512.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow1612.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow1712.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow1812.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow1912.jpg',
-      'https://i58.servimg.com/u/f58/18/21/41/30/gow2010.jpg'
+      'http://i.imgur.com/0fBqUQZ.jpg',
+      'http://i.imgur.com/dAvsuiZ.jpg',
+      'http://i.imgur.com/wq06CUv.jpg',
+      'http://i.imgur.com/J4pUL6x.jpg',
+      'http://i.imgur.com/PeRmqun.jpg',
+      'http://i.imgur.com/2GADZSs.jpg',
+      'http://i.imgur.com/VquEJHX.jpg',
+      'http://i.imgur.com/ovAzS8b.jpg',
+      'http://i.imgur.com/16OI4lZ.jpg',
+      'http://i.imgur.com/nZOYUKM.jpg',
+      'http://i.imgur.com/x5kaTey.jpg',
+      'http://i.imgur.com/QNDBXuj.jpg',
+      'http://i.imgur.com/fClFeQF.jpg'
     ]
   },
 
   'Persona' : {
-    thumb : 'https://i58.servimg.com/u/f58/18/45/41/65/person10.png',
+    thumb : 'https://i.imgur.com/4E6zKyS.png',
     images : [
       // # RENDERS
       // MC
-      'https://i58.servimg.com/u/f58/18/45/41/65/mc10.png',
+      'http://i.imgur.com/KuKNW2P.png',
       // FeMC
-      'https://i58.servimg.com/u/f58/18/45/41/65/femc10.png',
+      'http://i.imgur.com/oVcPPh3.png',
       // Aigis
-      'https://i58.servimg.com/u/f58/18/45/41/65/aigis10.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/aigis110.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/aigis210.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/aigis310.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/aigis410.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/aigis510.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/aigis610.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/aigis710.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/aigis810.png',
+      'http://i.imgur.com/jdteTcb.png',
+      'http://i.imgur.com/mSrZPJZ.png',
+      'http://i.imgur.com/BapY7cO.png',
+      'http://i.imgur.com/W6gTsmy.png',
+      'http://i.imgur.com/08Sv56O.png',
+      'http://i.imgur.com/QE3D4C8.png',
+      'http://i.imgur.com/BylZjmM.png',
+      'http://i.imgur.com/a4Nc4qC.png',
+      'http://i.imgur.com/4joSXAx.png',
       // Mitsuru
-      'https://i58.servimg.com/u/f58/18/45/41/65/mitsur11.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/mitsur10.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/mitsur12.png',
+      'http://i.imgur.com/X6iyR2c.png',
+      'http://i.imgur.com/uhLZS0x.png',
+      'http://i.imgur.com/fwKTBUg.png',
       // Yukari
-      'https://i58.servimg.com/u/f58/18/45/41/65/yukari10.png',
+      'http://i.imgur.com/qqPpyoa.png',
       // Akihiko
-      'https://i58.servimg.com/u/f58/18/45/41/65/akihik10.png',
+      'http://i.imgur.com/cQ77UHs.png',
       // Elizabeth
-      'https://i58.servimg.com/u/f58/18/45/41/65/elizab11.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/elizab10.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/elizab12.png',
+      'http://i.imgur.com/dNZSXOf.png',
+      'http://i.imgur.com/0r5YPne.png',
+      'http://i.imgur.com/Jub1A26.png',
       // Yu
-      'https://i58.servimg.com/u/f58/18/45/41/65/yu11.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/yu110.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/yu210.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/yu310.png',
+      'http://i.imgur.com/y6sdGxD.png',
+      'http://i.imgur.com/9fcnpcJ.png',
+      'http://i.imgur.com/J0Gdie1.png',
+      'http://i.imgur.com/EoqFif1.png',
       // Chie
-      'https://i58.servimg.com/u/f58/18/45/41/65/chie10.png',
+      'http://i.imgur.com/eJhJhHx.png',
       // Izanagi
-      'https://i58.servimg.com/u/f58/18/45/41/65/izanag10.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/izanag11.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/izanag12.png',
+      'http://i.imgur.com/a0xlJW6.png',
+      'http://i.imgur.com/SyEx9R7.png',
+      'http://i.imgur.com/IgvoAXT.png',
       // Misc
-      'https://i58.servimg.com/u/f58/18/45/41/65/person12.png',
-      'https://i58.servimg.com/u/f58/18/45/41/65/person11.png',
+      'http://i.imgur.com/BHFEnJt.png',
+      'http://i.imgur.com/suq7iQh.png',
 
       // # BACKGROUND / WALLPAPERS
       // Persona 2
