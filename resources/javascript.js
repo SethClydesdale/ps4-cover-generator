@@ -654,7 +654,7 @@
     ],
 
 
-    // return a random hex color
+    // return a random hex or rgb color
     randomColor : function (rgb) {
       var hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'],
           len = hex.length,
@@ -800,15 +800,6 @@
   }
 
   // create example presets
-  PS_Cover.add('shape', {
-    color : '#0055AA',
-    width : 400,
-    height : 100,
-    x : (PS_Cover.canvas.width / 2) - 200,
-    y : 55,
-    noScroll : 1
-  });
-
   PS_Cover.add('image', {
     value : 'https://sethclydesdale.github.io/ps4-cover-generator/resources/images/ps4.png',
     x : (PS_Cover.canvas.width / 2) - 100,
@@ -816,7 +807,6 @@
     noScroll : 1
   });
 
-  // create example presets
   PS_Cover.add('text', {
     value : 'PS4 Cover Generator',
     color : '#FFFFFF',
