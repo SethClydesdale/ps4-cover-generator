@@ -55,7 +55,51 @@ window.ColorInpicker = {
         '</div>';
       }
 
-      picker.innerHTML = str + '<div id="color-value-result"></div>';
+      // preset colors
+      var presets = [
+        '#000000',
+        '#333333',
+        '#666666',
+        '#999999',
+        '#CCCCCC',
+        '#FFFFFF',
+        '#ff0000',
+        '#ff4000',
+        '#ff8000',
+        '#ffbf00',
+        '#ffff00',
+        '#bfff00',
+        '#80ff00',
+        '#40ff00',
+        '#00ff00',
+        '#00ff40',
+        '#00ff80',
+        '#00ffbf',
+        '#00ffff',
+        '#00bfff',
+        '#0080ff',
+        '#0040ff',
+        '#0000ff',
+        '#4000ff',
+        '#8000ff',
+        '#bf00ff',
+        '#ff00ff',
+        '#ff00bf',
+        '#ff0080',
+        '#ff0040'
+      ], i = 0, j = presets.length, prestr = '';
+
+      for (; i < j; i++) {
+        prestr += '<a href="#" style="background-color:' + presets[i] + '" onclick="ColorInpicker.applyPreset(this.style.backgroundColor); return false"></a>';
+      }
+
+      picker.innerHTML =
+      '<div id="color-value-result"></div>'
+      + str +
+      '<div id="color-inpicker-presets">'+
+        prestr+
+        '<a class="fa fa-random" href="#" style="background-color:' + PS_Cover.randomColor() + ';" onclick="ColorInpicker.applyPreset(); return false"></a>'+
+      '</div>';
 
       this.picker = picker;
     }
@@ -80,7 +124,7 @@ window.ColorInpicker = {
 
       ColorInpicker.last = that;
       ColorInpicker.input = that.nextSibling;
-      ColorInpicker.picker.style.left = offset.left + 'px';
+      ColorInpicker.picker.style.left = offset[/cover-layer/.test(that.parentNode.parentNode.className) ? 'right' : 'left'] + 'px';
 
       for (i = 0, j = bar.length; i < j; i++) {
         bar[i].style.backgroundColor = 'rgb(' + ( [rgb[i] + ', 0, 0', '0, ' + rgb[i] + ', 0', '0, 0, ' + rgb[i]][i] ) + ')';
@@ -93,6 +137,25 @@ window.ColorInpicker = {
 
       that.parentNode.insertBefore(ColorInpicker.picker, that);
     }
+  },
+
+
+  // apply a color preset
+  applyPreset : function (color) {
+    color = (color || PS_Cover.randomColor(true)).replace(/rgb\(|\)/g, '').split(',');
+
+    for (var rgb = ColorInpicker.picker.querySelectorAll('.color-value'), i = 0, j = rgb.length; i < j; i++) {
+      rgb[i].innerHTML = i == 0 ? (+color[i] - 1) : color[i];
+    }
+
+    ColorInpicker.color(document.getElementById('color-value-red').querySelector('.color-up'), 1);
+    window.setTimeout(function () {
+      var last = ColorInpicker.last;
+      last.style.backgroundColor = color;
+      ColorInpicker.stop();
+      ColorInpicker.call(last);
+      ColorInpicker.call(last);
+    }, 26);
   },
 
 
@@ -216,6 +279,15 @@ window.Inumber = {
     }
   }
 };
+
+// change the random color every 3s when the color picker is opened
+window.setInterval(function() {
+  var randomColor = document.querySelector('#color-inpicker-presets .fa-random');
+
+  if (randomColor) {
+    randomColor.style.backgroundColor = PS_Cover.randomColor();
+  }
+}, 3000);
 
 
 /* -- 01. FontDetect -- */

@@ -15,7 +15,7 @@
       // draw images onto the canvas
       for (var layer = document.querySelectorAll('.cover-layer'), i = layer.length - 1, img, input; i > -1; i--) {
         if (/image-layer/.test(layer[i].className)) {
-          input = layer[i].querySelector('.cover-image');
+          input = layer[i].querySelector('.main-input');
 
           img = new Image();
           img.crossOrigin = 'anonymous';
@@ -36,7 +36,7 @@
           });
 
         } else if (/text-layer/.test(layer[i].className)) {
-          input = layer[i].querySelector('.cover-text');
+          input = layer[i].querySelector('.main-input');
 
           PS_Cover.transform({
             rotate : +input.dataset.rotate
@@ -45,6 +45,36 @@
             PS_Cover.ctx.fillStyle = input.dataset.color;
             PS_Cover.ctx.font = input.dataset.size + 'px ' + input.dataset.font;
             PS_Cover.ctx.fillText(input.value, input.dataset.x, input.dataset.y);
+          });
+
+        } else if (/shape-layer/.test(layer[i].className)) {
+          input = layer[i].querySelector('.main-input');
+
+          PS_Cover.transform({
+            scale : +input.dataset.scale / 100,
+            rotate : +input.dataset.rotate
+
+          }, function () {
+            PS_Cover.ctx.fillStyle = input.dataset.color;
+
+            switch (input.value) {
+              case 'rect' :
+                PS_Cover.ctx.fillRect(input.dataset.x, input.dataset.y, input.dataset.width, input.dataset.height);
+                break;
+
+              case 'tri' :
+                PS_Cover.ctx.beginPath();
+                PS_Cover.ctx.moveTo(input.dataset.x, input.dataset.y);
+                PS_Cover.ctx.lineTo(+input.dataset.x - (+input.dataset.width / 2), +input.dataset.y + +input.dataset.height);
+                PS_Cover.ctx.lineTo(+input.dataset.x + (+input.dataset.width / 2), +input.dataset.y + +input.dataset.height);
+                PS_Cover.ctx.fill();
+                break;
+
+              case 'arc' :
+                PS_Cover.ctx.arc(input.dataset.x, input.dataset.y, input.dataset.height, 0, 2 * Math.PI);
+                PS_Cover.ctx.fill();
+                break;
+            }
           });
         }
 
@@ -91,8 +121,8 @@
 
     // update the input of elements and draw the new value to the canvas
     updateInput : function (caller) {
-      var type = caller.className.replace(/cover-image-|cover-text-/g, ''),
-          input = caller.parentNode.parentNode.getElementsByTagName('INPUT')[0],
+      var type = caller.className.replace(/cover-input-/g, ''),
+          input = caller.parentNode.parentNode.querySelector('.main-input'),
           selected = caller.options ? caller.options[caller.selectedIndex] : null,
           fa = caller.parentNode.querySelector('.fa-caller');
 
@@ -151,7 +181,7 @@
       if (!PS_Cover.rotating && caller != 'stop' && amount == 1) {
         PS_Cover.rotating = true;
 
-        var input = caller.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0];
+        var input = caller.parentNode.parentNode.parentNode.parentNode.querySelector('.main-input');
 
         PS_Cover.rotator = window.setInterval(function () {
           var total = +input.dataset.rotate + amount;
@@ -164,7 +194,7 @@
         window.clearInterval(PS_Cover.rotator);
 
       } else if (amount == 90) {
-        var input = caller.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0],
+        var input = caller.parentNode.parentNode.parentNode.parentNode.querySelector('.main-input'),
             total = +input.dataset.rotate;
 
         if (total < 90) {
@@ -188,7 +218,7 @@
       if (!PS_Cover.moving && caller != 'stop') {
         PS_Cover.moving = true;
 
-        var input = caller.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('INPUT')[0],
+        var input = caller.parentNode.parentNode.parentNode.parentNode.querySelector('.main-input'),
             coord = /up|down/.test(caller.className) ? 'y' : 'x',
             amount = /up|left/.test(caller.className) ? -1 : +1;
 
@@ -238,7 +268,11 @@
     add : function (type, settings) {
       settings = settings ? settings : {};
 
-      var row = document.createElement('DIV'),
+      var tools = document.getElementById('cover-tools'),
+          layers = document.getElementById('cover-layers'),
+          firstChild = layers.firstChild,
+          row = document.createElement('DIV'),
+          color,
           cleanName,
           opts,
           i,
@@ -250,6 +284,7 @@
 
       // adds a text layer
       if (type == 'text') {
+        color = PS_Cover.randomColor();
 
         for (opts = '', i = 0, j = PS_Cover.fonts.length; i < j; i++) {
           cleanName = PS_Cover.fonts[i].replace(/:loaded|:selected/g, '');
@@ -266,21 +301,21 @@
             selected = true;
           }
 
-          opts += '<option value="' + cleanName + '"' + ( loaded ? ' data-loaded="true"' : '' ) + ( selected ? ' selected' : '' ) + '>' + cleanName + '</option>';
+          opts += '<option style="font-family:' + cleanName + ';" value="' + cleanName + '"' + ( loaded ? ' data-loaded="true"' : '' ) + ( selected ? ' selected' : '' ) + '>' + cleanName + '</option>';
         }
 
 
         row.className += ' text-layer';
         row.innerHTML =
         '<div class="main-layer-input">'+
-          '<input class="cover-text big" type="text" value="' + (settings.value || '') + '" data-size="' + ( settings.size || '40' ) + '" data-color="' + ( settings.color || '#FFFFFF' ) + '" data-font="PlayStation" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="main-input cover-text big" type="text" value="' + (settings.value || '') + '" data-size="' + ( settings.size || '40' ) + '" data-color="' + ( settings.color || color ) + '" data-font="PlayStation" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
           PS_Cover.templates.layer_controls+
         '</div>'+
-        '<div class="cover-text-tools">'+
-          '<input class="cover-text-color color-inpicker" type="text" value="' + ( settings.color || '#FFFFFF' ) + '" oninput="PS_Cover.updateInput(this);">'+
-          '<input class="cover-text-size" type="number" value="' + ( settings.size || '40' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
-          '<a class="fa fa-smile-o fa-caller layer-button" href="#" onclick="PS_Cover.FontAwesome.call(this);return false;" style="display:none;"></a>'+
-          '<select class="cover-text-font" onchange="PS_Cover.updateInput(this);">'+
+        '<div class="cover-input-tools">'+
+          '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
+          '<a href="#" class="fa fa-text-height tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-size" type="number" value="' + ( settings.size || '40' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+          '<a href="#" class="fa fa-font tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><a class="fa fa-smile-o fa-caller layer-button" href="#" onclick="PS_Cover.FontAwesome.call(this);return false;" style="display:none;"></a>'+
+          '<select class="cover-input-font" onchange="PS_Cover.updateInput(this);">'+
             opts+
           '</select>'+
         '</div>';
@@ -293,12 +328,12 @@
         row.innerHTML =
         '<div class="main-layer-input">'+
           '<img class="image-thumb" src="" alt="">'+
-          '<input class="cover-image big" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="main-input cover-image big" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
           '<a class="fa fa-search image-caller layer-button" href="#" onclick="PS_Cover.Images.call(this);return false;"></a>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
-        '<div class="cover-image-tools">'+
-          '<input class="cover-image-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+        '<div class="cover-input-tools">'+
+          '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
         '</div>';
 
         if (!settings.value) {
@@ -306,7 +341,37 @@
         }
       }
 
-      document.getElementById('cover-layers').appendChild(row);
+
+      // adds a shape layer
+      if (type == 'shape') {
+        color = PS_Cover.randomColor();
+
+        row.className += ' shape-layer';
+        row.innerHTML =
+        '<div class="main-layer-input">'+
+          '<select class="main-input cover-shape big" data-height="' + (settings.height || '50') + '" data-width="' + (settings.width || '50') + '" data-color="' + ( settings.color || color ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" onchange="PS_Cover.draw();">'+
+            '<option value="rect" selected>Rectangle</option>'+
+            '<option value="tri">Triangle</option>'+
+            '<option value="arc">Circle</option>'+
+          '</select>'+
+          PS_Cover.templates.layer_controls+
+        '</div>'+
+        '<div class="cover-input-tools">'+
+          '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
+          '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+          '<a href="#" class="fa fa-arrows-h tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-width" type="number" value="' + ( settings.width || '50' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+          '<a href="#" class="fa fa-arrows-v tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-height" type="number" value="' + ( settings.height || '50' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+        '</div>';
+      }
+
+
+      // add the new layer to the layers list
+      firstChild ? layers.insertBefore(row, firstChild) : layers.appendChild(row);
+
+      // scroll directly to the top of the new layer
+      if (!settings.noScroll) {
+        tools.scrollTop = row.offsetTop - 3;
+      }
 
       ColorInpicker.init({ hide : true }); // create color pickers
       if (PS_Cover.isPS4) Inumber.init(); // create number input arrows
@@ -586,7 +651,61 @@
       'Graduate',
       'Love Ya Like A Sister',
       'Allerta Stencil'
-    ]
+    ],
+
+
+    // return a random hex color
+    randomColor : function (rgb) {
+      var hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'],
+          len = hex.length,
+          str = rgb ? 'rgb(' : '#',
+          max = rgb ? 3 : 6,
+          i = 0;
+
+      for (; i < max; i++) {
+        str += rgb ? Math.floor(Math.random() * 256) + (i == 2 ? '' : ',') : hex[Math.floor(Math.random() * len)];
+      }
+
+      if (rgb) {
+        str += ')';
+      }
+
+      return str;
+    },
+
+
+    // return a helpful alert
+    help : function (className) {
+      if (className) {
+        className = className.replace(/fa | tools-icon/g, '');
+
+        switch (className) {
+          case 'fa-eyedropper' :
+            alert('Click the color palette to select a color.');
+            break;
+
+          case 'fa-arrows' :
+            alert('Adjusts the overall size of this layer in percentages.');
+            break;
+
+          case 'fa-arrows-v' :
+            alert('Adjusts the height of this layer in pixels.');
+            break;
+
+          case 'fa-arrows-h' :
+            alert('Adjusts the width of this layer in pixels.');
+            break;
+
+          case 'fa-text-height' :
+            alert('Adjusts the font size of this layer in pixels.');
+            break;
+
+          case 'fa-font' :
+            alert('Click the drop down to select a font.');
+            break;
+        }
+      }
+    },
 
   };
 
@@ -664,7 +783,7 @@
 
   // draw to the canvas when the color value changes
   ColorInpicker.callback = function (input) {
-    if (/cover-text-/.test(ColorInpicker.input.className)) {
+    if (/cover-input-|cover-input-/.test(ColorInpicker.input.className)) {
       PS_Cover.updateInput(ColorInpicker.input);
 
     } else {
@@ -680,19 +799,31 @@
     };
   }
 
-
   // create example presets
-  PS_Cover.add('text', {
-    value : 'PS4 Cover Generator',
-    size : 40,
-    x : (PS_Cover.canvas.width / 2) - 175,
-    y : 120
+  PS_Cover.add('shape', {
+    color : '#0055AA',
+    width : 400,
+    height : 100,
+    x : (PS_Cover.canvas.width / 2) - 200,
+    y : 55,
+    noScroll : 1
   });
 
   PS_Cover.add('image', {
     value : 'https://sethclydesdale.github.io/ps4-cover-generator/resources/images/ps4.png',
     x : (PS_Cover.canvas.width / 2) - 100,
-    y : (PS_Cover.canvas.height / 2) - 100
+    y : (PS_Cover.canvas.height / 2) - 100,
+    noScroll : 1
+  });
+
+  // create example presets
+  PS_Cover.add('text', {
+    value : 'PS4 Cover Generator',
+    color : '#FFFFFF',
+    size : 40,
+    x : (PS_Cover.canvas.width / 2) - 175,
+    y : 120,
+    noScroll : 1
   });
 
 }());
