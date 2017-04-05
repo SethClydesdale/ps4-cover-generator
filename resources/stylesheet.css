@@ -916,7 +916,7 @@ a.select-image-request {
   margin-left:-100px;
   width:200px;
   height:40px;
-  line-height:42px;
+  line-height:40px;
 }
 
 a.select-image-request:hover { background:#06B; }

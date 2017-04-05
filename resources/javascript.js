@@ -726,6 +726,7 @@
       '<img src="' + PS_Cover.canvas.toDataURL('image/png') + '" alt="PS4 Cover">'+
 
       '<div id="creation-info">'+
+        ( PS_Cover.isPS4 ? '<p>Press the SHARE button and choose SCREENSHOT to SAVE your cover image.</p>' : '' )+
         '<p>Created with PS4 Cover Generator</p>'+
         '<p>sethclydesdale.github.io/ps4-cover-generator/</p>'+
       '</div>'

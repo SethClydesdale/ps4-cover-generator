@@ -222,6 +222,44 @@ PS_Cover.Images.list = {
       'http://i.imgur.com/gS6pq4h.jpg',
       'http://i.imgur.com/p5u3DPi.jpg'
     ]
+  },
+
+  'Gran Turismo' : {
+    thumb : 'http://i.imgur.com/4UrmSgv.png',
+    images : [
+      // # RENDERS
+      'http://i.imgur.com/fBB2e5T.png',
+      'http://i.imgur.com/M4MxJzN.png',
+      'http://i.imgur.com/4vvvktp.png',
+      'http://i.imgur.com/yeiNNyi.png',
+      'http://i.imgur.com/YZrAFie.png',
+      'http://i.imgur.com/SEg9cyL.png',
+      'http://i.imgur.com/u6G5c7O.png',
+      'http://i.imgur.com/zm5iQTP.png',
+      'http://i.imgur.com/7qHxc9y.png',
+
+      // BACKGROUND / WALLPAPERS
+      'http://i.imgur.com/V7Xk2dz.jpg',
+      'http://i.imgur.com/ZzkJSG2.jpg',
+      'http://i.imgur.com/pKt9H0B.jpg',
+      'http://i.imgur.com/pBhTInp.jpg',
+      'http://i.imgur.com/RkC1Hzr.jpg',
+      'http://i.imgur.com/qbBD9d7.jpg',
+      'http://i.imgur.com/ESFLE95.jpg',
+      'http://i.imgur.com/gx4RUBp.jpg',
+      'http://i.imgur.com/fxGU1fD.jpg',
+      'http://i.imgur.com/NSSVUYm.jpg',
+      'http://i.imgur.com/DOozYUQ.jpg',
+      'http://i.imgur.com/C0xx5cS.jpg',
+      'http://i.imgur.com/s279rCY.jpg',
+      'http://i.imgur.com/CwOgU6F.jpg',
+      'http://i.imgur.com/KF0R4gN.jpg',
+      'http://i.imgur.com/j0Curg8.jpg',
+      'http://i.imgur.com/D3YJ1nh.jpg',
+      'http://i.imgur.com/bmz5ZNQ.jpg',
+      'http://i.imgur.com/JYMIegG.jpg',
+      'http://i.imgur.com/RMzdJof.jpg'
+    ]
   }
 
 };
