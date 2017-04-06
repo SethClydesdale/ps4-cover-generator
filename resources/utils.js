@@ -1,7 +1,8 @@
 /****** UTILITIES ********
 ** 01. ColorPicker
 ** 02. Inumber
-** 03. Font Detect
+** 03. parentsUntil
+** 04. Font Detect
 **************************/
 
 /* -- 01. Color Picker -- */
@@ -290,7 +291,41 @@ window.setInterval(function() {
 }, 3000);
 
 
-/* -- 01. FontDetect -- */
+/* -- 03. parentsUntil -- */
+// loop through a node's parents until a match is found
+// pass along a single id, class, or tagName as the selector, to find the parent that matches it
+Element.prototype.parentsUntil = function (selector) {
+  var parent = this.parentNode,
+      match = false,
+      a, i, j,
+      attr = selector.charAt(0) == '.' ? 'className' :
+             selector.charAt(0) == '#' ? 'id' : 'tagName';
+
+  selector = attr == 'tagName' ? selector.toUpperCase() : selector.slice(1);
+
+  while (parent && !match) {
+    if (attr == 'className') {
+      for (a = parent[attr].split(' '), i = 0, j = a.length; i < j; i++) {
+        if (selector == a[i]) {
+          match = true;
+          break;
+        }
+      }
+
+    } else if (selector == parent[attr]) {
+      match = true;
+    }
+
+    if (!match) {
+      parent = parent.parentNode;
+    }
+  }
+
+  return parent;
+};
+
+
+/* -- 04. FontDetect -- */
 // Detect if a font has been loaded before drawing to the canvas
 // FontDetect created by JenniferSimonds : https://github.com/JenniferSimonds/FontDetect
 FontDetect=function(){function e(){if(!n){n=!0;var e=document.body,t=document.body.firstChild,i=document.createElement("div");i.id="fontdetectHelper",r=document.createElement("span"),r.innerText="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",i.appendChild(r),e.insertBefore(i,t),i.style.position="absolute",i.style.visibility="hidden",i.style.top="-200px",i.style.left="-100000px",i.style.width="100000px",i.style.height="200px",i.style.fontSize="100px"}}function t(e,t){return e instanceof Element?window.getComputedStyle(e).getPropertyValue(t):window.jQuery?$(e).css(t):""}var n=!1,i=["serif","sans-serif","monospace","cursive","fantasy"],r=null;return{onFontLoaded:function(t,i,r,o){if(t){var s=o&&o.msInterval?o.msInterval:100,a=o&&o.msTimeout?o.msTimeout:2e3;if(i||r){if(n||e(),this.isFontLoaded(t))return void(i&&i(t));var l=this,f=(new Date).getTime(),d=setInterval(function(){if(l.isFontLoaded(t))return clearInterval(d),void i(t);var e=(new Date).getTime();e-f>a&&(clearInterval(d),r&&r(t))},s)}}},isFontLoaded:function(t){var o=0,s=0;n||e();for(var a=0;a<i.length;++a){if(r.style.fontFamily='"'+t+'",'+i[a],o=r.offsetWidth,a>0&&o!=s)return!1;s=o}return!0},whichFont:function(e){for(var n=t(e,"font-family"),r=n.split(","),o=r.shift();o;){o=o.replace(/^\s*['"]?\s*([^'"]*)\s*['"]?\s*$/,"$1");for(var s=0;s<i.length;s++)if(o==i[s])return o;if(this.isFontLoaded(o))return o;o=r.shift()}return null}}}();

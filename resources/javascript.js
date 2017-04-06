@@ -122,7 +122,7 @@
     // update the input of elements and draw the new value to the canvas
     updateInput : function (caller) {
       var type = caller.className.replace(/cover-input-/g, ''),
-          input = caller.parentNode.parentNode.querySelector('.main-input'),
+          input = caller.parentsUntil('.cover-layer').querySelector('.main-input'),
           selected = caller.options ? caller.options[caller.selectedIndex] : null,
           fa = caller.parentNode.querySelector('.fa-caller');
 
@@ -181,7 +181,7 @@
       if (!PS_Cover.rotating && caller != 'stop' && amount == 1) {
         PS_Cover.rotating = true;
 
-        var input = caller.parentNode.parentNode.parentNode.parentNode.querySelector('.main-input');
+        var input = caller.parentsUntil('.cover-layer').querySelector('.main-input');
 
         PS_Cover.rotator = window.setInterval(function () {
           var total = +input.dataset.rotate + amount;
@@ -194,7 +194,7 @@
         window.clearInterval(PS_Cover.rotator);
 
       } else if (amount == 90) {
-        var input = caller.parentNode.parentNode.parentNode.parentNode.querySelector('.main-input'),
+        var input = caller.parentsUntil('.cover-layer').querySelector('.main-input'),
             total = +input.dataset.rotate;
 
         if (total < 90) {
@@ -218,7 +218,7 @@
       if (!PS_Cover.moving && caller != 'stop') {
         PS_Cover.moving = true;
 
-        var input = caller.parentNode.parentNode.parentNode.parentNode.querySelector('.main-input'),
+        var input = caller.parentsUntil('.cover-layer').querySelector('.main-input'),
             coord = /up|down/.test(caller.className) ? 'y' : 'x',
             amount = /up|left/.test(caller.className) ? -1 : +1;
 
@@ -236,7 +236,7 @@
 
     // move layers up / down
     moveLayer : function (where, caller) {
-      var row = caller.parentNode.parentNode.parentNode.parentNode,
+      var row = caller.parentsUntil('.cover-layer'),
           layers = document.getElementById('cover-layers');
 
       switch (where.toLowerCase()) {
@@ -257,7 +257,7 @@
     // delete the specified layer
     deleteLayer : function (caller) {
       if (confirm('You are about to delete this layer.\nDo you want to continue?')) {
-        var layer = caller.parentNode.parentNode.parentNode;
+        var layer = caller.parentsUntil('.cover-layer');
         layer.parentNode.removeChild(layer);
         PS_Cover.draw();
       }
@@ -301,7 +301,7 @@
             selected = true;
           }
 
-          opts += '<option style="font-family:' + cleanName + ';" value="' + cleanName + '"' + ( loaded ? ' data-loaded="true"' : '' ) + ( selected ? ' selected' : '' ) + '>' + cleanName + '</option>';
+          opts += '<option value="' + cleanName + '"' + ( loaded ? ' data-loaded="true"' : '' ) + ( selected ? ' selected' : '' ) + '>' + cleanName + '</option>';
         }
 
 
@@ -442,7 +442,7 @@
 
       // insert the icon into the input area
       insert : function (caller) {
-        caller.parentNode.parentNode.parentNode.querySelector('.cover-text').value += ' ' + caller.innerHTML;
+        caller.parentsUntil('.cover-layer').querySelector('.main-input').value += ' ' + caller.innerHTML;
         PS_Cover.draw();
       }
     },
@@ -719,11 +719,12 @@
   document.getElementById('download-ps4-cover').addEventListener('click', function () {
     window.open().document.write(
       '<style>'+
-        'body{padding:0;margin:0;background:#000;' + ( PS_Cover.isPS4 ? 'cursor:none' : '' ) + '}'+
-        '#creation-info{position:fixed;left:0;bottom:0;color:#CCC;font-size:16px;font-family:Arial;padding:6px;}'+
+        'body{padding:0;margin:0;background:#000;display:flex;min-height:100vh;flex-direction:column;' + ( PS_Cover.isPS4 ? 'cursor:none' : '' ) + '}'+
+        '#creation-info{color:#CCC;font-size:16px;font-family:Arial;padding:6px;}'+
+        '#cover-result{flex:1 0 auto}'+
       '</style>'+
 
-      '<img src="' + PS_Cover.canvas.toDataURL('image/png') + '" alt="PS4 Cover">'+
+      '<div id="cover-result"><img src="' + PS_Cover.canvas.toDataURL('image/png') + '" alt="PS4 Cover"></div>'+
 
       '<div id="creation-info">'+
         '<p>'+
