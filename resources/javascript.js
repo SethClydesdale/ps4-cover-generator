@@ -42,9 +42,11 @@
             rotate : +input.dataset.rotate
 
           }, function () {
-            PS_Cover.ctx.fillStyle = input.dataset.color;
+            var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill';
+
             PS_Cover.ctx.font = input.dataset.size + 'px ' + input.dataset.font;
-            PS_Cover.ctx.fillText(input.value, input.dataset.x, input.dataset.y);
+            PS_Cover.ctx[fill + 'Style'] = input.dataset.color;
+            PS_Cover.ctx[fill + 'Text'](input.value, input.dataset.x, input.dataset.y);
           });
 
         } else if (/shape-layer/.test(layer[i].className)) {
@@ -124,29 +126,30 @@
       var type = caller.className.replace(/cover-input-/g, ''),
           input = caller.parentsUntil('.cover-layer').querySelector('.main-input'),
           selected = caller.options ? caller.options[caller.selectedIndex] : null,
-          fa = caller.parentNode.querySelector('.fa-caller');
+          fa = caller.parentNode.querySelector('.fa-caller'),
+          value = caller[caller.type == 'checkbox' ? 'checked' : 'value'];
 
       if (type == 'font' && !selected.dataset.loaded) {
-        input.style.fontFamily = caller.value;
-        input.dataset[type] = caller.value;
+        input.style.fontFamily = value;
+        input.dataset[type] = value;
 
-        FontDetect.onFontLoaded(caller.value, function () {
+        FontDetect.onFontLoaded(value, function () {
           selected.dataset.loaded = true;
           PS_Cover.draw();
         }, null, { msTimeout : 3000 });
 
       } else {
         if (type == 'font') {
-          input.style.fontFamily = caller.value;
+          input.style.fontFamily = value;
         }
 
-        input.dataset[type] = caller.value;
+        input.dataset[type] = value;
         PS_Cover.draw();
       }
 
       // show fontawesome icon toggler
       if (type == 'font') {
-        if (caller.value == 'FontAwesome' && fa && fa.style.display == 'none') {
+        if (value == 'FontAwesome' && fa && fa.style.display == 'none') {
           fa.style.display = '';
         } else if (fa && fa.style.display != 'none') {
           fa.style.display = 'none';
@@ -318,11 +321,12 @@
         row.className += ' text-layer';
         row.innerHTML =
         '<div class="main-layer-input">'+
-          '<input class="main-input cover-text big" type="text" value="' + (settings.value || '') + '" data-size="' + ( settings.size || '40' ) + '" data-color="' + ( settings.color || color ) + '" data-font="PlayStation" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="main-input cover-text big" type="text" value="' + (settings.value || '') + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-size="' + ( settings.size || '40' ) + '" data-color="' + ( settings.color || color ) + '" data-font="PlayStation" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-input-tools">'+
           '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
+          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( settings.nofill ? 'checked' : '' ) + '>'+
           '<a href="#" class="fa fa-text-height tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-size" type="number" value="' + ( settings.size || '40' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<a href="#" class="fa fa-font tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><a class="fa fa-smile-o fa-caller layer-button" href="#" onclick="PS_Cover.FontAwesome.call(this);return false;" style="display:none;"></a>'+
           '<select class="cover-input-font" onchange="PS_Cover.updateInput(this);">'+
@@ -388,6 +392,7 @@
 
       ColorInpicker.init({ hide : true }); // create color pickers
       if (PS_Cover.isPS4) Inumber.init(); // create number input arrows
+      replaceCheckboxes(); // replace checkboxes w/custom ones
       PS_Cover.draw();
     },
 
@@ -700,6 +705,7 @@
 
         alert({
           'fa-eyedropper' : 'Click the color palette to select a color.',
+          'fa-adjust' : 'Click the checkbox to toggle between fill and nofill.',
           'fa-arrows' : 'Adjusts the overall size of this layer in percentages.',
           'fa-arrows-v' : 'Adjusts the height of this layer in pixels.',
           'fa-arrows-h' : 'Adjusts the width of this layer in pixels.',
@@ -829,4 +835,5 @@
     noScroll : 1
   });
 
+  replaceCheckboxes(); // replace checkboxes w/custom ones
 }());
