@@ -346,7 +346,7 @@
         row.innerHTML =
         '<div class="main-layer-input">'+
           '<img class="image-thumb" src="" alt="">'+
-          '<input class="main-input cover-image big" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="main-input cover-image med" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
           '<a class="fa fa-search image-caller layer-button" href="#" onclick="PS_Cover.Images.call(this);return false;"></a>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
@@ -368,7 +368,7 @@
         row.className += ' shape-layer';
         row.innerHTML =
         '<div class="main-layer-input">'+
-          '<select class="main-input cover-shape big" data-height="' + (settings.height || '50') + '" data-width="' + (settings.width || '50') + '" data-color="' + ( settings.color || color ) + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" onchange="PS_Cover.draw();">'+
+          '<select class="main-input cover-shape" data-height="' + (settings.height || '50') + '" data-width="' + (settings.width || '50') + '" data-color="' + ( settings.color || color ) + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" onchange="PS_Cover.draw();">'+
             '<option value="rect" selected>Rectangle</option>'+
             '<option value="tri">Triangle</option>'+
             '<option value="arc">Circle</option>'+
