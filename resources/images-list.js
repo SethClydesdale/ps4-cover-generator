@@ -260,6 +260,60 @@ PS_Cover.Images.list = {
       'http://i.imgur.com/JYMIegG.jpg',
       'http://i.imgur.com/RMzdJof.jpg'
     ]
+  },
+
+  'Street Fighter' : {
+    thumb : 'http://i.imgur.com/w4r0A2B.png',
+    images : [
+      // # RENDERS
+      // Ryu
+      'http://i.imgur.com/RdZ6y7s.png',
+      'http://i.imgur.com/alcOxvt.png',
+      'http://i.imgur.com/iM06QAC.png',
+      'http://i.imgur.com/9ltnCdz.png',
+      'http://i.imgur.com/j8T7Ofl.png',
+      'http://i.imgur.com/UcNwoaw.png',
+      // Ken
+      'http://i.imgur.com/jI6NAtt.png',
+      'http://i.imgur.com/U9VWJ3d.png',
+      'http://i.imgur.com/CH1Vf2q.png',
+      'http://i.imgur.com/xL44EHM.png',
+      'http://i.imgur.com/s2d4JFq.png',
+      // Chun Li
+      'http://i.imgur.com/U1yond5.png',
+      'http://i.imgur.com/rsmnuwO.png',
+      'http://i.imgur.com/W4tiXox.png',
+      'http://i.imgur.com/vAJPr7r.png',
+      // Juri
+      'http://i.imgur.com/YcuBUqu.png',
+      // Yun
+      'http://i.imgur.com/ZscFPQd.png',
+      // Cody
+      'http://i.imgur.com/Qpe7pbP.png',
+      // Kazuya
+      'http://i.imgur.com/gO1OeCj.png',
+      // Yang
+      'http://i.imgur.com/Yft9Pkr.png',
+      // Q
+      'http://i.imgur.com/yJhK2aK.png',
+
+      // BACKGROUND / WALLPAPERS
+      'http://i.imgur.com/X0SOoLR.jpg',
+      'http://i.imgur.com/weMw3nC.jpg',
+      'http://i.imgur.com/x89It3x.jpg',
+      'http://i.imgur.com/G30qRqX.jpg',
+      'http://i.imgur.com/YYQBbGV.jpg',
+      'http://i.imgur.com/0rLPthm.jpg',
+      'http://i.imgur.com/G0bx1T6.jpg',
+      'http://i.imgur.com/KE8fa9r.jpg',
+      'http://i.imgur.com/D3pGLc7.jpg',
+      'http://i.imgur.com/eYAqNYm.jpg',
+      'http://i.imgur.com/x3Lmqls.jpg',
+      'http://i.imgur.com/yn9SjIU.jpg',
+      'http://i.imgur.com/3KscPdf.jpg',
+      'http://i.imgur.com/xfU5CQF.jpg',
+      'http://i.imgur.com/gVPzj4O.jpg'
+    ]
   }
 
 };
