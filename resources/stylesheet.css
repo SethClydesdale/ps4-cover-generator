@@ -470,6 +470,8 @@ header {
   color:#FFF;
   background:#07C;
   padding:15px;
+  position:relative;
+  overflow:hidden;
 }
 
 header h1 {
