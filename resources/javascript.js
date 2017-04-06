@@ -57,11 +57,13 @@
             rotate : +input.dataset.rotate
 
           }, function () {
-            PS_Cover.ctx.fillStyle = input.dataset.color;
+            var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill';
+
+            PS_Cover.ctx[fill + 'Style'] = input.dataset.color;
 
             switch (input.value) {
               case 'rect' :
-                PS_Cover.ctx.fillRect(input.dataset.x, input.dataset.y, input.dataset.width, input.dataset.height);
+                PS_Cover.ctx.rect(input.dataset.x, input.dataset.y, input.dataset.width, input.dataset.height);
                 break;
 
               case 'tri' :
@@ -69,14 +71,15 @@
                 PS_Cover.ctx.moveTo(input.dataset.x, input.dataset.y);
                 PS_Cover.ctx.lineTo(+input.dataset.x - (+input.dataset.width / 2), +input.dataset.y + +input.dataset.height);
                 PS_Cover.ctx.lineTo(+input.dataset.x + (+input.dataset.width / 2), +input.dataset.y + +input.dataset.height);
-                PS_Cover.ctx.fill();
+                PS_Cover.ctx.lineTo(input.dataset.x, input.dataset.y);
                 break;
 
               case 'arc' :
                 PS_Cover.ctx.arc(input.dataset.x, input.dataset.y, input.dataset.height, 0, 2 * Math.PI);
-                PS_Cover.ctx.fill();
                 break;
             }
+
+            PS_Cover.ctx[fill]();
           });
         }
 
@@ -324,7 +327,7 @@
           '<input class="main-input cover-text big" type="text" value="' + (settings.value || '') + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-size="' + ( settings.size || '40' ) + '" data-color="' + ( settings.color || color ) + '" data-font="PlayStation" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
           PS_Cover.templates.layer_controls+
         '</div>'+
-        '<div class="cover-input-tools">'+
+        '<div class="cover-input-tools clear">'+
           '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
           '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( settings.nofill ? 'checked' : '' ) + '>'+
           '<a href="#" class="fa fa-text-height tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-size" type="number" value="' + ( settings.size || '40' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
@@ -347,7 +350,7 @@
           '<a class="fa fa-search image-caller layer-button" href="#" onclick="PS_Cover.Images.call(this);return false;"></a>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
-        '<div class="cover-input-tools">'+
+        '<div class="cover-input-tools clear">'+
           '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           coords +
         '</div>';
@@ -365,15 +368,16 @@
         row.className += ' shape-layer';
         row.innerHTML =
         '<div class="main-layer-input">'+
-          '<select class="main-input cover-shape big" data-height="' + (settings.height || '50') + '" data-width="' + (settings.width || '50') + '" data-color="' + ( settings.color || color ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" onchange="PS_Cover.draw();">'+
+          '<select class="main-input cover-shape big" data-height="' + (settings.height || '50') + '" data-width="' + (settings.width || '50') + '" data-color="' + ( settings.color || color ) + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" onchange="PS_Cover.draw();">'+
             '<option value="rect" selected>Rectangle</option>'+
             '<option value="tri">Triangle</option>'+
             '<option value="arc">Circle</option>'+
           '</select>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
-        '<div class="cover-input-tools">'+
+        '<div class="cover-input-tools clear">'+
           '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
+          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( settings.nofill ? 'checked' : '' ) + '>'+
           '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<a href="#" class="fa fa-arrows-h tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-width" type="number" value="' + ( settings.width || '50' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<a href="#" class="fa fa-arrows-v tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-height" type="number" value="' + ( settings.height || '50' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
