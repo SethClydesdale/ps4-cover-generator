@@ -499,14 +499,26 @@ header h1 { float:left; }
   float:right;
 }
 
-.header-links a {
-  color:#333;
-  background:#FFF;
+.header-links a:first-child {
+  color:#FFF;
+  background:#333;
   font-size:16px;
   font-weight:bold;
+  text-align:center;
   text-transform:uppercase;
-  padding:6px 12px;
-  border-radius:3px;
+  line-height:30px;
+  height:30px;
+  width:200px;
+  transform:rotate(45deg);
+  position:absolute;
+  right:-55px;
+  top:30px;
+  transition:300ms;
+}
+
+.header-links a:first-child:hover {
+  color:#333;
+  background:#FFF;
 }
 
 
