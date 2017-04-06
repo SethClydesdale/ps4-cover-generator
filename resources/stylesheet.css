@@ -784,6 +784,12 @@ footer a:active { color:#FF8; }
   width:24px;
   margin-left:-27px;
   margin-top:3px;
+  opacity:0.3;
+  transition:300ms;
+}
+
+[data-inumbered="true"]:hover + .Inumber-arrows, .Inumber-arrows:hover {
+  opacity:1;
 }
 
 .Inumber-arrows > span {
