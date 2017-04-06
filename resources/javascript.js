@@ -218,12 +218,18 @@
       if (!PS_Cover.moving && caller != 'stop') {
         PS_Cover.moving = true;
 
-        var input = caller.parentsUntil('.cover-layer').querySelector('.main-input'),
+        var row = caller.parentsUntil('.cover-layer'),
+            input = row.querySelector('.main-input'),
+            raw = {
+              x : row.querySelector('.cover-input-x'),
+              y : row.querySelector('.cover-input-y')
+            },
             coord = /up|down/.test(caller.className) ? 'y' : 'x',
             amount = /up|left/.test(caller.className) ? -1 : +1;
 
         PS_Cover.mover = window.setInterval(function () {
           input.dataset[coord] = +input.dataset[coord] + amount;
+          raw[coord].value = input.dataset[coord];
           PS_Cover.draw();
         }, 1);
 
@@ -282,6 +288,10 @@
 
       row.className = 'tools-row cover-layer';
 
+      coords = PS_Cover.templates.layer_coords
+      .replace('value="0"', 'value="' + (settings.x || '0') + '"')
+      .replace('value="0"', 'value="' + (settings.y || '0') + '"');
+
       // adds a text layer
       if (type == 'text') {
         color = PS_Cover.randomColor();
@@ -318,6 +328,7 @@
           '<select class="cover-input-font" onchange="PS_Cover.updateInput(this);">'+
             opts+
           '</select>'+
+          coords +
         '</div>';
       }
 
@@ -334,6 +345,7 @@
         '</div>'+
         '<div class="cover-input-tools">'+
           '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+          coords +
         '</div>';
 
         if (!settings.value) {
@@ -361,6 +373,7 @@
           '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<a href="#" class="fa fa-arrows-h tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-width" type="number" value="' + ( settings.width || '50' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<a href="#" class="fa fa-arrows-v tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-height" type="number" value="' + ( settings.height || '50' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+          coords +
         '</div>';
       }
 
@@ -574,6 +587,12 @@
         '<a class="fa fa-times" href="#" onclick="PS_Cover.deleteLayer(this); return false;"></a>'+
       '</div>',
 
+      layer_coords :
+      '<div class="layer-coords">'+
+        '<a href="#" class="layer-coords-x tools-icon" onclick="PS_Cover.help(this.className); return false;">X</a><input class="cover-input-x" value="0" type="number" oninput="PS_Cover.updateInput(this);">'+
+        '<a href="#" class="layer-coords-y tools-icon" onclick="PS_Cover.help(this.className); return false;">Y</a><input class="cover-input-y" value="0" type="number" oninput="PS_Cover.updateInput(this);">'+
+      '</div>',
+
       Images : {
         close : '<a class="select-image-button select-image-close" href="#" onclick="PS_Cover.Images.close();return false;"><i class="fa fa-times"></i> Close</a>',
         request : '<a class="select-image-request" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Requesting-Images" target="_blank">Request Images</a>'
@@ -679,31 +698,17 @@
       if (className) {
         className = className.replace(/fa | tools-icon/g, '');
 
-        switch (className) {
-          case 'fa-eyedropper' :
-            alert('Click the color palette to select a color.');
-            break;
+        alert({
+          'fa-eyedropper' : 'Click the color palette to select a color.',
+          'fa-arrows' : 'Adjusts the overall size of this layer in percentages.',
+          'fa-arrows-v' : 'Adjusts the height of this layer in pixels.',
+          'fa-arrows-h' : 'Adjusts the width of this layer in pixels.',
+          'fa-text-height' : 'Adjusts the font size of this layer in pixels.',
+          'fa-font' : 'Click the drop down to select a font.',
+          'layer-coords-x' : 'Adjusts the horizontal position of this layer in pixels.',
+          'layer-coords-y' : 'Adjusts the vertical position of this layer in pixels.'
+        }[className]);
 
-          case 'fa-arrows' :
-            alert('Adjusts the overall size of this layer in percentages.');
-            break;
-
-          case 'fa-arrows-v' :
-            alert('Adjusts the height of this layer in pixels.');
-            break;
-
-          case 'fa-arrows-h' :
-            alert('Adjusts the width of this layer in pixels.');
-            break;
-
-          case 'fa-text-height' :
-            alert('Adjusts the font size of this layer in pixels.');
-            break;
-
-          case 'fa-font' :
-            alert('Click the drop down to select a font.');
-            break;
-        }
       }
     },
 

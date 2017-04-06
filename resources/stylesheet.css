@@ -245,7 +245,9 @@ a:active { color:#049; }
 
 /* layer controls */
 .main-layer-input { margin-top:10px; }
+.cover-input-tools { margin-top:6px; }
 
+.layer-coords { float:right; }
 .layer-controls {
   float:right;
   margin-top:-10px;
