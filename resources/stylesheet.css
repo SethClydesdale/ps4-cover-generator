@@ -234,7 +234,7 @@ a:active { color:#049; }
 .shape-layer:before { content:"Shape"; }
 .shape-layer:after { content:"\f111"; }
 
-.image-thumb {
+.layer-thumb {
   border:1px solid #CCC;
   height:40px;
   width:40px;

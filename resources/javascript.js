@@ -57,34 +57,59 @@
             rotate : +input.dataset.rotate
 
           }, function () {
-            var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill';
+            var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill',
+                thumb = input.previousSibling.getContext('2d');
 
-            PS_Cover.ctx.beginPath();
-            PS_Cover.ctx[fill + 'Style'] = input.dataset.color;
+            PS_Cover.drawShape(input.value, {
+              style : fill,
+              color : input.dataset.color,
+              x : +input.dataset.x,
+              y : +input.dataset.y,
+              height : +input.dataset.height,
+              width : +input.dataset.width
+            }, PS_Cover.ctx);
 
-            switch (input.value) {
-              case 'rect' :
-                PS_Cover.ctx.rect(input.dataset.x, input.dataset.y, input.dataset.width, input.dataset.height);
-                break;
+            thumb.clearRect(0, 0, 40, 40);
+            PS_Cover.drawShape(input.value, {
+              style : fill,
+              color : input.dataset.color,
+              x : /tri|arc/.test(input.value) ? 20 : 5,
+              y : input.value == 'arc' ? 20 : 5,
+              height : input.value == 'arc' ? 15 : 30,
+              width : 30
+            }, thumb);
 
-              case 'tri' :
-                PS_Cover.ctx.moveTo(input.dataset.x, input.dataset.y);
-                PS_Cover.ctx.lineTo(+input.dataset.x - (+input.dataset.width / 2), +input.dataset.y + +input.dataset.height);
-                PS_Cover.ctx.lineTo(+input.dataset.x + (+input.dataset.width / 2), +input.dataset.y + +input.dataset.height);
-                PS_Cover.ctx.closePath();
-                break;
-
-              case 'arc' :
-                PS_Cover.ctx.arc(input.dataset.x, input.dataset.y, input.dataset.height, 0, 2 * Math.PI);
-                break;
-            }
-
-            PS_Cover.ctx[fill]();
           });
         }
 
       }
 
+    },
+
+
+    // draw a shape onto the canvas
+    drawShape : function (shape, config, ctx) {
+      ctx.beginPath();
+      ctx[config.style + 'Style'] = config.color;
+
+      switch (shape) {
+        case 'rect' :
+          ctx.rect(config.x, config.y, config.width, config.height);
+          break;
+
+        case 'tri' :
+          ctx.moveTo(config.x, config.y);
+          ctx.lineTo(config.x - (config.width / 2), config.y + config.height);
+          ctx.lineTo(config.x + (config.width / 2), config.y + config.height);
+          ctx.closePath();
+          break;
+
+        case 'arc' :
+          ctx.arc(config.x, config.y, config.height, 0, 2 * Math.PI);
+          break;
+      }
+
+      ctx[config.style]();
     },
 
 
@@ -345,7 +370,7 @@
         row.className += ' image-layer';
         row.innerHTML =
         '<div class="main-layer-input">'+
-          '<img class="image-thumb" src="" alt="">'+
+          '<img class="layer-thumb" src="" alt="">'+
           '<input class="main-input cover-image med" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
           '<a class="fa fa-search image-caller layer-button" href="#" onclick="PS_Cover.Images.call(this);return false;"></a>'+
           PS_Cover.templates.layer_controls+
@@ -368,6 +393,7 @@
         row.className += ' shape-layer';
         row.innerHTML =
         '<div class="main-layer-input">'+
+          '<canvas class="layer-thumb" width="40" height="40"></canvas>'+
           '<select class="main-input cover-shape" data-height="' + (settings.height || '50') + '" data-width="' + (settings.width || '50') + '" data-color="' + ( settings.color || color ) + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" onchange="PS_Cover.draw();">'+
             '<option value="rect" selected>Rectangle</option>'+
             '<option value="tri">Triangle</option>'+
