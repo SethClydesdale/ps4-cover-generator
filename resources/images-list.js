@@ -1,41 +1,115 @@
 PS_Cover.Images.list = {
-  'Uncharted' : {
-    thumb : 'http://i.imgur.com/hHEH0MP.png',
+  'Battlefield' : {
+    thumb : 'http://i.imgur.com/BqudQ4r.png',
     images : [
       // # RENDERS
-      // Nate
-      'http://i.imgur.com/2ntT1JF.png',
-      'http://i.imgur.com/PAWQZk5.png',
-      'http://i.imgur.com/geHq6wW.png',
-      // Elena
-      'http://i.imgur.com/V1qEW6L.png',
-      'http://i.imgur.com/E6eEnaP.png',
-      // Chloe
-      'http://i.imgur.com/krM7GTn.png',
-      // Sully
-      'http://i.imgur.com/wDRSDgr.png',
-      // Eddy
-      'http://i.imgur.com/tBeQTzq.png',
-      // Flynn
-      'http://i.imgur.com/cNUGqP9.png',
+      'http://i.imgur.com/w7lslOn.png',
+      'http://i.imgur.com/MHBtis3.png',
+      'http://i.imgur.com/JtvMwJq.png',
+      'http://i.imgur.com/eqWykqO.png',
+      'http://i.imgur.com/UGWnTKV.png',
+      'http://i.imgur.com/4Lybltz.png',
+      'http://i.imgur.com/Zm7YbnA.png',
+      'http://i.imgur.com/rhKoAl1.png',
+      'http://i.imgur.com/gIPbKcS.png',
+      'http://i.imgur.com/GBqVs6v.png',
+      'http://i.imgur.com/y7Acv20.png',
+      'http://i.imgur.com/w9sorWC.png',
+
+      // BACKGROUND / WALLPAPERS
+      'http://i.imgur.com/ihZ9f9h.jpg',
+      'http://i.imgur.com/85iZfAi.jpg',
+      'http://i.imgur.com/3EOhi3h.jpg',
+      'http://i.imgur.com/sQWdGdb.jpg',
+      'http://i.imgur.com/J1Kc15K.jpg',
+      'http://i.imgur.com/RKxIcEz.jpg',
+      'http://i.imgur.com/GoYuVSz.png',
+      'http://i.imgur.com/vFF8qAr.jpg',
+      'http://i.imgur.com/jkFB4QJ.jpg',
+      'http://i.imgur.com/3Ol6hrs.jpg',
+      'http://i.imgur.com/Sxsia3z.jpg',
+      'http://i.imgur.com/UCTquAD.png',
+      'http://i.imgur.com/urOktGa.jpg',
+      'http://i.imgur.com/a3Bax86.jpg',
+      'http://i.imgur.com/993gcdJ.jpg',
+      'http://i.imgur.com/fzNLXA0.jpg',
+      'http://i.imgur.com/cVq5mSb.jpg',
+      'http://i.imgur.com/8EXjZE4.jpg',
+      'http://i.imgur.com/qeYVB4s.jpg'
+    ]
+  },
+
+  'God of War' : {
+    thumb : 'http://i.imgur.com/mmJMbCA.png',
+    images : [
+      // # RENDERS
+      // Kratos
+      'http://i.imgur.com/PCLPgfc.png',
+      'http://i.imgur.com/t0MG7Bs.png',
+      'http://i.imgur.com/3Bjm5BH.png',
+      'http://i.imgur.com/him2cPx.png',
+      'http://i.imgur.com/sCsItGE.png',
+      'http://i.imgur.com/DM2LkIz.png',
+      'http://i.imgur.com/H6itRrq.png',
+      'http://i.imgur.com/6j0nadU.png',
+      'http://i.imgur.com/2Ks6Bsr.png',
+      'http://i.imgur.com/UN9641g.png',
+      'http://i.imgur.com/mS9SFXJ.png',
+      'http://i.imgur.com/qvxGVWB.png',
+      'http://i.imgur.com/PGElfXy.jpg',
 
       // # BACKGROUNDS / WALLPAPERS
-      // UC4
-      'http://i.imgur.com/I0y94qq.jpg',
-      'http://i.imgur.com/N24My8i.jpg',
-      'http://i.imgur.com/8lRjUvp.jpg',
-      'http://i.imgur.com/qKZjPFG.jpg',
-      'http://i.imgur.com/sHh6UdF.jpg',
-      // UC3
-      'http://i.imgur.com/U5gcOmq.jpg',
-      'http://i.imgur.com/HfV0Z8W.jpg',
-      'http://i.imgur.com/NoEdJgX.jpg',
-      // UC2
-      'http://i.imgur.com/2CdQcAx.jpg',
-      'http://i.imgur.com/sT9HdZg.jpg',
-      'http://i.imgur.com/qtTLT4M.jpg',
-      // UC1
-      'http://i.imgur.com/Wwtg7IU.jpg'
+      'http://i.imgur.com/0fBqUQZ.jpg',
+      'http://i.imgur.com/dAvsuiZ.jpg',
+      'http://i.imgur.com/wq06CUv.jpg',
+      'http://i.imgur.com/J4pUL6x.jpg',
+      'http://i.imgur.com/PeRmqun.jpg',
+      'http://i.imgur.com/2GADZSs.jpg',
+      'http://i.imgur.com/VquEJHX.jpg',
+      'http://i.imgur.com/ovAzS8b.jpg',
+      'http://i.imgur.com/16OI4lZ.jpg',
+      'http://i.imgur.com/nZOYUKM.jpg',
+      'http://i.imgur.com/x5kaTey.jpg',
+      'http://i.imgur.com/QNDBXuj.jpg',
+      'http://i.imgur.com/fClFeQF.jpg'
+    ]
+  },
+
+  'Gran Turismo' : {
+    thumb : 'http://i.imgur.com/4UrmSgv.png',
+    images : [
+      // # RENDERS
+      'http://i.imgur.com/fBB2e5T.png',
+      'http://i.imgur.com/M4MxJzN.png',
+      'http://i.imgur.com/4vvvktp.png',
+      'http://i.imgur.com/yeiNNyi.png',
+      'http://i.imgur.com/YZrAFie.png',
+      'http://i.imgur.com/SEg9cyL.png',
+      'http://i.imgur.com/u6G5c7O.png',
+      'http://i.imgur.com/zm5iQTP.png',
+      'http://i.imgur.com/7qHxc9y.png',
+
+      // BACKGROUND / WALLPAPERS
+      'http://i.imgur.com/V7Xk2dz.jpg',
+      'http://i.imgur.com/ZzkJSG2.jpg',
+      'http://i.imgur.com/pKt9H0B.jpg',
+      'http://i.imgur.com/pBhTInp.jpg',
+      'http://i.imgur.com/RkC1Hzr.jpg',
+      'http://i.imgur.com/qbBD9d7.jpg',
+      'http://i.imgur.com/ESFLE95.jpg',
+      'http://i.imgur.com/gx4RUBp.jpg',
+      'http://i.imgur.com/fxGU1fD.jpg',
+      'http://i.imgur.com/NSSVUYm.jpg',
+      'http://i.imgur.com/DOozYUQ.jpg',
+      'http://i.imgur.com/C0xx5cS.jpg',
+      'http://i.imgur.com/s279rCY.jpg',
+      'http://i.imgur.com/CwOgU6F.jpg',
+      'http://i.imgur.com/KF0R4gN.jpg',
+      'http://i.imgur.com/j0Curg8.jpg',
+      'http://i.imgur.com/D3YJ1nh.jpg',
+      'http://i.imgur.com/bmz5ZNQ.jpg',
+      'http://i.imgur.com/JYMIegG.jpg',
+      'http://i.imgur.com/RMzdJof.jpg'
     ]
   },
 
@@ -83,42 +157,6 @@ PS_Cover.Images.list = {
       'http://i.imgur.com/Wrj9iC2.jpg',
       'http://i.imgur.com/TyhrVfc.jpg',
       'http://i.imgur.com/LEHX87S.jpg'
-    ]
-  },
-
-  'God of War' : {
-    thumb : 'http://i.imgur.com/mmJMbCA.png',
-    images : [
-      // # RENDERS
-      // Kratos
-      'http://i.imgur.com/PCLPgfc.png',
-      'http://i.imgur.com/t0MG7Bs.png',
-      'http://i.imgur.com/3Bjm5BH.png',
-      'http://i.imgur.com/him2cPx.png',
-      'http://i.imgur.com/sCsItGE.png',
-      'http://i.imgur.com/DM2LkIz.png',
-      'http://i.imgur.com/H6itRrq.png',
-      'http://i.imgur.com/6j0nadU.png',
-      'http://i.imgur.com/2Ks6Bsr.png',
-      'http://i.imgur.com/UN9641g.png',
-      'http://i.imgur.com/mS9SFXJ.png',
-      'http://i.imgur.com/qvxGVWB.png',
-      'http://i.imgur.com/PGElfXy.jpg',
-
-      // # BACKGROUNDS / WALLPAPERS
-      'http://i.imgur.com/0fBqUQZ.jpg',
-      'http://i.imgur.com/dAvsuiZ.jpg',
-      'http://i.imgur.com/wq06CUv.jpg',
-      'http://i.imgur.com/J4pUL6x.jpg',
-      'http://i.imgur.com/PeRmqun.jpg',
-      'http://i.imgur.com/2GADZSs.jpg',
-      'http://i.imgur.com/VquEJHX.jpg',
-      'http://i.imgur.com/ovAzS8b.jpg',
-      'http://i.imgur.com/16OI4lZ.jpg',
-      'http://i.imgur.com/nZOYUKM.jpg',
-      'http://i.imgur.com/x5kaTey.jpg',
-      'http://i.imgur.com/QNDBXuj.jpg',
-      'http://i.imgur.com/fClFeQF.jpg'
     ]
   },
 
@@ -224,44 +262,6 @@ PS_Cover.Images.list = {
     ]
   },
 
-  'Gran Turismo' : {
-    thumb : 'http://i.imgur.com/4UrmSgv.png',
-    images : [
-      // # RENDERS
-      'http://i.imgur.com/fBB2e5T.png',
-      'http://i.imgur.com/M4MxJzN.png',
-      'http://i.imgur.com/4vvvktp.png',
-      'http://i.imgur.com/yeiNNyi.png',
-      'http://i.imgur.com/YZrAFie.png',
-      'http://i.imgur.com/SEg9cyL.png',
-      'http://i.imgur.com/u6G5c7O.png',
-      'http://i.imgur.com/zm5iQTP.png',
-      'http://i.imgur.com/7qHxc9y.png',
-
-      // BACKGROUND / WALLPAPERS
-      'http://i.imgur.com/V7Xk2dz.jpg',
-      'http://i.imgur.com/ZzkJSG2.jpg',
-      'http://i.imgur.com/pKt9H0B.jpg',
-      'http://i.imgur.com/pBhTInp.jpg',
-      'http://i.imgur.com/RkC1Hzr.jpg',
-      'http://i.imgur.com/qbBD9d7.jpg',
-      'http://i.imgur.com/ESFLE95.jpg',
-      'http://i.imgur.com/gx4RUBp.jpg',
-      'http://i.imgur.com/fxGU1fD.jpg',
-      'http://i.imgur.com/NSSVUYm.jpg',
-      'http://i.imgur.com/DOozYUQ.jpg',
-      'http://i.imgur.com/C0xx5cS.jpg',
-      'http://i.imgur.com/s279rCY.jpg',
-      'http://i.imgur.com/CwOgU6F.jpg',
-      'http://i.imgur.com/KF0R4gN.jpg',
-      'http://i.imgur.com/j0Curg8.jpg',
-      'http://i.imgur.com/D3YJ1nh.jpg',
-      'http://i.imgur.com/bmz5ZNQ.jpg',
-      'http://i.imgur.com/JYMIegG.jpg',
-      'http://i.imgur.com/RMzdJof.jpg'
-    ]
-  },
-
   'Street Fighter' : {
     thumb : 'http://i.imgur.com/w4r0A2B.png',
     images : [
@@ -313,6 +313,46 @@ PS_Cover.Images.list = {
       'http://i.imgur.com/3KscPdf.jpg',
       'http://i.imgur.com/xfU5CQF.jpg',
       'http://i.imgur.com/gVPzj4O.jpg'
+    ]
+  },
+
+  'Uncharted' : {
+    thumb : 'http://i.imgur.com/hHEH0MP.png',
+    images : [
+      // # RENDERS
+      // Nate
+      'http://i.imgur.com/2ntT1JF.png',
+      'http://i.imgur.com/PAWQZk5.png',
+      'http://i.imgur.com/geHq6wW.png',
+      // Elena
+      'http://i.imgur.com/V1qEW6L.png',
+      'http://i.imgur.com/E6eEnaP.png',
+      // Chloe
+      'http://i.imgur.com/krM7GTn.png',
+      // Sully
+      'http://i.imgur.com/wDRSDgr.png',
+      // Eddy
+      'http://i.imgur.com/tBeQTzq.png',
+      // Flynn
+      'http://i.imgur.com/cNUGqP9.png',
+
+      // # BACKGROUNDS / WALLPAPERS
+      // UC4
+      'http://i.imgur.com/I0y94qq.jpg',
+      'http://i.imgur.com/N24My8i.jpg',
+      'http://i.imgur.com/8lRjUvp.jpg',
+      'http://i.imgur.com/qKZjPFG.jpg',
+      'http://i.imgur.com/sHh6UdF.jpg',
+      // UC3
+      'http://i.imgur.com/U5gcOmq.jpg',
+      'http://i.imgur.com/HfV0Z8W.jpg',
+      'http://i.imgur.com/NoEdJgX.jpg',
+      // UC2
+      'http://i.imgur.com/2CdQcAx.jpg',
+      'http://i.imgur.com/sT9HdZg.jpg',
+      'http://i.imgur.com/qtTLT4M.jpg',
+      // UC1
+      'http://i.imgur.com/Wwtg7IU.jpg'
     ]
   }
 
