@@ -516,7 +516,7 @@
       call : function (caller) {
         if (!PS_Cover.Images.list) {
           var script = document.createElement('SCRIPT');
-          script.src = 'resources/images-list.js';
+          script.src = 'resources/images-list.min.js';
           document.body.appendChild(script);
         }
 
