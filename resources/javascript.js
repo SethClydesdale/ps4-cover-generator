@@ -105,7 +105,7 @@
           break;
 
         case 'arc' :
-          ctx.arc(config.x, config.y, config.height, 0, 2 * Math.PI);
+          ctx.arc(config.x, config.y, config.height / 2, 0, 2 * Math.PI);
           break;
       }
 
