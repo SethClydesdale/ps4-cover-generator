@@ -12,3 +12,4 @@ https://sethclydesdale.github.io/ps4-cover-generator/
   - Github - SethClydesdale
   - Twitter - @SethC1995
   - PSN - Seth9977
+- You can also join our community on PS4. Just search for "PS4 Cover Generator"
