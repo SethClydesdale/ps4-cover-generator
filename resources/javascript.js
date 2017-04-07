@@ -75,7 +75,7 @@
               color : input.dataset.color,
               x : /tri|arc/.test(input.value) ? 20 : 5,
               y : input.value == 'arc' ? 20 : 5,
-              height : input.value == 'arc' ? 15 : 30,
+              height : 30,
               width : 30
             }, thumb);
 
@@ -105,7 +105,7 @@
           break;
 
         case 'arc' :
-          ctx.arc(config.x, config.y, config.height / 2, 0, 2 * Math.PI);
+          ctx.arc(config.x, config.y, (config.width + config.height) / 4, 0, 2 * Math.PI);
           break;
       }
 
