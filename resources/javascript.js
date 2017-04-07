@@ -59,6 +59,7 @@
           }, function () {
             var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill';
 
+            PS_Cover.ctx.beginPath();
             PS_Cover.ctx[fill + 'Style'] = input.dataset.color;
 
             switch (input.value) {
@@ -67,11 +68,10 @@
                 break;
 
               case 'tri' :
-                PS_Cover.ctx.beginPath();
                 PS_Cover.ctx.moveTo(input.dataset.x, input.dataset.y);
                 PS_Cover.ctx.lineTo(+input.dataset.x - (+input.dataset.width / 2), +input.dataset.y + +input.dataset.height);
                 PS_Cover.ctx.lineTo(+input.dataset.x + (+input.dataset.width / 2), +input.dataset.y + +input.dataset.height);
-                PS_Cover.ctx.lineTo(input.dataset.x, input.dataset.y);
+                PS_Cover.ctx.closePath();
                 break;
 
               case 'arc' :
