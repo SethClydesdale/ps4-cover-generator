@@ -32,14 +32,16 @@
 
           PS_Cover.loadImage(img, input.dataset.x, input.dataset.y, input, {
             scale : +input.dataset.scale / 100,
-            rotate : +input.dataset.rotate
+            rotate : +input.dataset.rotate,
+            opacity : +input.dataset.opacity / 100
           });
 
         } else if (/text-layer/.test(layer[i].className)) {
           input = layer[i].querySelector('.main-input');
 
           PS_Cover.transform({
-            rotate : +input.dataset.rotate
+            rotate : +input.dataset.rotate,
+            opacity : +input.dataset.opacity / 100
 
           }, function () {
             var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill';
@@ -54,7 +56,8 @@
 
           PS_Cover.transform({
             scale : +input.dataset.scale / 100,
-            rotate : +input.dataset.rotate
+            rotate : +input.dataset.rotate,
+            opacity : +input.dataset.opacity / 100
 
           }, function () {
             var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill',
@@ -118,7 +121,8 @@
       if (img.complete) {
         PS_Cover.transform({
           scale : transform.scale,
-          rotate : transform.rotate
+          rotate : transform.rotate,
+          opacity : transform.opacity
 
         }, function () {
           PS_Cover.ctx.drawImage(img, x, y);
@@ -128,7 +132,8 @@
         img.addEventListener('load', function () {
           PS_Cover.transform({
             scale : transform.scale,
-            rotate : transform.rotate
+            rotate : transform.rotate,
+            opacity : transform.opacity
 
           }, function () {
             PS_Cover.ctx.drawImage(img, x, y);
@@ -190,6 +195,11 @@
     // adjusts the scale of a single canvas element
     transform : function (config, callback) {
       PS_Cover.ctx.save();
+
+      if (typeof config.opacity != 'undefined') {
+        PS_Cover.ctx.globalAlpha = config.opacity;
+
+      }
 
       if (config.scale) {
         PS_Cover.ctx.scale(config.scale, config.scale);
@@ -349,12 +359,13 @@
         row.className += ' text-layer';
         row.innerHTML =
         '<div class="main-layer-input">'+
-          '<input class="main-input cover-text big" type="text" value="' + (settings.value || '') + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-size="' + ( settings.size || '40' ) + '" data-color="' + ( settings.color || color ) + '" data-font="PlayStation" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="main-input cover-text med" type="text" value="' + (settings.value || '') + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-size="' + ( settings.size || '40' ) + '" data-opacity="' + ( settings.opacity || '100' ) + '" data-color="' + ( settings.color || color ) + '" data-font="PlayStation" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
+          '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
+          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( settings.nofill ? 'checked' : '' ) + '>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-input-tools clear">'+
-          '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
-          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( settings.nofill ? 'checked' : '' ) + '>'+
+          '<a href="#" class="fa fa-low-vision tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-opacity" min="0" max="100" type="number" value="' + ( settings.opacity || '100' ) + '" oninput="PS_Cover.updateInput(this);">'+
           '<a href="#" class="fa fa-text-height tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-size" type="number" value="' + ( settings.size || '40' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<a href="#" class="fa fa-font tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><a class="fa fa-smile-o fa-caller layer-button" href="#" onclick="PS_Cover.FontAwesome.call(this);return false;" style="display:none;"></a>'+
           '<select class="cover-input-font" onchange="PS_Cover.updateInput(this);">'+
@@ -371,11 +382,12 @@
         row.innerHTML =
         '<div class="main-layer-input">'+
           '<img class="layer-thumb" src="" alt="">'+
-          '<input class="main-input cover-image med" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="main-input cover-image med" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-opacity="' + ( settings.opacity || '100' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
           '<a class="fa fa-search image-caller layer-button" href="#" onclick="PS_Cover.Images.call(this);return false;"></a>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-input-tools clear">'+
+          '<a href="#" class="fa fa-low-vision tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-opacity" min="0" max="100" type="number" value="' + ( settings.opacity || '100' ) + '" oninput="PS_Cover.updateInput(this);">'+
           '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           coords +
         '</div>';
@@ -394,16 +406,17 @@
         row.innerHTML =
         '<div class="main-layer-input">'+
           '<canvas class="layer-thumb" width="40" height="40"></canvas>'+
-          '<select class="main-input cover-shape" data-height="' + (settings.height || '50') + '" data-width="' + (settings.width || '50') + '" data-color="' + ( settings.color || color ) + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" onchange="PS_Cover.draw();">'+
+          '<select class="main-input cover-shape" data-height="' + (settings.height || '50') + '" data-width="' + (settings.width || '50') + '" data-color="' + ( settings.color || color ) + '" data-opacity="' + ( settings.opacity || '100' ) + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" onchange="PS_Cover.draw();">'+
             '<option value="rect" selected>Rectangle</option>'+
             '<option value="tri">Triangle</option>'+
             '<option value="arc">Circle</option>'+
           '</select>'+
+          '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
+          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( settings.nofill ? 'checked' : '' ) + '>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-input-tools clear">'+
-          '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
-          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( settings.nofill ? 'checked' : '' ) + '>'+
+          '<a href="#" class="fa fa-low-vision tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-opacity" min="0" max="100" type="number" value="' + ( settings.opacity || '100' ) + '" oninput="PS_Cover.updateInput(this);">'+
           '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<a href="#" class="fa fa-arrows-h tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-width" type="number" value="' + ( settings.width || '50' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<a href="#" class="fa fa-arrows-v tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-height" type="number" value="' + ( settings.height || '50' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
@@ -734,15 +747,16 @@
         className = className.replace(/fa | tools-icon/g, '');
 
         alert({
+          'fa-low-vision' : 'Adjusts the opacity (or visibility) of this layer. (In percentages)',
           'fa-eyedropper' : 'Click the color palette to select a color.',
           'fa-adjust' : 'Click the checkbox to toggle between fill and nofill.',
-          'fa-arrows' : 'Adjusts the overall size of this layer in percentages.',
-          'fa-arrows-v' : 'Adjusts the height of this layer in pixels.',
-          'fa-arrows-h' : 'Adjusts the width of this layer in pixels.',
-          'fa-text-height' : 'Adjusts the font size of this layer in pixels.',
+          'fa-arrows' : 'Adjusts the overall size of this layer. (In percentages)',
+          'fa-arrows-v' : 'Adjusts the height of this layer. (In pixels)',
+          'fa-arrows-h' : 'Adjusts the width of this layer. (In pixels)',
+          'fa-text-height' : 'Adjusts the font size of this layer. (In pixels)',
           'fa-font' : 'Click the drop down to select a font.',
-          'layer-coords-x' : 'Adjusts the horizontal position of this layer in pixels.',
-          'layer-coords-y' : 'Adjusts the vertical position of this layer in pixels.'
+          'layer-coords-x' : 'Adjusts the horizontal position of this layer. (In pixels)',
+          'layer-coords-y' : 'Adjusts the vertical position of this layer. (In pixels)'
         }[className]);
 
       }
