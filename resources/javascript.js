@@ -875,7 +875,7 @@
 
   // create example presets
   PS_Cover.add('image', {
-    value : 'http://i.imgur.com/OXtas9o.png',
+    value : 'https://i.imgur.com/OXtas9o.png',
     x : (PS_Cover.canvas.width / 2) - 100,
     y : (PS_Cover.canvas.height / 2) - 100,
     noScroll : 1
