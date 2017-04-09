@@ -42,7 +42,7 @@ PS_Cover.Tutorial.focus = function () {
     }
 
     if (step.focus.jump) {
-      document.body.scrollTop = a[0].offsetTop - 200;
+      document.body.scrollTop = a[0].offsetTop - 210;
     }
 
     if (step.focus.event) {

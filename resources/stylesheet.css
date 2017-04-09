@@ -683,9 +683,10 @@ footer a:active { color:#FF8; }
 }
 
 .ps-button.cross:after {
-  content:"X";
+  content:"\f00d";
   color:#a1a9d5;
   font-size:20px;
+  font-family:FontAwesome;
   font-style:normal;
   text-align:center;
   position:absolute;
@@ -1095,7 +1096,7 @@ a.select-image-request:active { background:#05A; }
 [data-tutorial-event="true"] {
   pointer-events:auto !important;
   opacity:1 !important;
-  outline:#0F0 dashed 5px !important;
+  outline:#0F0 solid 5px !important;
   animation:event ease-in infinite 1.5s;
 }
 
@@ -1129,11 +1130,13 @@ a.select-image-request:active { background:#05A; }
 @media (max-height:800px) {
   #cover-tools-title { bottom:300px; }
   #cover-tools { height:300px; }
+  #help-me { bottom:301px; }
   #cover-tools-offset { margin-bottom:330px; }
 }
 
 @media (max-height:600px) {
   #cover-tools-title { bottom:200px; }
   #cover-tools { height:200px; }
+  #help-me { bottom:201px; }
   #cover-tools-offset { margin-bottom:230px; }
 }
