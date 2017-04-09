@@ -535,7 +535,7 @@
 
           if (PS_Cover.Images.list) {
             for (i in PS_Cover.Images.list) {
-              str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + PS_Cover.Images.list[i].thumb + ')"><span class="select-image-total">' + (PS_Cover.Images.list[i].images.length + 1) + ' images</span></a>';
+              str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + ( /^http/.test(PS_Cover.Images.list[i].thumb) ? '' : PS_Cover.Images.host ) + PS_Cover.Images.list[i].thumb + ')"><span class="select-image-total">' + (PS_Cover.Images.list[i].images.length + 1) + ' images</span></a>';
             }
           } else {
             str +=
@@ -574,12 +574,12 @@
                   + PS_Cover.templates.Images.close +
                   '<div id="select-image-container" onscroll="PS_Cover.Images.fadeInOut();">'+
                     '<div id="select-image-list" class="clear">'+
-                      '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + PS_Cover.Images.list[category].thumb + '"></a>',
+                      '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[category].thumb) ? '' : PS_Cover.Images.host) + PS_Cover.Images.list[category].thumb + '"></a>',
             i = 0,
             j = PS_Cover.Images.list[category].images.length;
 
         for (; i < j; i++) {
-          str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/imgur/.test(PS_Cover.Images.list[category].images[i]) ? PS_Cover.Images.list[category].images[i].replace(/(\.[^\.]*?)$/, 'm$1') : PS_Cover.Images.list[category].images[i]) + '"></a>';
+          str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[category].images[i]) ? PS_Cover.Images.list[category].images[i] : PS_Cover.Images.host + PS_Cover.Images.list[category].images[i].replace(/(\.[^\.]*?)$/, 'm$1')) + '"></a>';
         }
 
         PS_Cover.Images.modal.innerHTML = str + '</div></div>' + PS_Cover.templates.Images.request;
