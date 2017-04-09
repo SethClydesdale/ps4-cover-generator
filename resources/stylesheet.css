@@ -1031,7 +1031,7 @@ a.select-image-request:active { background:#05A; }
 }
 
 #tutorial-message-box {
-  font-size:16px;
+  font-size:18px;
   margin:0;
   height:100px;
   overflow-y:auto;
@@ -1088,15 +1088,15 @@ a.select-image-request:active { background:#05A; }
 [data-tutorial-focus="true"] { z-index:11 !important; }
 
 @keyframes event {
-  0% { outline-color:#0F0; }
+  0% { outline-color:#F00; }
   50% { outline-color:transparent; }
-  100% { outline-color:#0F0; }
+  100% { outline-color:#F00; }
 }
 
 [data-tutorial-event="true"] {
   pointer-events:auto !important;
   opacity:1 !important;
-  outline:#0F0 solid 5px !important;
+  outline:#F00 solid 3px !important;
   animation:event ease-in infinite 1.5s;
 }
 
