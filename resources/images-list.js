@@ -1,5 +1,7 @@
 PS_Cover.Images.host = 'https://i.imgur.com/';
 PS_Cover.Images.list = {
+
+
   'Battlefield' : {
     thumb : 'BqudQ4r.png',
     images : [
@@ -40,12 +42,200 @@ PS_Cover.Images.list = {
     ]
   },
 
-  'Final Fantasy' : {
-    thumb : '',
-    images : [
 
+  'Final Fantasy' : {
+    thumb : 'WAjTlXN.png',
+    images : [
+      // # RENDERS
+      // FF1 / Warrior of Light
+      'xjZZ8SB.png',
+      'TpfuVW9.png',
+      // FF2 / Firrion
+      'N70I9RS.png',
+      'unRWcI2.png',
+      '0Lt0dgl.png',
+      // FF3 / Cloud of Darkness
+      'CNGyzJn.png',
+      // FF4 / Kain
+      'XxzZHIE.png',
+      '3gWO1zq.png',
+      // FF4 / Cecil
+      '1NWwviJ.png',
+      'sdS7Mos.png',
+      'nwGEVFH.png',
+      // FF4 / Rosa
+      'zdpubr6.png',
+      // FF4 / Rydia
+      '6qb4Iwh.png',
+      'oEokpjY.png',
+      // FF5 / Bartz
+      'FsovEfj.png',
+      'IOgPg32.png',
+      // FF5 / Gilgamesh
+      '5wXcbSs.png',
+      'O0sDYG5.png',
+      // FF5 / Exdeath
+      'ZluVmT0.png',
+      // FF6 / Terra
+      'AwmvQje.png',
+      'b6KbTjR.png',
+      'lIX9Rjx.png',
+      'zmgW1M5.png',
+      'EziulAe.png',
+      'nxioKcu.png',
+      // FF6 / Kefka
+      'jxSmzYT.png',
+      'bWSc5B5.png',
+      'ylTRbML.png',
+      // FF6 / Misc
+      'iA2FVVq.png',
+      // FF7 / Aerith
+      'lDZNvGe.png',
+      'j3bnfUg.png',
+      '8tdpYHv.png',
+      'Wzwwbsc.png',
+      // FF7 / Barret
+      'uDGARdb.png',
+      'ApEbkYd.png',
+      // FF7 / Cait Sith
+      'S07lbbv.png',
+      '2X9ugbC.png',
+      // FF7 / Cid
+      'cGea1x9.png',
+      'vtpVbTF.png',
+      // FF7 / Cloud
+      'ybdNxDK.png',
+      '7p28tSE.png',
+      'CYxQ6m2.png',
+      '2MhkyGl.png',
+      'QbVzGsR.png',
+      'EMk3xCF.png',
+      '2pGCBvz.png',
+      // FF7 / Genesis
+      'NShdKOb.png',
+      // FF7 / Red
+      'CbBZ0sf.png',
+      // FF7 / Sephiroth
+      'E4IO6po.png',
+      '3hwdZqQ.png',
+      'm7lFqJB.png',
+      'oPsvesf.png',
+      'a03JU5D.png',
+      // FF7 / Tifa
+      'Y8n0Sr8.png',
+      '5xVBtkM.png',
+      'pPK0IBo.png',
+      'sDIG7Aw.png',
+      'wFoDlaF.png',
+      'Rezlzlo.png',
+      // FF7 / Vincent
+      'bXBrCzs.png',
+      'F4eS4jL.png',
+      'WJSS0Zf.png',
+      '6ZIgAlG.png',
+      'DzryqNq.png',
+      // FF7 / Yuffie
+      '9rUnOuT.png',
+      '92jnnTW.png',
+      'klzjeVo.png',
+      '3TwTEtP.png',
+      // FF7 / Zack
+      'pgaD7Yg.png',
+      'gWebslZ.png',
+      'J4R9AxO.png',
+      'CRoqmdK.png',
+      '1nyE3pE.png',
+      'vswUbWV.png',
+      // FF7 / Misc
+      'OPrYV99.png',
+      'HSaONJp.png',
+      'L8ZVpt3.png',
+      // FF8 / Seifer
+      'wCT224b.png',
+      // FF8 / Squall
+      '7Sbygi9.png',
+      'CHOyfPB.png',
+      'XzsRQvP.png',
+      'Y3bO0yI.png',
+      'kg5nD7H.png',
+      'qYrocqE.png',
+      'XOnak2R.png',
+      'eI0hI7g.png',
+      'T5jV01t.png',
+      // FF8 / Misc
+      'MNekMOW.png',
+      '0N4gjJ9.png',
+      'EGTuRoZ.png',
+      // FF9 / Garnet
+      '7gNpL8H.png',
+      // FF9 / Kuja
+      '8BesaWV.png',
+      '42GNOQM.png',
+      'vHhPnzp.png',
+      // FF9 / Vivi
+      '0smUeMM.png',
+      // FF9 / Zidane
+      'R3Eq10Y.png',
+      'w3JoYgm.png',
+      '70uOrb7.png',
+      'd3C025t.png',
+      'a001uCC.png',
+      'QanQUut.png',
+      '1BpOb5d.png',
+      // FF9 / Misc
+      'YoqCdHM.png',
+      // FF10 / Auron
+      '4KVwYiq.png',
+      'O3TAVV9.png',
+      'FkKCrmA.png',
+      '5mai95e.png',
+      // FF10 / Jecht
+      'MEmY08S.png',
+      'QwS0U7C.png',
+      // FF10 / Kimahri
+      '9ULP7Fy.png',
+      // FF10 / Lulu
+      'S2uP7as.png',
+      'i6QKHZI.png',
+      'LtnFcJn.png',
+      'KEVxBXk.png',
+      // FF10 / Paine
+      '1Gveh0p.png',
+      'y2schQn.png',
+      'yNziMMV.png',
+      'zPPyGzk.png',
+      'Y87Gr3w.png',
+      // FF10 / Rikku
+      'WCtDVHs.png',
+      'vihaxzf.png',
+      'GYkOUjV.png',
+      'cZDfSyS.png',
+      'sn2R9xp.png',
+      // FF10 / Seymour
+      'KfbiAb2.png',
+      // FF10 / Tidus
+      'tKuMU4J.png',
+      'etc4bDT.png',
+      'wA6lI5G.png',
+      'mpqhiHc.png',
+      '37pHOaN.png',
+      'yeQvvwR.png',
+      // FF10 / Wakka
+      '6GYpaSR.png',
+      'PqldBfg.png',
+      // FF10 / Yuna
+      'pj0Ahw9.png',
+      'iBTau36.png',
+      'ShDa0AP.png',
+      'YfK6rBG.png',
+      'l4kQEyD.png',
+      'Wrkj66b.png',
+      'X9ez1c2.png',
+      'r5FWnZt.png',
+      'hseC1l2.png'
     ]
   },
+
 
   'God of War' : {
     thumb : 'mmJMbCA.png',
@@ -82,6 +272,7 @@ PS_Cover.Images.list = {
       'fClFeQF.jpg'
     ]
   },
+
 
   'Gran Turismo' : {
     thumb : '4UrmSgv.png',
@@ -120,6 +311,7 @@ PS_Cover.Images.list = {
       'RMzdJof.jpg'
     ]
   },
+
 
   'inFAMOUS' : {
     thumb : 'XsEGwnw.png',
@@ -167,6 +359,7 @@ PS_Cover.Images.list = {
       'LEHX87S.jpg'
     ]
   },
+
 
   'Persona' : {
     thumb : '4E6zKyS.png',
@@ -270,6 +463,7 @@ PS_Cover.Images.list = {
     ]
   },
 
+
   'Street Fighter' : {
     thumb : 'w4r0A2B.png',
     images : [
@@ -324,6 +518,7 @@ PS_Cover.Images.list = {
     ]
   },
 
+
   'Uncharted' : {
     thumb : 'hHEH0MP.png',
     images : [
@@ -363,5 +558,6 @@ PS_Cover.Images.list = {
       'Wwtg7IU.jpg'
     ]
   }
+
 
 };
