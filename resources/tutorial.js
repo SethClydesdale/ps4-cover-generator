@@ -109,7 +109,7 @@ PS_Cover.Tutorial.step = [
           delTuto = function () {
             PS_Cover.deleteLayers(true);
             this.removeEventListener('click', delTuto);
-            this.setAttribute.onclick = this.dataset.onclick;
+            this.setAttribute('onclick', this.dataset.onclick);
             PS_Cover.Tutorial.next();
           };
 
