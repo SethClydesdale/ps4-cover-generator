@@ -35,20 +35,21 @@ a:active { color:#049; }
   clear:both;
 }
 
-#download-ps4-cover {
+.button {
   color:#FFF;
   background:#07C;
   border:none;
   font-size:18px;
   font-weight:bold;
   text-transform:uppercase;
+  display:inline-block;
   padding:15px 20px;
   cursor:pointer;
   outline:none;
 }
 
-#download-ps4-cover:hover { background:#06B; }
-#download-ps4-cover:focus { background:#05A; }
+.button:hover { background:#06B; }
+.button:focus { background:#05A; }
 
 /* COVER STYLES */
 #ps4-cover-photo {
@@ -132,7 +133,7 @@ a:active { color:#049; }
   cursor:pointer;
 }
 
-#cover-tools-title:hover { background:#222; }
+#cover-tools-title:hover  { background:#222; }
 
 #cover-tools-offset { margin-bottom:380px; }
 #cover-tools {
@@ -147,11 +148,29 @@ a:active { color:#049; }
   z-index:1;
 }
 
-#cover-tools, #cover-tools-title, #cover-tools-offset { transition:300ms; }
+#help-me {
+  color:#FFF;
+  background:#07C;
+  font-size:16px;
+  text-transform:uppercase;
+  height:30px;
+  line-height:30px;
+  padding:0 12px;
+  position:fixed;
+  bottom:351px;
+  right:0;
+  transition-property:bottom;
+}
+
+#help-me:hover { background:#06B; }
+#help-me:active { background:#05A; }
+
+#cover-tools, #cover-tools-title, #cover-tools-offset, #help-me { transition-duration:300ms; }
 
 #cover-tools.hidden { height:0; }
 #cover-tools-title.hidden { bottom:0; }
-.hidden + #cover-tools-offset { margin-bottom:30px; }
+.hidden + #help-me { bottom:1px; }
+.hidden + #help-me + #cover-tools-offset { margin-bottom:30px; }
 
 #cover-tools label {
   font-size:16px;
@@ -663,6 +682,18 @@ footer a:active { color:#FF8; }
   left:6px;
 }
 
+.ps-button.cross:after {
+  content:"X";
+  color:#a1a9d5;
+  font-size:20px;
+  font-style:normal;
+  text-align:center;
+  position:absolute;
+  top:2px;
+  left:0;
+  right:0;
+}
+
 /* COLOR PICKER */
 .color-inpicker-box {
   display:inline-block;
@@ -834,12 +865,7 @@ footer a:active { color:#FF8; }
 
 
 /* IMAGE SELECTOR */
-.loading {
-  text-align:center;
-  font-size:24px;
-}
-
-#select-image-overlay {
+.overlay {
   background:rgba(0, 0, 0, 0.7);
   position:fixed;
   top:0;
@@ -850,6 +876,11 @@ footer a:active { color:#FF8; }
   cursor:pointer;
 }
 
+.loading {
+  text-align:center;
+  font-size:24px;
+}
+
 #select-image-modal {
   background:#FFF;
   border:1px solid #CCC;
@@ -858,7 +889,10 @@ footer a:active { color:#FF8; }
   left:50px;
   right:50px;
   bottom:50px;
-  z-index:2;
+}
+
+#select-image-overlay, #select-image-modal {
+  z-index:20;
 }
 
 #select-image-title {
@@ -975,6 +1009,106 @@ a.select-image-request {
 
 a.select-image-request:hover { background:#06B; }
 a.select-image-request:active { background:#05A; }
+
+
+/* TUTORIAL */
+#tutorial-overlay {
+  z-index:10;
+  opacity:0.5;
+  cursor:default;
+}
+
+#tutorial-messages {
+  top:1%;
+  left:1%;
+  right:1%;
+  background:#FFF;
+  border:1px solid #CCC;
+  padding:3px;
+  position:fixed;
+  z-index:12;
+}
+
+#tutorial-message-box {
+  font-size:16px;
+  margin:0;
+  height:100px;
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+#tutorial-buttons { text-align:center; }
+
+#tutorial-button-next {
+  font-size:16px;
+  padding:10px 16px;
+}
+
+#tutorial-button-next[disabled] {
+  opacity:0.5;
+  cursor:default;
+}
+
+#tutorial-progress {
+  color:#FFF;
+  background:#333;
+  font-size:16px;
+  height:30px;
+  line-height:30px;
+  margin:6px 0;
+  position:relative;
+}
+
+#tutorial-progress-bar { background:#07C; }
+#tutorial-progress-bar, #tutorial-progress-text {
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
+}
+
+#tutorial-progress-text {
+  right:0;
+  text-align:center;
+}
+
+/* prevent certain actions while the tutorial is in effect */
+.inTutorial { overflow:hidden; }
+.inTutorial #select-image-overlay {
+  pointer-events:none;
+}
+
+.inTutorial .select-image-close, .inTutorial .select-image-request, [data-tutorial-noclick="true"] a, [data-tutorial-noclick="true"] input, [data-tutorial-noclick="true"] label, [data-tutorial-noclick="true"] select {
+  pointer-events:none;
+  opacity:0.7;
+}
+
+/* focus a tutorial element */
+[data-tutorial-focus="true"] { z-index:11 !important; }
+
+@keyframes event {
+  0% { outline-color:#0F0; }
+  50% { outline-color:transparent; }
+  100% { outline-color:#0F0; }
+}
+
+[data-tutorial-event="true"] {
+  pointer-events:auto !important;
+  opacity:1 !important;
+  outline:#0F0 dashed 5px !important;
+  animation:event ease-in infinite 1.5s;
+}
+
+#color-inpicker-box a {
+  pointer-events:auto;
+  opacity:1;
+}
+
+.inTutorial #cover-layers .tools-row:first-child .fa-sort-asc, .inTutorial #cover-layers .tools-row:last-child .fa-sort-desc {
+  opacity:0.5 !important;
+  pointer-events:none !important;
+}
+
 
 
 /* responsiveness */

@@ -302,8 +302,8 @@
 
 
     // delete the specified layer
-    deleteLayer : function (caller) {
-      if (confirm('You are about to delete this layer.\nDo you want to continue?')) {
+    deleteLayer : function (caller, skipConfirmation) {
+      if (skipConfirmation || confirm('You are about to delete this layer.\nDo you want to continue?')) {
         var layer = caller.parentsUntil('.cover-layer');
         layer.parentNode.removeChild(layer);
         PS_Cover.draw();
@@ -441,8 +441,8 @@
 
 
     // delete all layers
-    deleteLayers : function () {
-      if (confirm('You are about to delete all layers.\nDo you want to continue?')) {
+    deleteLayers : function (skipConfirmation) {
+      if (skipConfirmation || confirm('You are about to delete all layers.\nDo you want to continue?')) {
         for (var layers = document.getElementById('cover-layers'), a = layers.querySelectorAll('.tools-row'), i = 0, j = a.length; i < j; i++) {
           layers.removeChild(a[i]);
         }
@@ -530,6 +530,7 @@
 
           overlay.addEventListener('click', PS_Cover.Images.close);
           overlay.id = 'select-image-overlay';
+          overlay.className = 'overlay';
           modal.id = 'select-image-modal';
 
           if (PS_Cover.Images.list) {
@@ -773,6 +774,76 @@
       }
     },
 
+
+    // PS4 Cover Generator Tutorial
+    Tutorial : {
+
+      // intializes the tutorial
+      init : function () {
+        if (PS_Cover.Tutorial.confirmed || confirm('Would you like to go through the PS4 Cover Generator Tutorial? It is recommended that you do, if this is your first time.')) {
+          PS_Cover.Tutorial.confirmed = true;
+
+          // load in the tutorial steps and resources
+          if (!PS_Cover.Tutorial.step && !PS_Cover.Tutorial.script) {
+            var script = document.createElement('SCRIPT');
+            script.src = 'resources/tutorial.min.js';
+            document.body.appendChild(script);
+
+            PS_Cover.Tutorial.script = script;
+          }
+
+          // create the tutorial overlay, message box, and progress bar
+          if (!PS_Cover.Tutorial.overlay) {
+            var overlay = document.createElement('DIV'),
+                bar = document.createElement('DIV'),
+                msg = document.createElement('DIV'),
+                frag = document.createDocumentFragment();
+
+            overlay.id = 'tutorial-overlay';
+            overlay.className = 'overlay';
+
+            bar.id = 'tutorial-progress';
+            bar.innerHTML = '<div id="tutorial-progress-bar"></div>'+
+                            '<div id="tutorial-progress-text">0%</div>';
+
+            msg.id = 'tutorial-messages';
+            msg.innerHTML = '<div id="tutorial-message-box">'+
+                              '<p class="loading"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></p>'+
+                              '<p class="loading">Loading tutorial...</p>'+
+                            '</div>'+
+                            '<div id="tutorial-buttons">'+
+                              '<input id="tutorial-button-next" class="button" type="button" value="Next" onclick="PS_Cover.Tutorial.next();">'+
+                            '</div>';
+
+            msg.appendChild(bar);
+            frag.appendChild(overlay);
+            frag.appendChild(msg);
+            document.body.appendChild(frag);
+            document.body.className += ' inTutorial';
+
+            PS_Cover.Tutorial.overlay = overlay;
+            PS_Cover.Tutorial.bar = bar;
+            PS_Cover.Tutorial.msg = msg;
+
+            for (var a = document.querySelectorAll('.hidden[id*="tools"]'), i = 0, j = a.length; i < j; i++) {
+              a[i].className = '';
+            }
+          }
+
+          // move onto the first step... or wait until the tuto steps are loaded
+          if (PS_Cover.Tutorial.step) {
+            PS_Cover.Tutorial.progress = -1;
+            PS_Cover.Tutorial.quota = PS_Cover.Tutorial.step.length - 1;
+            PS_Cover.Tutorial.next();
+
+          } else {
+            window.setTimeout(PS_Cover.Tutorial.init, 100);
+          }
+        }
+      }
+
+    }
+
   };
 
 
@@ -891,4 +962,10 @@
   });
 
   replaceCheckboxes(); // replace checkboxes w/custom ones
+
+  // auto initiate the tutorial if the page hash is #tutorial
+  if (window.location.hash == '#tutorial') {
+    PS_Cover.Tutorial.confirmed = true;
+    PS_Cover.Tutorial.init();
+  }
 }());

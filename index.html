@@ -50,7 +50,7 @@
         <h2 class="title">Create Your Cover Image</h2>
         <div class="bubble"><i class="fa fa-magic"></i></div>
         <p class="title-desc">Welcome to the PS4 Cover Generator! This tool allows you to create your own personalized Cover Image for your PlayStation Network account. Use the Toolbox at the bottom of your screen to start creating your Cover Image. For the highest quality Cover Image, press <i class="ps-button sqaure"></i> to go into fullscreen mode.</p>
-        <p class="title-desc">Any changes you make in the toolbox will be reflected in the preview below. When you're finished editing your Cover Image, scroll to the bottom of the page to generate it. Tip : You can close the toolbox to get a better view by clicking its black handle.</p>
+        <p class="title-desc">Any changes you make in the toolbox will be reflected in the preview below. When you're finished editing your Cover Image, scroll to the bottom of the page to generate it. <a href="#" onclick="PS_Cover.Tutorial.init(); return false;">Click here</a> to start the tutorial if this is your first time using PS4 Cover Generator or if you just need a refresher.</p>
       </div>
 
       <h2 id="preview-title" class="title">Cover Image Preview</h2>
@@ -67,13 +67,13 @@
         </div>
       </div>
 
-      <div class="content-block center">
+      <div id="generate-cover" class="content-block center">
         <h2 class="title">Generate Your Cover Image</h2>
         <div class="bubble"><i class="fa fa-mail-forward"></i></div>
         <p class="title-desc">When you're finished editing your Cover Image, click the button below to generate it. A new window will open so you can take a Screenshot of your Cover Image.</p>
 
         <div class="row">
-          <input id="download-ps4-cover" type="button" value="Generate Cover Image">
+          <input id="download-ps4-cover" class="button" type="button" value="Generate Cover Image">
         </div>
       </div>
     </div>
@@ -85,7 +85,7 @@
         <div class="left footer-column">
           <h2 class="footer-title">Links</h2>
           <ul class="footer-linklist">
-            <li><a href="https://github.com/SethClydesdale/ps4-cover-generator">Github Repository</a></li>
+            <li><a href="https://github.com/SethClydesdale/ps4-cover-generator">Repository</a> &bull; <a href="https://github.com/SethClydesdale/ps4-cover-generator/wiki">Wiki</a></li>
             <li><a href="https://sethclydesdale.github.io/ps4-cover-generator/privacy/">Privacy</a> &bull; <a href="https://sethclydesdale.github.io/ps4-cover-generator/legal/">Legal</a></li>
             <li><a href="https://sethclydesdale.github.io/ps4-cover-generator/sitemap/">Sitemap</a></li>
           </ul>
@@ -129,17 +129,17 @@
         <div class="tools-title"><i class="fa fa-file"></i> Layers</div>
         <div class="tools-inner">
           <div class="tools-actions">
-            <a class="tools-add" href="#" onclick="PS_Cover.add('text');return false;"><i class="fa fa-font"></i> Add Text</a>
-            <a class="tools-add" href="#" onclick="PS_Cover.add('image');return false;"><i class="fa fa-image"></i> Add Image</a>
-            <a class="tools-add" href="#" onclick="PS_Cover.add('shape');return false;"><i class="fa fa-circle"></i> Add Shape</a>
-            <a class="tools-delete" href="#" onclick="PS_Cover.deleteLayers();return false;"><i class="fa fa-times"></i> Delete All</a>
+            <a id="add-text" class="tools-add" href="#" onclick="PS_Cover.add('text');return false;"><i class="fa fa-font"></i> Add Text</a>
+            <a id="add-image" class="tools-add" href="#" onclick="PS_Cover.add('image');return false;"><i class="fa fa-image"></i> Add Image</a>
+            <a id="add-shape" class="tools-add" href="#" onclick="PS_Cover.add('shape');return false;"><i class="fa fa-circle"></i> Add Shape</a>
+            <a id="delete-all" class="tools-delete" href="#" onclick="PS_Cover.deleteLayers();return false;"><i class="fa fa-times"></i> Delete All</a>
           </div>
 
           <div id="cover-layers"></div>
         </div>
       </div>
     </div>
-
+    <a id="help-me" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/How-to-Use-PS4-Cover-Generator" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
     <div id="cover-tools-offset"></div>
 
     <script src="resources/javascript.min.js"></script>
