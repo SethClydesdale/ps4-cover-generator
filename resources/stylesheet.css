@@ -162,6 +162,7 @@ a:active { color:#049; }
 }
 
 #layer-list-title {
+  color:#FFF;
   text-align:center;
   margin:0;
   cursor:pointer;
@@ -274,6 +275,7 @@ a:active { color:#049; }
   background:#07C;
   font-size:18px;
   text-transform:uppercase;
+  display:block;
   height:40px;
   line-height:40px;
   padding:0 6px;
