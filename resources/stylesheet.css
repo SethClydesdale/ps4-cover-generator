@@ -156,7 +156,6 @@ a:active { color:#049; }
   box-sizing:border-box;
   overflow:hidden;
   position:fixed;
-  padding-top:40px;
   right:0;
   bottom:0;
   z-index:1;
@@ -184,7 +183,7 @@ a:active { color:#049; }
   overflow-x:hidden;
   list-style-type:none;
   padding-left:0;
-  margin:0;
+  margin:40px 0 0 0;
 }
 
 #layer-list li:first-child { border-top:1px solid #CCC; }
@@ -202,6 +201,9 @@ a:active { color:#049; }
   overflow:hidden;
   white-space:nowrap;
   text-overflow:ellipsis;
+  visibility:visible;
+  opacity:1;
+  transition-property:visibility, opacity;
 }
 
 #layer-list a:hover { background:#DDD; }
@@ -236,12 +238,18 @@ a:active { color:#049; }
 #help-me:hover { background:#06B; }
 #help-me:active { background:#05A; }
 
-#cover-tools, #cover-tools-title, #cover-tools-offset, #help-me, #cover-tools-layer-list, #layer-list-title { transition-duration:300ms; }
+#cover-tools, #cover-tools-title, #cover-tools-offset, #help-me, #cover-tools-layer-list, #layer-list-title, #layer-list a {
+  transition-duration:300ms;
+}
 
 /* layer list hidden */
 #cover-tools-layer-list.hidden { width:5px; }
 #cover-tools-layer-list.hidden + #cover-tools { right:5px; }
 #cover-tools-layer-list.hidden #layer-list-title { height:100%; }
+#cover-tools-layer-list.hidden #layer-list a {
+  visibility:hidden;
+  opacity:0;
+}
 
 /* toolbox hidden */
 #cover-tools-title.hidden { bottom:0; }
