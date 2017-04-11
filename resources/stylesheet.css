@@ -176,6 +176,7 @@ a:active { color:#049; }
   left:0;
   right:0;
   bottom:100%;
+  z-index:1;
   transition-property:bottom;
 }
 
