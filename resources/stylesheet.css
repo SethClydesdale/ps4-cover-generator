@@ -201,9 +201,6 @@ a:active { color:#049; }
   overflow:hidden;
   white-space:nowrap;
   text-overflow:ellipsis;
-  visibility:visible;
-  opacity:1;
-  transition-property:visibility, opacity;
 }
 
 #layer-list a:hover { background:#DDD; }
@@ -238,7 +235,7 @@ a:active { color:#049; }
 #help-me:hover { background:#06B; }
 #help-me:active { background:#05A; }
 
-#cover-tools, #cover-tools-title, #cover-tools-offset, #help-me, #cover-tools-layer-list, #layer-list-title, #layer-list a {
+#cover-tools, #cover-tools-title, #cover-tools-offset, #help-me, #cover-tools-layer-list, #layer-list-title {
   transition-duration:300ms;
 }
 
@@ -246,10 +243,6 @@ a:active { color:#049; }
 #cover-tools-layer-list.hidden { width:5px; }
 #cover-tools-layer-list.hidden + #cover-tools { right:5px; }
 #cover-tools-layer-list.hidden #layer-list-title { height:100%; }
-#cover-tools-layer-list.hidden #layer-list a {
-  visibility:hidden;
-  opacity:0;
-}
 
 /* toolbox hidden */
 #cover-tools-title.hidden { bottom:0; }
