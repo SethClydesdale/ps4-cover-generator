@@ -156,6 +156,7 @@ a:active { color:#049; }
   box-sizing:border-box;
   overflow:hidden;
   position:fixed;
+  padding-top:40px;
   right:0;
   bottom:0;
   z-index:1;
@@ -164,25 +165,18 @@ a:active { color:#049; }
 #layer-list-title {
   color:#FFF;
   text-align:center;
+  white-space:nowrap;
   margin:0;
-  cursor:pointer;
-}
-
-#layer-list-overlay {
-  content:"";
-  background:#07C;
   position:absolute;
   top:0;
   left:0;
   right:0;
-  bottom:100%;
   z-index:1;
-  transition-property:bottom;
+  transition-property:height;
+  cursor:pointer;
 }
 
-#layer-list-title:hover, #layer-list-overlay:hover:before {
-  background:#06B;
-}
+#layer-list-title:hover { background:#06B; }
 
 #layer-list {
   height:310px;
@@ -242,12 +236,12 @@ a:active { color:#049; }
 #help-me:hover { background:#06B; }
 #help-me:active { background:#05A; }
 
-#cover-tools, #cover-tools-title, #cover-tools-offset, #help-me, #cover-tools-layer-list, #layer-list-overlay { transition-duration:300ms; }
+#cover-tools, #cover-tools-title, #cover-tools-offset, #help-me, #cover-tools-layer-list, #layer-list-title { transition-duration:300ms; }
 
 /* layer list hidden */
 #cover-tools-layer-list.hidden { width:5px; }
 #cover-tools-layer-list.hidden + #cover-tools { right:5px; }
-#cover-tools-layer-list.hidden #layer-list-overlay { bottom:0%; }
+#cover-tools-layer-list.hidden #layer-list-title { height:100%; }
 
 /* toolbox hidden */
 #cover-tools-title.hidden { bottom:0; }
