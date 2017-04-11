@@ -232,7 +232,182 @@ PS_Cover.Images.list = {
       'Wrkj66b.png',
       'X9ez1c2.png',
       'r5FWnZt.png',
-      'hseC1l2.png'
+      'hseC1l2.png',
+      // FF11
+      'CnWoVu8.png',
+      'miHGW44.png',
+      'zhNQyAa.png',
+      '7FFSSiI.png',
+      'lBCROSK.png',
+      '1zZfuK0.png',
+      'PzbpiUJ.png',
+      // FF12 / Ashe
+      'zEJJteN.png',
+      'Gq3WNhn.png',
+      '3sUVkvb.png',
+      // FF12 / Balthier
+      'IDqaEq9.png',
+      // FF12 / Basch
+      'c818cKB.png',
+      // FF12 / Fran
+      '6adVICL.png',
+      'H1EZQf2.png',
+      'rcbSw29.png',
+      // FF12 / Gabranth
+      'Se4C51H.png',
+      // FF12 / Larsa
+      'VdKBhJv.png',
+      // FF12 / Penelo
+      '6QQkO3l.png',
+      'CLCHbze.png',
+      // FF12 / Rasler
+      'XsRzdmJ.png',
+      // FF12 / Vaan
+      'Dgdn4sW.png',
+      'MfQFm3r.png',
+      'kHiXNy0.png',
+      // FF12 / Vayne
+      'mCvaPnw.png',
+      // FF12 / Misc
+      'N49d11W.png',
+      '7tI8dOw.png',
+      'wr37rVf.png',
+      // FF13 / Caisus
+      'o1nG6ta.png',
+      // FF13 / Fang
+      'II5jTaP.png',
+      '4v320Fo.png',
+      // FF13 / Hope
+      'SaEm9hA.png',
+      '8WUOWqA.png',
+      'MbuvobT.png',
+      'M2dwGeA.png',
+      'gz4E9lr.png',
+      'aRC7aEK.png',
+      // FF13 / Jihl
+      '9pXIH3K.png',
+      // FF13 / Lightning
+      'OK6oMrn.png',
+      't9J1JlS.png',
+      'UlNvzsE.png',
+      'DlBl65s.png',
+      'ibxo7k6.png',
+      'YAFCCE0.png',
+      '6IXseRJ.png',
+      'CHYHWTj.png',
+      'we3GLLj.png',
+      'K2xnEBA.png',
+      'yKZDHXL.png',
+      'jAyfD16.png',
+      'SqDXxYm.png',
+      'XDYKfy0.png',
+      'NbTiKAu.png',
+      '1J0CHnD.png',
+      'oku1w9P.png',
+      '57LVOBL.png',
+      // FF13 / Lumia
+      'z4sWzBu.png',
+      // FF13 / Noel
+      'BY0lYYd.png',
+      'M6b3YCS.png',
+      'UFMK9w9.png',
+      // FF13 / Sazh
+      '4d2z8DV.png',
+      // FF13 / Serah
+      'EJdhiud.png',
+      'PWVAm4M.png',
+      '74VoG8S.png',
+      'V1OBEJ4.png',
+      'qKWzudD.png',
+      'BmZLqY3.png',
+      'kOZz3R4.png',
+      '8jSwdAA.png',
+      'lyPaNod.png',
+      'poWpSm8.png',
+      // FF13 / Snow
+      '82Z1DU6.png',
+      'SZExHhi.png',
+      'QK75VvA.png',
+      'NEfloTB.png',
+      'EnH0ZWQ.png',
+      // FF13 / Vanille
+      '2q0JZVs.png',
+      'ut6M9lZ.png',
+      'iKl6YVN.png',
+      'tuV9lvW.png',
+      'JBtc7Pg.png',
+      // FF13 / Misc
+      'iAyHxhc.png',
+      'R5W5Feu.png',
+      // FF14
+      'agWE9pf.png',
+      'EgEh0qg.png',
+      'flq6wd4.png',
+      'MWLqyjM.png',
+      'sK1hrTu.png',
+      'ueMHLUk.png',
+      '3RwXApK.png',
+      'VDW1kAX.png',
+      'jCXI2oe.png',
+      'Rr62DvT.png',
+      // FF15 / Ardyn
+      'ILWZXA0.png',
+      'F86gfK8.png',
+      // FF15 / Noctis
+      'xZB35j0.png',
+      'JMdAK36.png',
+      'peUNCi9.png',
+      '1oOFpSp.png',
+      '453togM.png',
+      'VSPgEsf.png',
+      // FF15 / Misc
+      'Ba6Q9GH.png',
+      'IK256iU.png',
+      // Type-0 / Ace
+      'gIoPy7a.png',
+      'UUxIGwZ.png',
+      // Type-0 / Caeuna
+      'TLaYe0c.png',
+      // Type-0 / Cater
+      'fOfsBMf.png',
+      'HjUKtK7.png',
+      // Type-0 / Cid
+      'ifHlVVB.png',
+      // Type-0 / Cinque
+      '08bEd8t.png',
+      // Type-0 / Deuce
+      'BmIUFMZ.png',
+      // Type-0 / Eight
+      'iWHj1KE.png',
+      // Type-0 / Gilgamesh
+      'Q0dAOQg.png',
+      // Type-0 / Jack
+      '1nURtSI.png',
+      // Type-0 / King
+      'M73Ymgn.png',
+      // Type-0 / Machina
+      'NnRbjAR.png',
+      // Type-0 / Nimbus
+      'esihrxd.png',
+      // Type-0 / Nine
+      'uVSavVJ.png',
+      // Type-0 / Queen
+      'ymgGBWV.png',
+      // Type-0 / Rem
+      'nvAYWj9.png',
+      // Type-0 / Seven
+      '06w106x.png',
+      'k7ziB3r.png',
+      // Type-0 / Shiva
+      'm1AZAVL.png',
+      // Type-0 / Sice
+      'DOK8eFi.png',
+      'FUVCUEa.png',
+      // Type-0 / Trey
+      'VE2ASnV.png',
+      'VxWMDjO.png',
+      // Type-0 / Misc
+      'OCfBDaF.png'
     ]
   },
 
