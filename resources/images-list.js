@@ -536,6 +536,46 @@ PS_Cover.Images.list = {
   },
 
 
+  'Little Big Planet' : {
+    thumb : 'JCOvIM0.png',
+    images : [
+      // # RENDERS
+      'EuguAXY.png',
+      '4XeauxD.png',
+      'LGizM2a.png',
+      'Muuk5lT.png',
+      '15T9kbP.png',
+      'VJR8F7e.png',
+      'Ys7eQfk.png',
+      '7SM4wXI.png',
+      'NIzPEVh.png',
+      'dMr6cvH.png',
+      '60IvDws.png',
+      'CaAkwMT.png',
+      'sYfHP5X.png',
+      'kfVekbN.png',
+      'oUa7o0F.png',
+      'mapMFo0.png',
+      'nD99QIv.png',
+      'Et6Pna2.png',
+      'am4Lffh.png',
+
+      // # BACKGROUND / WALLPAPERS
+      'q6hi5zk.jpg',
+      'cjC1Ol3.jpg',
+      'pRiXojg.jpg',
+      'UrEOiUz.jpg',
+      'mXijWh8.jpg',
+      'nDg4hYc.jpg',
+      'VGlGOq3.jpg',
+      'gR7Xjgq.jpg',
+      'zSUVr5E.jpg',
+      'x34Erjf.jpg',
+      '9R1TLhD.jpg'
+    ]
+  },
+
+
   'Persona' : {
     thumb : '4E6zKyS.png',
     images : [
