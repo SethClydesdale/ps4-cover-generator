@@ -17,13 +17,12 @@
         if (/image-layer/.test(layer[i].className)) {
           input = layer[i].querySelector('.main-input');
 
-          img = new Image();
+          img = input.previousSibling;
           img.crossOrigin = 'anonymous';
-          img.src = input.value;
 
-          if (input.previousSibling.dataset.last != input.value) {
-            input.previousSibling.dataset.last = input.value;
-            input.previousSibling.src = input.value;
+          if (!img.dataset.last || img.dataset.last != input.value) {
+            img.dataset.last = input.value;
+            img.src = input.value;
           }
 
           if (input.style.borderColor) {
@@ -87,6 +86,7 @@
 
       }
 
+      PS_Cover.syncLayerList();
     },
 
 
@@ -128,8 +128,8 @@
           PS_Cover.ctx.drawImage(img, x, y);
         });
 
-      } else {
-        img.addEventListener('load', function () {
+      } else if (!img.onload) {
+        img.onload = function () {
           PS_Cover.transform({
             scale : transform.scale,
             rotate : transform.rotate,
@@ -142,15 +142,17 @@
           // onload delays the addition of this layer
           // so draw again to update the layer position of the image
           PS_Cover.draw();
-        });
+        };
       }
 
       // if an image URL is invalid or cannot load, make the input border red
-      img.addEventListener('error', function () {
-        if (input.value) {
-          input.style.borderColor = '#F00';
-        }
-      });
+      if (!img.onerror) {
+        img.onerror = function () {
+          if (input.value) {
+            input.style.borderColor = '#F00';
+          }
+        };
+      }
     },
 
 
@@ -297,6 +299,7 @@
           break;
       }
 
+      PS_Cover.jumpToLayer(row);
       PS_Cover.draw();
     },
 
@@ -430,7 +433,7 @@
 
       // scroll directly to the top of the new layer
       if (!settings.noScroll) {
-        tools.scrollTop = row.offsetTop - 3;
+        PS_Cover.jumpToLayer(row);
       }
 
       ColorInpicker.init({ hide : true }); // create color pickers
@@ -448,6 +451,48 @@
         }
 
         PS_Cover.draw();
+      }
+    },
+
+
+    // jumps to the specified layer
+    jumpToLayer : function (layer) {
+      document.getElementById('cover-tools').scrollTop = (typeof layer == 'number' ? document.querySelectorAll('.cover-layer')[layer] : layer).offsetTop - 3;
+    },
+
+
+    // sync the layer list w/the layers on the canvas
+    syncLayerList : function () {
+      var list = document.getElementById('layer-list'),
+          layer = document.querySelectorAll('.cover-layer'),
+          i = 0,
+          j = layer.length,
+          layerList = '',
+          thumb,
+          val;
+
+      for (; i < j; i++) {
+        thumb = layer[i].querySelector('.layer-thumb');
+        val = layer[i].querySelector('.main-input');
+
+        thumb = !thumb ? '<i class="layer-thumb fa fa-font"></i>' :
+                '<img class="layer-thumb" src="' + (thumb.tagName == 'CANVAS' ? thumb.toDataURL('image/png') : thumb.src) + '" alt="">';
+
+        val = val.tagName == 'SELECT' ? val.options[val.selectedIndex].innerHTML :
+              /cover-image/.test(val.className) ? val.value.replace(/https:\/\/i\.imgur\.com\//, '') :
+              val.value;
+
+        layerList +=
+        '<li class="' + layer[i].className.replace(/tools-row|cover-layer/g, '') + '-list">'+
+          '<a href="#" onclick="PS_Cover.jumpToLayer(' + i + '); return false;">'+
+            thumb+
+            val+
+          '</a>'+
+        '</li>';
+      }
+
+      if (list.innerHTML != layerList) {
+        list.innerHTML = layerList;
       }
     },
 
@@ -886,7 +931,7 @@
 
 
   // cover tool event handlers
-  var tools = document.getElementById('cover-tools');
+  var tools = document.getElementById('cover-tools-box');
 
   // hide body overflow while using the tools
   tools.addEventListener('mouseover', function () {
@@ -911,7 +956,7 @@
 
   // toggle toolbox
   document.getElementById('cover-tools-title').addEventListener('click', function (e) {
-    var tools = document.getElementById('cover-tools');
+    var tools = document.getElementById('cover-tools-box');
 
     if (this.className == 'hidden') {
       this.className = '';
@@ -923,6 +968,13 @@
     }
 
     e.preventDefault();
+  });
+
+
+  // toggle layer list
+  document.getElementById('layer-list-title').addEventListener('click', function () {
+    var parent = this.parentNode;
+    parent.className = parent.className == 'hidden' ? '' : 'hidden';
   });
 
 
