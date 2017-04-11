@@ -168,7 +168,7 @@ a:active { color:#049; }
   cursor:pointer;
 }
 
-#layer-list-title:before {
+#layer-list-overlay {
   content:"";
   background:#07C;
   position:absolute;
@@ -180,7 +180,7 @@ a:active { color:#049; }
   transition-property:bottom;
 }
 
-#layer-list-title:hover, #layer-list-title:hover:before {
+#layer-list-title:hover, #layer-list-overlay:hover:before {
   background:#06B;
 }
 
@@ -242,12 +242,12 @@ a:active { color:#049; }
 #help-me:hover { background:#06B; }
 #help-me:active { background:#05A; }
 
-#cover-tools, #cover-tools-title, #cover-tools-offset, #help-me, #cover-tools-layer-list, #layer-list-title:before { transition-duration:300ms; }
+#cover-tools, #cover-tools-title, #cover-tools-offset, #help-me, #cover-tools-layer-list, #layer-list-overlay { transition-duration:300ms; }
 
 /* layer list hidden */
 #cover-tools-layer-list.hidden { width:5px; }
 #cover-tools-layer-list.hidden + #cover-tools { right:5px; }
-#cover-tools-layer-list.hidden #layer-list-title:before { bottom:0%; }
+#cover-tools-layer-list.hidden #layer-list-overlay { bottom:0%; }
 
 /* toolbox hidden */
 #cover-tools-title.hidden { bottom:0; }
