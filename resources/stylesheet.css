@@ -178,6 +178,7 @@ a:active { color:#049; }
 
 #layer-list {
   height:310px;
+  height:calc(100% - 40px) !important;
   overflow:auto;
   overflow-x:hidden;
   list-style-type:none;
@@ -1188,6 +1189,36 @@ a.select-image-request:active { background:#05A; }
   pointer-events:none !important;
 }
 
+
+/* FULLSCREEN */
+body[data-fullscreen="true"] {
+  overflow:hidden !important;
+}
+
+#cover-image-box[data-fullscreen="true"] {
+  background:#FFF;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:50%;
+  overflow:auto;
+}
+
+#cover-tools-title[data-fullscreen="true"] {
+  bottom:50%;
+  bottom:calc(50% - 30px);
+}
+
+#cover-tools-box[data-fullscreen="true"] + #help-me {
+  bottom:50%;
+  bottom:calc(50% - 29px);
+}
+
+#cover-tools-box[data-fullscreen="true"] #cover-tools, #cover-tools-box[data-fullscreen="true"] #cover-tools-layer-list {
+  height:50%;
+  height:calc(50% - 30px);
+}
 
 
 /* responsiveness */

@@ -954,9 +954,18 @@
   });
 
 
+  // toggle full screen
+  document.getElementById('cover-go-fullscreen').addEventListener('change', function () {
+    for (var a = document.querySelectorAll('body, #cover-image-box, #cover-tools-box, #cover-tools-title'), i = 0, j = a.length; i < j; i++) {
+      a[i].dataset.fullscreen = this.checked;
+    }
+  });
+
+
   // toggle toolbox
   document.getElementById('cover-tools-title').addEventListener('click', function (e) {
-    var tools = document.getElementById('cover-tools-box');
+    var tools = document.getElementById('cover-tools-box'),
+        fullscreen = document.getElementById('cover-go-fullscreen');
 
     if (this.className == 'hidden') {
       this.className = '';
@@ -965,6 +974,10 @@
     } else {
       this.className = 'hidden';
       tools.className = 'hidden';
+
+      if (fullscreen.checked) {
+        fullscreen.click();
+      }
     }
 
     e.preventDefault();

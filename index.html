@@ -54,14 +54,16 @@
       </div>
 
       <h2 id="preview-title" class="title">Cover Image Preview</h2>
-      <canvas id="ps4-cover-photo"></canvas>
-      <div id="ps4-demo-profile" class="hidden">
-        <div id="overlay-profile">
-          <div id="user-info">
-            <img id="avatar" src="https://i.imgur.com/ak9jccQ.png" alt="avatar">
-            <div id="username">
-              <div id="real-name">Seth Clydesdale</div>
-              <div id="psn">Seth9977</div>
+      <div id="cover-image-box">
+        <canvas id="ps4-cover-photo"></canvas>
+        <div id="ps4-demo-profile" class="hidden">
+          <div id="overlay-profile">
+            <div id="user-info">
+              <img id="avatar" src="https://i.imgur.com/ak9jccQ.png" alt="avatar">
+              <div id="username">
+                <div id="real-name">Seth Clydesdale</div>
+                <div id="psn">Seth9977</div>
+              </div>
             </div>
           </div>
         </div>
@@ -128,6 +130,7 @@
           <div class="tools-inner">
             <div class="tools-row"><label for="cover-bg-color">Background Color : </label><input id="cover-bg-color" class="color-inpicker" type="text" value="#0077CC" oninput="PS_Cover.draw();"></div>
             <div class="tools-row"><label for="cover-show-profile">Show Demo Profile : </label><input id="cover-show-profile" type="checkbox"></div>
+            <div class="tools-row"><label for="cover-go-fullscreen">Full Screen : </label><input id="cover-go-fullscreen" type="checkbox"></div>
           </div>
         </div>
 
