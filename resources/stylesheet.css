@@ -1203,6 +1203,7 @@ body[data-fullscreen="true"] {
   right:0;
   height:50%;
   overflow:auto;
+  overflow-x:hidden;
 }
 
 #cover-tools-title[data-fullscreen="true"] {
