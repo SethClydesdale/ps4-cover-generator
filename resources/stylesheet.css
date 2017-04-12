@@ -912,12 +912,7 @@ footer a:active { color:#FF8; }
   width:24px;
   margin-left:-27px;
   margin-top:3px;
-  opacity:0.3;
   transition:300ms;
-}
-
-[data-inumbered="true"]:hover + .Inumber-arrows, .Inumber-arrows:hover {
-  opacity:1;
 }
 
 .Inumber-arrows > span {
@@ -930,20 +925,23 @@ footer a:active { color:#FF8; }
 }
 
 .Inumber-up {
-  border-bottom:18px solid #999;
+  border-bottom:18px solid #DDD;
   top:5px;
 }
 
 .Inumber-down {
-  border-top:18px solid #999;
+  border-top:18px solid #DDD;
   bottom:5px;
 }
 
-.Inumber-up:hover { border-bottom-color:#666; }
-.Inumber-down:hover { border-top-color:#666; }
+[data-inumbered="true"]:hover + .Inumber-arrows .Inumber-up, .Inumber-arrows:hover .Inumber-up { border-bottom-color:#999; }
+[data-inumbered="true"]:hover + .Inumber-arrows .Inumber-down, .Inumber-arrows:hover .Inumber-down { border-top-color:#999; }
 
-.Inumber-up:active { border-bottom-color:#333; }
-.Inumber-down:active { border-top-color:#333; }
+.Inumber-arrows .Inumber-up:hover { border-bottom-color:#666; }
+.Inumber-arrows .Inumber-down:hover { border-top-color:#666; }
+
+.Inumber-arrows .Inumber-up:active { border-bottom-color:#333; }
+.Inumber-arrows .Inumber-down:active { border-top-color:#333; }
 
 
 /* IMAGE SELECTOR */
