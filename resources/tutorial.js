@@ -598,7 +598,7 @@ PS_Cover.Tutorial.step = [
 
 
   {
-    message : 'Congratulations! You\'ve finished the PS4 Cover Generator tutorial! Well, almost. The last thing you have to do is generate your Cover Image. After that you\'re ready to graduate to making Cover images on your own. Just remember I\'m here if you ever need a refresher or someone to keep you company.',
+    message : 'Congratulations! You\'ve finished the PS4 Cover Generator tutorial! Well, almost. The last thing you have to do is generate your Cover Image and save it. Once your cover image is generated ' + ( PS_Cover.isPS4 ? 'press the SHARE button and choose SCREENSHOT to SAVE your cover image.' : 'right click your cover image and choose "SAVE IMAGE" or "SAVE AS" to save it to your computer.' ),
 
     focus : {
       selectors : '#generate-cover',
