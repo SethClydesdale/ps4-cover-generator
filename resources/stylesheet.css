@@ -154,7 +154,6 @@ a:active { color:#049; }
   background:#EEE;
   border-left:1px solid #CCC;
   box-sizing:border-box;
-  overflow:hidden;
   position:fixed;
   right:0;
   bottom:0;
