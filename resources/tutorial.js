@@ -89,7 +89,7 @@ PS_Cover.Tutorial.step = [
     message : 'Welcome to the toolbox! This is where you\'ll make changes to the canvas, such as adding your favorite character, changing colors, adding text, and more..! How about we create a simple cover image to get you started? Go ahead and click the NEXT button to continue.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       noclick : true
     }
   },
@@ -99,7 +99,7 @@ PS_Cover.Tutorial.step = [
     message : 'To get started, we first need to clear the canvas by deleting all existing layers. Click the "DELETE ALL" button in the toolbox to delete all the layers so we can start fresh!',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '#delete-all',
       noclick : true
     },
@@ -125,7 +125,7 @@ PS_Cover.Tutorial.step = [
     message : 'Well done! You deleted all the existing layers from the canvas. Now it\'s time to add your own personal touch! Click the "ADD IMAGE" button to open up the image selector and add an image to the canvas. Choose anything you want!',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '#add-image',
       noclick : true
     },
@@ -155,7 +155,109 @@ PS_Cover.Tutorial.step = [
 
 
   {
-    message : 'Layers consist of three sections : The main input field, controls, and tools. We\'ll go over each section and their sub-options to get you familiar with how things work. Click the NEXT button to learn more.'
+    message : 'Layers consist of three sections : The main input field, controls, and tools. We\'ll go over each section and their sub-options to get you familiar with how things work. But first let\'s go over the layer list, as it\'ll play a vital role in navigation.'
+  },
+
+
+  {
+    message : 'See the column on the right? That\'s the layer list. It shows all the layers in your cover image so you can easily keep track of and jump to any layers in the toolbox.',
+
+    focus : {
+      selectors : '#cover-tools-layer-list',
+      event : '#cover-tools-layer-list',
+      noclick : true
+    },
+
+    condition : function () {
+      var i = 4;
+
+      while (i --> 0) {
+        PS_Cover.add('shape', {
+          x : Math.floor(Math.random() * (+PS_Cover.canvas.width - 40)),
+          y : Math.floor(Math.random() * 200)
+        });
+      }
+
+      window.setTimeout(function () {
+        document.getElementById('tutorial-button-next').disabled = false;
+      }, 1000);
+    }
+  },
+
+
+  {
+    message : 'If you want to quickly jump to a layer in the toolbox all you need to do is click the layer in the layer list. Try it now by clicking the image you just added.',
+
+    focus : {
+      selectors : '#cover-tools-layer-list',
+      event : '.image-layer-list a',
+      noclick : true
+    },
+
+    condition : function () {
+      function click () {
+        this.removeEventListener('click', click);
+        PS_Cover.Tutorial.next();
+      };
+
+      document.querySelector('.image-layer-list a').addEventListener('click', click);
+    }
+  },
+
+
+  {
+    message : 'Well done! Makes getting around easier, no? If you ever find that the layer list is just in the way, feel free to click its title to make it go away. Go ahead and try that now!',
+
+    focus : {
+      selectors : '#cover-tools-layer-list',
+      event : '#layer-list-title',
+      noclick : true
+    },
+
+    condition : function () {
+      var list = document.getElementById('cover-tools-layer-list');
+
+      PS_Cover.Tutorial.listen(function (stop) {
+        if (list.className == 'hidden') {
+          stop();
+          PS_Cover.Tutorial.next();
+        }
+      });
+    }
+  },
+
+
+  {
+    message : 'Much more roomy now, isn\'t it? If you ever want to see the layer list again, all you have to do is click the little blue bar on the right. Now click it and make up!',
+
+    focus : {
+      selectors : '#cover-tools-layer-list',
+      event : '#layer-list-title, #cover-tools-layer-list',
+      noclick : true
+    },
+
+    condition : function () {
+      var list = document.getElementById('cover-tools-layer-list'),
+          a = document.querySelectorAll('.shape-layer'),
+          i = 0,
+          j = a.length;
+
+      for (; i < j; i++) {
+        PS_Cover.deleteLayer(a[i].firstChild, true);
+      }
+
+      PS_Cover.Tutorial.listen(function (stop) {
+        if (!list.className) {
+          stop();
+          PS_Cover.Tutorial.next();
+        }
+      });
+    }
+  },
+
+
+  {
+    message : 'It\'s great to see that the both of you made up and got to learn a little something about each other. Now you know how to use the layer list, which means you\'re now ready to learn about LAYERS!',
   },
 
 
@@ -163,7 +265,7 @@ PS_Cover.Tutorial.step = [
     message : 'This is the main input field, it allows you to insert text, links, or select options from a predefined list. In this input field we can insert direct image links from the web or the image selector.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.cover-image',
       noclick : true
     }
@@ -174,7 +276,7 @@ PS_Cover.Tutorial.step = [
     message : 'Sometimes main input fields will have additional options like, colors, fill, or in your case a search button for images. Clicking this button will open the image selector so you can choose another image. Go ahead and click it if you want a brand new image, otherwise click the NEXT button to move on.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.image-caller',
       noclick : true
     }
@@ -185,7 +287,7 @@ PS_Cover.Tutorial.step = [
     message : 'This little area is the layer controls. It allows you to rotate, move, change the stack order of, and delete the layer.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.layer-controls',
       noclick : true
     }
@@ -196,7 +298,7 @@ PS_Cover.Tutorial.step = [
     message : 'These two buttons rotate the layer. The first button freely rotates the layer, whereas the second button snap rotates the layer 90 degees. Go ahead and click these buttons to get a feel for how they work. When you\'re done spinning around, click the NEXT button to move on.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.layer-rotate-box a',
       noclick : true
     }
@@ -207,7 +309,7 @@ PS_Cover.Tutorial.step = [
     message : 'These four buttons move the layer in the direction they\'re pointing. Don\'t like where your image is? Want to move it somewhere else? Then click and hold down the ' + ( PS_Cover.isPS4 ? '<i class="ps-button cross"></i>' : 'Mouse' ) + ' Button on one of these buttons to move it! Seriously though, play around with these buttons to get acquainted with them, because they\'re gonna be your best friends. When you\'re finished playing with your new BFFs, click the NEXT button to move on.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.arrow-box a',
       noclick : true
     }
@@ -218,7 +320,7 @@ PS_Cover.Tutorial.step = [
     message : 'These buttons change the stack order of the layers. For example, the topmost layer is shown on top of everything and the bottommost layer is covered by everything else. If you want to bring a layer to the front so it\'s not covered by anything, click these buttons to change the stack order of each layer. Go ahead and show this square who\'s boss by bringing your image back to the front!',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.image-layer .layer-move-box a',
       noclick : true
     },
@@ -248,7 +350,7 @@ PS_Cover.Tutorial.step = [
     message : 'Great job! You really showed that square who\'s boss! Let\'s teach it one more lesson by deleting it from our Cover Image. See that cross? Clicking it will delete the layer. Go ahead and take out the trash!',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.shape-layer .layer-controls .fa-times',
       noclick : true
     },
@@ -282,7 +384,7 @@ PS_Cover.Tutorial.step = [
     message : 'Last but not least is the layer tools! These tools, depending on the layer, allow you to adjust the opacity, scale, raw coordinates, and more. Go ahead and play with these tools to see how they work. If you\'re not sure what something does, click the blue icons for a hint. When you\'re done playing around, click the NEXT button to move on.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.cover-input-tools input, .cover-input-tools a',
       noclick : true
     }
@@ -304,7 +406,7 @@ PS_Cover.Tutorial.step = [
     message : 'The canvas settings allow you to adjust some basic settings for the canvas, such as the background color. Click the color palette to pick a new background color for your Cover Image.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.color-inpicker-box',
       noclick : true
     },
@@ -340,7 +442,7 @@ PS_Cover.Tutorial.step = [
     message : 'If you want to preview how your Cover Image would look on an actual Profile, then all you need to do is click the "Show Demo Profile" checkbox. Go ahead and click it to see how your Cover Image would look once applied to someones profile.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.pseudo-checkbox',
       noclick : true
     },
@@ -376,7 +478,7 @@ PS_Cover.Tutorial.step = [
     message : 'Go ahead and click the "ADD TEXT" button to add a text layer to your Cover Image.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '#add-text',
       noclick : true
     },
@@ -400,7 +502,7 @@ PS_Cover.Tutorial.step = [
     message : 'Nice! Now we\'ve got a text layer to work with. Go ahead and add some text in the input field, like your username or whatever comes to mind. Once you\'ve got some text on your Cover, click NEXT to move on.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.cover-text',
       noclick : true
     },
@@ -423,7 +525,7 @@ PS_Cover.Tutorial.step = [
     message : 'Catchy! Okay, go ahead and select your favorite color for the text or just leave it as is. Click the NEXT button when you\'re ready to move on.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.text-layer .color-inpicker-box',
       noclick : true
     }
@@ -434,7 +536,7 @@ PS_Cover.Tutorial.step = [
     message : 'Now let\'s spruce up that text with a new look. Pick a new font from the drop down ; it can be any font you want! When you\'re ready to move on, click the NEXT button.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.cover-input-font',
       noclick : true
     }
@@ -445,7 +547,7 @@ PS_Cover.Tutorial.step = [
     message : 'Alright we\'re almost done, adjust the font size if you want to make the text bigger or smaller. Click the NEXT button When you\'re finished.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.cover-input-size',
       noclick : true
     }
@@ -456,7 +558,7 @@ PS_Cover.Tutorial.step = [
     message : 'For the last step, let\'s adjust the position of your text. Use the arrows to move the text wherever you want! Once you\'ve got it in a position you\'re happy with, click the NEXT button.',
 
     focus : {
-      selectors : '#cover-tools',
+      selectors : '#cover-tools-box',
       event : '.text-layer .arrow-box a',
       noclick : true
     }
