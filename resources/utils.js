@@ -1,5 +1,5 @@
 /****** UTILITIES ********
-** 00. forAll
+** 00. ForAll
 ** 01. ColorPicker
 ** 02. Inumber
 ** 03. parentsUntil
@@ -7,45 +7,40 @@
 ** 05. Font Detect
 **************************/
 
-/* -- 00. forAll -- */
+/* -- 00. ForAll -- */
 // asynchronously loop an array or node list
-function forAll (list, callback) {
-  this.list = list;
-  this.callback = callback;
-  this.index = -1;
-  this.status = 'looping';
+function ForAll (list, callback) {
+  this.iterate(list, callback);
+};
 
-  this.iterate = function () {
-    if (this.list[++this.index]) {
-      that = this;
+ForAll.prototype.index = -1;
+ForAll.prototype.status = 'looping';
 
-      this.callback(this.list[this.index]);
+ForAll.prototype.iterate = function (list, callback) {
+  if (list[++this.index]) {
+    var that = this;
 
-      setTimeout(function () {
-        that.iterate();
-      }, 0);
+    callback(list[this.index]);
+
+    setTimeout(function () {
+      that.iterate(list, callback);
+    }, 0);
+
+  } else {
+    this.status = 'done';
+    this.done(this.doneCallback);
+  }
+};
+
+ForAll.prototype.done = function (doneCallback) {
+  if (doneCallback) {
+    if (this.status == 'done') {
+      doneCallback();
 
     } else {
-      this.status = 'done';
-
-      if (this.doneCallback) {
-        this.done(this.doneCallback);
-      }
+      this.doneCallback = doneCallback;
     }
-  };
-
-  this.done = function (doneCallback) {
-    if (doneCallback) {
-      if (this.status == 'done') {
-        doneCallback();
-
-      } else {
-        this.doneCallback = doneCallback;
-      }
-    }
-  };
-
-  this.iterate();
+  }
 };
 
 
