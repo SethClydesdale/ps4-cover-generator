@@ -1024,34 +1024,21 @@ footer a:active { color:#FF8; }
   width:19%;
   height:200px;
   margin:0 0 1% 1%;
-  position:relative;
   overflow:hidden;
   cursor:pointer;
-}
 
-.select-image-option:after {
-  content:url(http://i.imgur.com/gqE9lZa.gif); /* image placeholder */
-  position:absolute;
-  display:none;
-}
-
-.select-image-option[data-hidden="true"]:after {
-  display:block;
-}
-
-.select-image-option img {
   opacity:1;
   visibility:visible;
   transition-property:opacity, visibility;
   transition-duration:1000ms;
 }
 
-.select-image-option[data-hidden="true"] img {
+.select-image-option[data-hidden="true"] {
   opacity:0;
   visibility:hidden;
 }
 
-.select-image-option:hover { opacity:0.5; }
+.select-image-option:hover img { opacity:0.5; }
 .select-image-category:hover { background-color:#DDD; }
 
 .select-image-button {
