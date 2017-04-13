@@ -472,7 +472,7 @@
           thumb,
           val;
 
-      forAll (document.querySelectorAll('.cover-layer'), function (layer) {
+      new forAll (document.querySelectorAll('.cover-layer'), function (layer) {
         thumb = layer.querySelector('.layer-thumb');
         val = layer.querySelector('.main-input');
 
@@ -635,7 +635,7 @@
 
       // show / hide images as the user scrolls
       fadeInOut : function () {
-        forAll (document.querySelectorAll('.select-image-option'), function (img) {
+        new forAll (document.querySelectorAll('.select-image-option'), function (img) {
           var rect = img.getBoundingClientRect(),
               visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 

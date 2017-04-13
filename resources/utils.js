@@ -10,42 +10,42 @@
 /* -- 00. forAll -- */
 // asynchronously loop an array or node list
 function forAll (list, callback) {
-  var o = {
-    list : list,
-    callback : callback,
-    index : -1,
-    status : 'looping',
+  this.list = list;
+  this.callback = callback;
+  this.index = -1;
+  this.status = 'looping';
 
-    iterate : function () {
-      var that = this;
+  this.iterate = function () {
+    if (this.list[++this.index]) {
+      that = this;
 
-      if (this.list[++this.index]) {
-        this.callback(this.list[this.index]);
+      this.callback(this.list[this.index]);
 
-        setTimeout(function () {
-          that.iterate();
-        }, 0);
+      setTimeout(function () {
+        that.iterate();
+      }, 0);
 
-      } else {
-        this.status = 'done';
-        this.done(that.fn);
-      }
-    },
+    } else {
+      this.status = 'done';
 
-    done : function (fn) {
-      if (!fn) return undefined;
-
-      if (this.status == 'done') {
-        fn();
-
-      } else {
-        this.fn = fn;
+      if (this.doneCallback) {
+        this.done(this.doneCallback);
       }
     }
   };
 
-  o.iterate();
-  return o;
+  this.done = function (doneCallback) {
+    if (doneCallback) {
+      if (this.status == 'done') {
+        doneCallback();
+
+      } else {
+        this.doneCallback = doneCallback;
+      }
+    }
+  };
+
+  this.iterate();
 };
 
 
