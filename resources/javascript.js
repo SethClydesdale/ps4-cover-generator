@@ -467,8 +467,7 @@
 
     // sync the layer list w/the layers on the canvas
     syncLayerList : function () {
-      var list = document.getElementById('layer-list'),
-          layerList = '',
+      var layerList = '',
           thumb,
           val;
 
@@ -492,8 +491,11 @@
         '</li>';
 
       }).done(function () {
+        var list = document.getElementById('layer-list');
+
         if (list.innerHTML != layerList) {
           list.innerHTML = layerList;
+          document.getElementById('layer-total').innerHTML = '(' + list.childNodes.length + ')';
         }
       });
     },
