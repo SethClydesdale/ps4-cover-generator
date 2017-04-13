@@ -457,23 +457,24 @@
 
     // jumps to the specified layer
     jumpToLayer : function (layer) {
-      document.getElementById('cover-tools').scrollTop = (typeof layer == 'number' ? document.querySelectorAll('.cover-layer')[layer] : layer).offsetTop - 3;
+      layer = typeof layer == 'number' ? document.querySelectorAll('.cover-layer')[layer] : layer;
+
+      if (layer) {
+        document.getElementById('cover-tools').scrollTop = layer.offsetTop - 3;
+      }
     },
 
 
     // sync the layer list w/the layers on the canvas
     syncLayerList : function () {
       var list = document.getElementById('layer-list'),
-          layer = document.querySelectorAll('.cover-layer'),
-          i = 0,
-          j = layer.length,
           layerList = '',
           thumb,
           val;
 
-      for (; i < j; i++) {
-        thumb = layer[i].querySelector('.layer-thumb');
-        val = layer[i].querySelector('.main-input');
+      forAll (document.querySelectorAll('.cover-layer'), function (layer) {
+        thumb = layer.querySelector('.layer-thumb');
+        val = layer.querySelector('.main-input');
 
         thumb = !thumb ? '<i class="layer-thumb fa fa-font"></i>' :
                 '<img class="layer-thumb" src="' + (thumb.tagName == 'CANVAS' ? thumb.toDataURL('image/png') : thumb.src) + '" alt="">';
@@ -483,17 +484,18 @@
               val.value;
 
         layerList +=
-        '<li class="' + layer[i].className.replace(/tools-row|cover-layer/g, '') + '-list">'+
-          '<a href="#" onclick="PS_Cover.jumpToLayer(' + i + '); return false;">'+
+        '<li class="' + layer.className.replace(/tools-row|cover-layer/g, '') + '-list">'+
+          '<a href="#" onclick="PS_Cover.jumpToLayer(' + this.index + '); return false;">'+
             thumb+
             val+
           '</a>'+
         '</li>';
-      }
 
-      if (list.innerHTML != layerList) {
-        list.innerHTML = layerList;
-      }
+      }).done(function () {
+        if (list.innerHTML != layerList) {
+          list.innerHTML = layerList;
+        }
+      });
     },
 
 
@@ -633,17 +635,17 @@
 
       // show / hide images as the user scrolls
       fadeInOut : function () {
-        for (var a = document.querySelectorAll('.select-image-option'), i = 0, j = a.length; i < j; i++) {
-          var rect = a[i].getBoundingClientRect(),
+        forAll (document.querySelectorAll('.select-image-option'), function (img) {
+          var rect = img.getBoundingClientRect(),
               visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 
-          if (visible && a[i].dataset.hidden == 'true') {
-            a[i].dataset.hidden = false;
+          if (visible && img.dataset.hidden == 'true') {
+            img.dataset.hidden = false;
 
-          } else if (!visible && a[i].dataset.hidden == 'false') {
-            a[i].dataset.hidden = true;
+          } else if (!visible && img.dataset.hidden == 'false') {
+            img.dataset.hidden = true;
           }
-        }
+        });
       },
 
 

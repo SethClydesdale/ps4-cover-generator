@@ -1,10 +1,53 @@
 /****** UTILITIES ********
+** 00. forAll
 ** 01. ColorPicker
 ** 02. Inumber
 ** 03. parentsUntil
 ** 04. checkbox replacer
 ** 05. Font Detect
 **************************/
+
+/* -- 00. forAll -- */
+// asynchronously loop an array or node list
+function forAll (list, callback) {
+  var o = {
+    list : list,
+    callback : callback,
+    index : -1,
+    status : 'looping',
+
+    iterate : function () {
+      var that = this;
+
+      if (this.list[++this.index]) {
+        this.callback(this.list[this.index]);
+
+        setTimeout(function () {
+          that.iterate();
+        }, 0);
+
+      } else {
+        this.status = 'done';
+        this.done(that.fn);
+      }
+    },
+
+    done : function (fn) {
+      if (!fn) return undefined;
+
+      if (this.status == 'done') {
+        fn();
+
+      } else {
+        this.fn = fn;
+      }
+    }
+  };
+
+  o.iterate();
+  return o;
+};
+
 
 /* -- 01. Color Picker -- */
 // ColorPicker Prototype for PS4 and browsers that don't support input[type="color"]
