@@ -8,7 +8,7 @@
 **************************/
 
 /* -- 00. ForAll -- */
-// asynchronously loop an array or node list
+// asynchronously loop an array, node list, or function number of times
 function ForAll (list, callback) {
   this.list = list;
   this.callback = callback;
@@ -19,13 +19,13 @@ ForAll.prototype.index = -1;
 ForAll.prototype.status = 'looping';
 
 ForAll.prototype.iterate = function () {
-  if (this.list[++this.index]) {
-    var that = this;
+  if (this.list[++this.index] || this.index < this.list) {
+    var self = this;
 
-    this.callback(this.list[this.index]);
+    this.callback(this.list[this.index] || this.index);
 
     setTimeout(function () {
-      that.iterate();
+      self.iterate();
     }, 0);
 
   } else {

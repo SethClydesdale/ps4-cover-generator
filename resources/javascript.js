@@ -618,22 +618,63 @@
 
       // get a category's images
       get : function (category) {
-        var str = '<h1 id="select-image-title">Select an Image</h1>'+
-                  '<a class="select-image-button select-image-back" href="#" onclick="PS_Cover.Images.close();PS_Cover.Images.call();return false;"><i class="fa fa-chevron-left"></i> Back</a>'
-                  + PS_Cover.templates.Images.close +
-                  '<div id="select-image-container" onscroll="PS_Cover.Images.fadeInOut();">'+
-                    '<div id="select-image-list" class="clear">'+
-                      '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[category].thumb) ? '' : PS_Cover.Images.host) + PS_Cover.Images.list[category].thumb + '"></a>',
-            i = 0,
-            j = PS_Cover.Images.list[category].images.length;
+        PS_Cover.Images.index = -1;
+        PS_Cover.Images.adding = false;
+        PS_Cover.Images.catg = category;
 
-        for (; i < j; i++) {
-          str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[category].images[i]) ? PS_Cover.Images.list[category].images[i] : PS_Cover.Images.host + PS_Cover.Images.list[category].images[i].replace(/(\.[^\.]*?)$/, 'm$1')) + '"></a>';
-        }
+        PS_Cover.Images.modal.innerHTML =
+        '<h1 id="select-image-title">Select an Image</h1>'+
+        '<a class="select-image-button select-image-back" href="#" onclick="PS_Cover.Images.close();PS_Cover.Images.call();return false;"><i class="fa fa-chevron-left"></i> Back</a>'
+        + PS_Cover.templates.Images.close +
+        '<div id="select-image-container">'+
+          '<div id="select-image-list" class="clear">'+
+            '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[category].thumb) ? '' : PS_Cover.Images.host) + PS_Cover.Images.list[category].thumb + '"></a>'+
+          '</div>'+
+        '</div>' +
+        PS_Cover.templates.Images.request;
 
-        PS_Cover.Images.modal.innerHTML = str + '</div></div>' + PS_Cover.templates.Images.request;
-        PS_Cover.Images.fadeInOut();
+        // fade images in / out and add more images while scrolling
+        document.getElementById('select-image-container').addEventListener('scroll', function () {
+          PS_Cover.Images.fadeInOut();
+
+          if (this.scrollHeight - this.scrollTop === this.clientHeight) {
+            PS_Cover.Images.add(30);
+          }
+        });
+
+        PS_Cover.Images.add(29);
       },
+
+
+      add : function (amount) {
+        if (!PS_Cover.Images.adding && PS_Cover.Images.index < PS_Cover.Images.list[PS_Cover.Images.catg].images.length) {
+          PS_Cover.Images.adding = true;
+
+          var title = document.getElementById('select-image-title'),
+              list = document.getElementById('select-image-list'),
+              max = PS_Cover.Images.list[PS_Cover.Images.catg].images.length + 1,
+              min,
+              str = '',
+              i = 0;
+
+          for (; i < amount; i++) {
+            if (PS_Cover.Images.list[PS_Cover.Images.catg].images[++PS_Cover.Images.index]) {
+              str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index]) ? PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index] : PS_Cover.Images.host + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].replace(/(\.[^\.]*?)$/, 'm$1')) + '"></a>';
+            } else {
+              break;
+            }
+          }
+
+          min = PS_Cover.Images.index + 2;
+          
+          title.innerHTML = 'Select an Image (' + (min > max ? max : min) + '/' + max + ')'
+          list.insertAdjacentHTML('beforeend', str);
+
+          PS_Cover.Images.fadeInOut();
+          PS_Cover.Images.adding = false;
+        }
+      },
+
 
       // show / hide images as the user scrolls
       fadeInOut : function () {
