@@ -574,8 +574,9 @@
               modal = document.createElement('DIV'),
               str = '<h1 id="select-image-title">Select a Category</h1>'
                     + PS_Cover.templates.Images.close +
-                    '<div id="select-image-container">',
-              i;
+                    '<div id="select-image-container">'+
+                    '<p id="select-image-stats"></p>',
+              i, len;
 
           overlay.addEventListener('click', PS_Cover.Images.close);
           overlay.id = 'select-image-overlay';
@@ -583,8 +584,15 @@
           modal.id = 'select-image-modal';
 
           if (PS_Cover.Images.list) {
+            PS_Cover.Images.total = [0, 0];
+
             for (i in PS_Cover.Images.list) {
-              str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + ( /^http/.test(PS_Cover.Images.list[i].thumb) ? '' : PS_Cover.Images.host ) + PS_Cover.Images.list[i].thumb + ')"><span class="select-image-total">' + (PS_Cover.Images.list[i].images.length + 1) + ' images</span></a>';
+              len = PS_Cover.Images.list[i].images.length + 1;
+
+              PS_Cover.Images.total[0]++;
+              PS_Cover.Images.total[1] += len;
+
+              str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + ( /^http/.test(PS_Cover.Images.list[i].thumb) ? '' : PS_Cover.Images.host ) + PS_Cover.Images.list[i].thumb + ')"><span class="select-image-total">' + len + ' images</span></a>';
             }
           } else {
             str +=
@@ -604,6 +612,11 @@
           document.body.appendChild(PS_Cover.Images.overlay);
           document.body.appendChild(PS_Cover.Images.modal);
           document.body.style.overflow = 'hidden';
+
+          // show image selector stats
+          if (PS_Cover.Images.total) {
+            document.getElementById('select-image-stats').innerHTML = 'Choose from over <b>' + PS_Cover.Images.total[1] + '</b> images in <b>' + PS_Cover.Images.total[0] + '</b> categories.';
+          }
 
           if (!document.querySelector('.select-image-category')) {
             window.setTimeout(function() {
@@ -666,7 +679,7 @@
           }
 
           min = PS_Cover.Images.index + 2;
-          
+
           title.innerHTML = 'Select an Image (' + (min > max ? max : min) + '/' + max + ')'
           list.insertAdjacentHTML('beforeend', str);
 

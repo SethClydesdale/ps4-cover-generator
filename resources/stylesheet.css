@@ -979,15 +979,26 @@ footer a:active { color:#FF8; }
   color:#FFF;
   text-align:center;
   background:#07C;
-  padding:12px;
-  margin:-1px -1px 12px -1px;
+  height:55px;
+  line-height:55px;
+  padding:0 12px;
+  margin:-1px -1px 0 -1px;
+}
+
+#select-image-stats {
+  font-size:16px;
+  text-align:center;
+  margin:12px 0 6px 0;
 }
 
 #select-image-container {
   height:90%;
+  height:calc(100% - 55px);
   overflow-x:hidden;
   overflow-y:auto;
 }
+
+#select-image-list { padding-top:1%; }
 
 .select-image-category {
   background-color:#EEE;
