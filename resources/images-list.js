@@ -19,7 +19,7 @@ PS_Cover.Images.list = {
       'y7Acv20.png',
       'w9sorWC.png',
 
-      // BACKGROUND / WALLPAPERS
+      // # BACKGROUNDS
       'ihZ9f9h.jpg',
       '85iZfAi.jpg',
       '3EOhi3h.jpg',
@@ -39,6 +39,64 @@ PS_Cover.Images.list = {
       'cVq5mSb.jpg',
       '8EXjZE4.jpg',
       'qeYVB4s.jpg'
+    ]
+  },
+
+
+  'Bloodborne' : {
+    thumb : 'wqcVwbF.png',
+    images : [
+      // # RENDERS
+      's4IxoJh.png',
+      'WY7caYS.png',
+      'CZh5PXF.png',
+      'Lm1KZJd.png',
+      'p4xV4Ol.png',
+      '0Ruzt45.png',
+      'FON9rXe.png',
+      '75d6e6m.png',
+      'Hl26EUi.png',
+      'O9gXNQD.png',
+      'JDxpfQs.png',
+      'ftDoYdr.png',
+      'bUSpwkK.png',
+      'MCCZ0mZ.png',
+      'VVtp8l8.png',
+      'H4rThUN.png',
+      'rwJILFO.png',
+      'yf67liK.png',
+      'CDvNNGN.png',
+      'kue1rEC.png',
+
+      // # BACKGROUNDS
+      'XI2GYw8.jpg',
+      '3pE6fyU.jpg',
+      'HeoakAG.jpg',
+      'YITTiTc.jpg',
+      'PboIhpU.jpg',
+      'sTgy0R6.jpg',
+      'LB2kGEC.jpg',
+      'AdtOVDk.jpg',
+      'szuaqnc.jpg',
+      'nuAQyuY.jpg',
+      '6zYL4H3.jpg',
+      '4SyJWeA.jpg',
+      'zVRfacY.jpg',
+      'PmpHnGQ.jpg',
+      'XfDDGXb.jpg',
+      'EtxyvAC.jpg',
+      'Uuopenb.jpg',
+      'DaBOZKw.jpg',
+      'DtsWpsW.jpg',
+      'z7bIM4c.jpg',
+      '3thPh95.jpg',
+      'jrlflNs.jpg',
+      'mclu7GD.jpg',
+      'mUNQCoS.jpg',
+      'mWfdt8l.jpg',
+      '5rn5UTS.jpg',
+      '0EUkq0R.jpg',
+      '0vVd28R.jpg'
     ]
   },
 
@@ -409,7 +467,7 @@ PS_Cover.Images.list = {
       // Type-0 / Misc
       'OCfBDaF.png',
 
-      // BACKGROUND / WALLPAPERS
+      // # BACKGROUNDS
       // FF3
       'brIc3ig.jpg',
       // FF4
@@ -609,7 +667,7 @@ PS_Cover.Images.list = {
       'zm5iQTP.png',
       '7qHxc9y.png',
 
-      // BACKGROUND / WALLPAPERS
+      // # BACKGROUNDS
       'V7Xk2dz.jpg',
       'ZzkJSG2.jpg',
       'pKt9H0B.jpg',
@@ -706,7 +764,7 @@ PS_Cover.Images.list = {
       'Et6Pna2.png',
       'am4Lffh.png',
 
-      // # BACKGROUND / WALLPAPERS
+      // # BACKGROUNDS
       'q6hi5zk.jpg',
       'cjC1Ol3.jpg',
       'pRiXojg.jpg',
@@ -767,7 +825,7 @@ PS_Cover.Images.list = {
       'BHFEnJt.png',
       'suq7iQh.png',
 
-      // # BACKGROUND / WALLPAPERS
+      // # BACKGROUNDS
       // Persona 2
       'eYqMriH.jpg',
       'BfGsHji.jpg',
@@ -860,7 +918,7 @@ PS_Cover.Images.list = {
       // Q
       'yJhK2aK.png',
 
-      // BACKGROUND / WALLPAPERS
+      // # BACKGROUNDS
       'X0SOoLR.jpg',
       'weMw3nC.jpg',
       'x89It3x.jpg',
