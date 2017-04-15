@@ -1176,7 +1176,7 @@ a.select-image-request:active { background:#05A; }
 
 /* prevent certain actions while the tutorial is in effect */
 .inTutorial { overflow:hidden; }
-.inTutorial #select-image-overlay {
+.inTutorial #select-image-overlay, .inTutorial[data-fullscreen="true"] #cover-tools-title {
   pointer-events:none;
 }
 

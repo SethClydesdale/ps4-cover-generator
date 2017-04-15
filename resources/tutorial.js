@@ -443,7 +443,7 @@ PS_Cover.Tutorial.step = [
 
     focus : {
       selectors : '#cover-tools-box',
-      event : '.pseudo-checkbox',
+      event : '#cover-show-profile + .pseudo-checkbox',
       noclick : true
     },
 
@@ -464,12 +464,48 @@ PS_Cover.Tutorial.step = [
 
 
   {
-    message : 'Lookin\' good, right? We\'ve come a long way, so let\'s finish up by adding some text to your Cover Image and really personalize it! C\'mon click NEXT!',
+    message : 'Lookin\' good, right? It\'s a good idea to enable this option if you want to be more precise with how you line things up. Next up, let\'s check out the "Full Screen" option.',
 
     focus : {
       selectors : '#ps4-cover-photo, #ps4-demo-profile',
       position : 'relative',
       jump : true
+    }
+  },
+
+
+  {
+    message : 'Click the checkbox for "Full Screen" to enable the Full Screen view for the tools.',
+
+    focus : {
+      selectors : '#cover-tools-box',
+      event : '#cover-go-fullscreen + .pseudo-checkbox',
+      noclick : true
+    },
+
+    condition : function () {
+      document.getElementById('cover-tools').scrollTop = 0;
+
+      var fs = document.getElementById('cover-go-fullscreen');
+      fs.checked = false;
+
+      PS_Cover.Tutorial.listen(function(stop) {
+        if (fs.checked) {
+          stop();
+          PS_Cover.Tutorial.next();
+        }
+      });
+    }
+  },
+
+
+  {
+    message : 'Nicely done! Enabling Full Screen fixes the canvas to the screen, and evenly distributes the height between the toolbox and canvas while making your feel more immersed. It\'s a great way to get an equal view of things! We\'ve come a long way, so let\'s wrap things up by adding some text to your Cover Image and really personalize it! Click NEXT to continue.',
+
+    focus : {
+      selectors : '#cover-image-box, #cover-tools-box, #cover-tools-title',
+      position : 'fixed',
+      noclick : true
     }
   },
 
@@ -484,9 +520,16 @@ PS_Cover.Tutorial.step = [
     },
 
     condition : function () {
+      document.getElementById('cover-tools').scrollTop = 0;
       document.getElementById('cover-show-profile').checked = false;
       document.getElementById('ps4-demo-profile').className = 'hidden';
-      document.getElementById('cover-tools').scrollTop = 0;
+
+      document.getElementById('cover-go-fullscreen').checked = false;
+      for (var a = document.querySelectorAll('[data-fullscreen="true"]'), i = 0, j = a.length; i < j; i++) {
+        a[i].dataset.fullscreen = false;
+      }
+
+      document.body.scrollTop = document.getElementById('ps4-cover-photo').offsetTop - 210;
 
       PS_Cover.Tutorial.listen(function(stop) {
         if (document.querySelector('.text-layer')) {
