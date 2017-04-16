@@ -598,7 +598,8 @@
               str = '<h1 id="select-image-title">Select a Category</h1>'
                     + PS_Cover.templates.Images.close +
                     '<div id="select-image-container">'+
-                    '<p id="select-image-stats"></p>',
+                      '<div id="select-image-list" class="clear">'+
+                        '<p id="select-image-stats"></p>',
               i, len;
 
           overlay.addEventListener('click', PS_Cover.Images.close);
@@ -623,7 +624,7 @@
               '<p class="loading">Loading images...</p>';
           }
 
-          modal.innerHTML = str + '</div>' + PS_Cover.templates.Images.request;
+          modal.innerHTML = str + '</div></div>' + PS_Cover.templates.Images.request;
 
           PS_Cover.cache.Images.overlay = overlay;
           PS_Cover.cache.Images.modal = modal;
