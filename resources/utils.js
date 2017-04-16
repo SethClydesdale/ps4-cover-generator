@@ -9,28 +9,38 @@
 
 /* -- 00. ForAll -- */
 // asynchronously loop an array, node list, or function number of times
-function ForAll (list, callback) {
+function ForAll (list, callback, operation) {
   this.list = list;
   this.callback = callback;
-  this.iterate();
+
+  if (operation && operation < 1) {
+    this.index = this.list.length;
+  }
+
+  this.iterate(operation || +1);
 };
 
 ForAll.prototype.index = -1;
 ForAll.prototype.status = 'looping';
 
-ForAll.prototype.iterate = function () {
-  if (this.list[++this.index] || this.index < this.list) {
-    var self = this;
+ForAll.prototype.iterate = function (operation) {
+  if (this.status != 'dead') {
+    if (this.list[this.index += operation]) {
+      var self = this;
 
-    this.callback(this.list[this.index] || this.index);
+      this.callback(this.list[this.index]);
 
-    setTimeout(function () {
-      self.iterate();
-    }, 0);
+      setTimeout(function () {
+        self.iterate(operation);
+      }, 0);
 
-  } else {
-    this.status = 'done';
-    this.done(this.doneCallback);
+    } else {
+      this.status = 'done';
+
+      if (this.doneCallback) {
+        this.done(this.doneCallback);
+      }
+    }
   }
 };
 
@@ -43,6 +53,12 @@ ForAll.prototype.done = function (doneCallback) {
       this.doneCallback = doneCallback;
     }
   }
+
+  return this;
+};
+
+ForAll.prototype.kill = function () {
+  this.status = 'dead';
 };
 
 

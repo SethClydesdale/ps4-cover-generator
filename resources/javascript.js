@@ -4,18 +4,26 @@
 
     canvas : document.getElementById('ps4-cover-photo'),
 
+    cache : {
+      bgColor : document.getElementById('cover-bg-color'),
+      coverTools : document.getElementById('cover-tools'),
+      coverLayers : document.getElementById('cover-layers'),
+      layerList : document.getElementById('layer-list'),
+      layerTotal : document.getElementById('layer-total'),
+
+      Images : {},
+      updateInput : {},
+    },
+
     // used to draw images, text, etc.. onto the canvas
     draw : function () {
-      PS_Cover.canvas.width = window.innerWidth;
-      PS_Cover.canvas.height = 600;
-
-      PS_Cover.ctx.fillStyle = document.getElementById('cover-bg-color').value;
+      PS_Cover.ctx.fillStyle = PS_Cover.cache.bgColor.value;
       PS_Cover.ctx.fillRect(0, 0, PS_Cover.canvas.width, PS_Cover.canvas.height);
 
       // draw images onto the canvas
-      for (var layer = document.querySelectorAll('.cover-layer'), i = layer.length - 1, img, input; i > -1; i--) {
-        if (/image-layer/.test(layer[i].className)) {
-          input = layer[i].querySelector('.main-input');
+      for (var i = PS_Cover.cache.layers.length - 1, img, input; i > -1; i--) {
+        if (/image-layer/.test(PS_Cover.cache.layers[i].className)) {
+          input = PS_Cover.cache.layers[i].querySelector('.main-input');
 
           img = input.previousSibling;
           img.crossOrigin = 'anonymous';
@@ -35,8 +43,8 @@
             opacity : +input.dataset.opacity / 100
           });
 
-        } else if (/text-layer/.test(layer[i].className)) {
-          input = layer[i].querySelector('.main-input');
+        } else if (/text-layer/.test(PS_Cover.cache.layers[i].className)) {
+          input = PS_Cover.cache.layers[i].querySelector('.main-input');
 
           PS_Cover.transform({
             rotate : +input.dataset.rotate,
@@ -50,8 +58,8 @@
             PS_Cover.ctx[fill + 'Text'](input.value, input.dataset.x, input.dataset.y);
           });
 
-        } else if (/shape-layer/.test(layer[i].className)) {
-          input = layer[i].querySelector('.main-input');
+        } else if (/shape-layer/.test(PS_Cover.cache.layers[i].className)) {
+          input = PS_Cover.cache.layers[i].querySelector('.main-input');
 
           PS_Cover.transform({
             scale : +input.dataset.scale / 100,
@@ -158,15 +166,21 @@
 
     // update the input of elements and draw the new value to the canvas
     updateInput : function (caller) {
-      var type = caller.className.replace(/cover-input-/g, ''),
-          input = caller.parentsUntil('.cover-layer').querySelector('.main-input'),
-          selected = caller.options ? caller.options[caller.selectedIndex] : null,
-          fa = caller.parentNode.querySelector('.fa-caller'),
+      if (caller != PS_Cover.cache.updateInput.lastCaller) {
+        PS_Cover.cache.updateInput = {
+          lastCaller : caller,
+          type : caller.className.replace(/cover-input-/g, ''),
+          input : caller.parentsUntil('.cover-layer').querySelector('.main-input'),
+          fa : caller.parentNode.querySelector('.fa-caller')
+        };
+      }
+
+      var selected = caller.tagName == 'SELECT' ? caller.options[caller.selectedIndex] : null,
           value = caller[caller.type == 'checkbox' ? 'checked' : 'value'];
 
-      if (type == 'font' && !selected.dataset.loaded) {
-        input.style.fontFamily = value;
-        input.dataset[type] = value;
+      if (PS_Cover.cache.updateInput.type == 'font' && !selected.dataset.loaded) {
+        PS_Cover.cache.updateInput.input.style.fontFamily = value;
+        PS_Cover.cache.updateInput.input.dataset[PS_Cover.cache.updateInput.type] = value;
 
         FontDetect.onFontLoaded(value, function () {
           selected.dataset.loaded = true;
@@ -174,20 +188,20 @@
         }, null, { msTimeout : 3000 });
 
       } else {
-        if (type == 'font') {
-          input.style.fontFamily = value;
+        if (PS_Cover.cache.updateInput.type == 'font') {
+          PS_Cover.cache.updateInput.input.style.fontFamily = value;
         }
 
-        input.dataset[type] = value;
+        PS_Cover.cache.updateInput.input.dataset[PS_Cover.cache.updateInput.type] = value;
         PS_Cover.draw();
       }
 
       // show fontawesome icon toggler
-      if (type == 'font') {
-        if (value == 'FontAwesome' && fa && fa.style.display == 'none') {
-          fa.style.display = '';
-        } else if (fa && fa.style.display != 'none') {
-          fa.style.display = 'none';
+      if (PS_Cover.cache.updateInput.type == 'font') {
+        if (value == 'FontAwesome' && PS_Cover.cache.updateInput.fa && PS_Cover.cache.updateInput.fa.style.display == 'none') {
+          PS_Cover.cache.updateInput.fa.style.display = '';
+        } else if (PS_Cover.cache.updateInput.fa && PS_Cover.cache.updateInput.fa.style.display != 'none') {
+          PS_Cover.cache.updateInput.fa.style.display = 'none';
         }
       }
 
@@ -285,20 +299,20 @@
 
     // move layers up / down
     moveLayer : function (where, caller) {
-      var row = caller.parentsUntil('.cover-layer'),
-          layers = document.getElementById('cover-layers');
+      var row = caller.parentsUntil('.cover-layer');
 
       switch (where.toLowerCase()) {
         case 'up' :
-          layers.insertBefore(row, row.previousSibling);
+          PS_Cover.cache.coverLayers.insertBefore(row, row.previousSibling);
           break;
 
         case 'down' :
           var next = row.nextSibling.nextSibling;
-          next ? layers.insertBefore(row, next) : layers.appendChild(row);
+          next ? PS_Cover.cache.coverLayers.insertBefore(row, next) : PS_Cover.cache.coverLayers.appendChild(row);
           break;
       }
 
+      PS_Cover.cache.layers = PS_Cover.cache.coverLayers.childNodes;
       PS_Cover.jumpToLayer(row);
       PS_Cover.draw();
     },
@@ -309,6 +323,8 @@
       if (skipConfirmation || confirm('You are about to delete this layer.\nDo you want to continue?')) {
         var layer = caller.parentsUntil('.cover-layer');
         layer.parentNode.removeChild(layer);
+
+        PS_Cover.cache.layers = PS_Cover.cache.coverLayers.childNodes;
         PS_Cover.draw();
       }
     },
@@ -318,9 +334,7 @@
     add : function (type, settings) {
       settings = settings ? settings : {};
 
-      var tools = document.getElementById('cover-tools'),
-          layers = document.getElementById('cover-layers'),
-          firstChild = layers.firstChild,
+      var firstChild = PS_Cover.cache.coverLayers.firstChild,
           row = document.createElement('DIV'),
           color,
           cleanName,
@@ -429,7 +443,8 @@
 
 
       // add the new layer to the layers list
-      firstChild ? layers.insertBefore(row, firstChild) : layers.appendChild(row);
+      firstChild ? PS_Cover.cache.coverLayers.insertBefore(row, firstChild) : PS_Cover.cache.coverLayers.appendChild(row);
+      PS_Cover.cache.layers = PS_Cover.cache.coverLayers.childNodes;
 
       // scroll directly to the top of the new layer
       if (!settings.noScroll) {
@@ -446,10 +461,11 @@
     // delete all layers
     deleteLayers : function (skipConfirmation) {
       if (skipConfirmation || confirm('You are about to delete all layers.\nDo you want to continue?')) {
-        for (var layers = document.getElementById('cover-layers'), a = layers.querySelectorAll('.tools-row'), i = 0, j = a.length; i < j; i++) {
-          layers.removeChild(a[i]);
+        for (var i = 0, j = PS_Cover.cache.layers.length; i < j; i++) {
+          PS_Cover.cache.coverLayers.removeChild(PS_Cover.cache.layers[i]);
         }
 
+        PS_Cover.cache.layers = PS_Cover.cache.coverLayers.childNodes;
         PS_Cover.draw();
       }
     },
@@ -457,10 +473,10 @@
 
     // jumps to the specified layer
     jumpToLayer : function (layer) {
-      layer = typeof layer == 'number' ? document.querySelectorAll('.cover-layer')[layer] : layer;
+      layer = typeof layer == 'number' ? PS_Cover.cache.layers[layer] : layer;
 
       if (layer) {
-        document.getElementById('cover-tools').scrollTop = layer.offsetTop - 3;
+        PS_Cover.cache.coverTools.scrollTop = layer.offsetTop - 3;
       }
     },
 
@@ -471,7 +487,11 @@
           thumb,
           val;
 
-      new ForAll (document.querySelectorAll('.cover-layer'), function (layer) {
+      if (PS_Cover.cache.syncLayerListLoop) {
+        PS_Cover.cache.syncLayerListLoop.kill();
+      }
+
+      PS_Cover.cache.syncLayerListLoop = new ForAll (PS_Cover.cache.layers, function (layer) {
         thumb = layer.querySelector('.layer-thumb');
         val = layer.querySelector('.main-input');
 
@@ -491,11 +511,14 @@
         '</li>';
 
       }).done(function () {
-        var list = document.getElementById('layer-list');
+        delete PS_Cover.cache.syncLayerListLoop;
 
-        if (list.innerHTML != layerList) {
-          list.innerHTML = layerList;
-          document.getElementById('layer-total').innerHTML = '(' + list.childNodes.length + ')';
+        if (PS_Cover.cache.layerList.innerHTML != layerList) {
+          PS_Cover.cache.layerList.innerHTML = layerList;
+
+          if ('(' + PS_Cover.cache.layers.length + ')' != PS_Cover.cache.layerTotal.innerHTML) {
+            PS_Cover.cache.layerTotal.innerHTML = '(' + PS_Cover.cache.layers.length + ')';
+          }
         }
       });
     },
@@ -602,15 +625,15 @@
 
           modal.innerHTML = str + '</div>' + PS_Cover.templates.Images.request;
 
-          PS_Cover.Images.overlay = overlay;
-          PS_Cover.Images.modal = modal;
+          PS_Cover.cache.Images.overlay = overlay;
+          PS_Cover.cache.Images.modal = modal;
 
           if (caller) {
             PS_Cover.Images.caller = caller;
           }
 
-          document.body.appendChild(PS_Cover.Images.overlay);
-          document.body.appendChild(PS_Cover.Images.modal);
+          document.body.appendChild(PS_Cover.cache.Images.overlay);
+          document.body.appendChild(PS_Cover.cache.Images.modal);
           document.body.style.overflow = 'hidden';
 
           // show image selector stats
@@ -635,7 +658,7 @@
         PS_Cover.Images.adding = false;
         PS_Cover.Images.catg = category;
 
-        PS_Cover.Images.modal.innerHTML =
+        PS_Cover.cache.Images.modal.innerHTML =
         '<h1 id="select-image-title">Select an Image</h1>'+
         '<a class="select-image-button select-image-back" href="#" onclick="PS_Cover.Images.close();PS_Cover.Images.call();return false;"><i class="fa fa-chevron-left"></i> Back</a>'
         + PS_Cover.templates.Images.close +
@@ -647,7 +670,11 @@
         PS_Cover.templates.Images.request;
 
         // fade images in / out and add more images while scrolling
-        document.getElementById('select-image-container').addEventListener('scroll', function () {
+        PS_Cover.cache.Images.imageContent = document.getElementById('select-image-container');
+        PS_Cover.cache.Images.imageList = document.getElementById('select-image-list');
+        PS_Cover.cache.Images.title = document.getElementById('select-image-title');
+
+        PS_Cover.cache.Images.imageContent.addEventListener('scroll', function () {
           PS_Cover.Images.fadeInOut();
 
           if (this.scrollHeight - this.scrollTop === this.clientHeight) {
@@ -663,9 +690,7 @@
         if (!PS_Cover.Images.adding && PS_Cover.Images.index < PS_Cover.Images.list[PS_Cover.Images.catg].images.length) {
           PS_Cover.Images.adding = true;
 
-          var title = document.getElementById('select-image-title'),
-              list = document.getElementById('select-image-list'),
-              max = PS_Cover.Images.list[PS_Cover.Images.catg].images.length + 1,
+          var max = PS_Cover.Images.list[PS_Cover.Images.catg].images.length + 1,
               min,
               str = '',
               i = 0;
@@ -680,9 +705,10 @@
 
           min = PS_Cover.Images.index + 2;
 
-          title.innerHTML = 'Select an Image (' + (min > max ? max : min) + '/' + max + ')'
-          list.insertAdjacentHTML('beforeend', str);
+          PS_Cover.cache.Images.title.innerHTML = 'Select an Image (' + (min > max ? max : min) + '/' + max + ')';
+          PS_Cover.cache.Images.imageList.insertAdjacentHTML('beforeend', str);
 
+          PS_Cover.cache.Images.images = PS_Cover.cache.Images.imageList.childNodes;
           PS_Cover.Images.fadeInOut();
           PS_Cover.Images.adding = false;
         }
@@ -691,7 +717,11 @@
 
       // show / hide images as the user scrolls
       fadeInOut : function () {
-        new ForAll (document.querySelectorAll('.select-image-option'), function (img) {
+        if (PS_Cover.Images.fadeInOutLoop) {
+          PS_Cover.Images.fadeInOutLoop.kill();
+        }
+
+        PS_Cover.Images.fadeInOutLoop = new ForAll (PS_Cover.cache.Images.images, function (img) {
           var rect = img.getBoundingClientRect(),
               visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 
@@ -701,6 +731,8 @@
           } else if (!visible && img.dataset.hidden == 'false') {
             img.dataset.hidden = true;
           }
+        }, (PS_Cover.cache.Images.imageContent.scrollTop / (PS_Cover.cache.Images.imageContent.scrollHeight - PS_Cover.cache.Images.imageContent.clientHeight) * 100) > 50 ? -1 : +1).done(function () {
+          delete PS_Cover.Images.fadeInOutLoop;
         });
       },
 
@@ -716,8 +748,8 @@
       // close the image selector
       close : function () {
         if (document.getElementById('select-image-modal')) {
-          document.body.removeChild(PS_Cover.Images.overlay);
-          document.body.removeChild(PS_Cover.Images.modal);
+          document.body.removeChild(PS_Cover.cache.Images.overlay);
+          document.body.removeChild(PS_Cover.cache.Images.modal);
           document.body.style.overflow = '';
         }
       }
@@ -952,7 +984,8 @@
 
   // inital setup of the canvas
   PS_Cover.ctx = PS_Cover.canvas.getContext('2d');
-  PS_Cover.draw();
+  PS_Cover.canvas.width = window.innerWidth;
+  PS_Cover.canvas.height = 600;
 
 
   // open the cover in a new window so the user can take a screenshot / download the image
