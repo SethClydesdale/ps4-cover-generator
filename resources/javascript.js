@@ -312,7 +312,7 @@
           break;
       }
 
-      PS_Cover.cache.layers = PS_Cover.cache.coverLayers.childNodes;
+      PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
       PS_Cover.jumpToLayer(row);
       PS_Cover.draw();
     },
@@ -324,7 +324,7 @@
         var layer = caller.parentsUntil('.cover-layer');
         layer.parentNode.removeChild(layer);
 
-        PS_Cover.cache.layers = PS_Cover.cache.coverLayers.childNodes;
+        PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
         PS_Cover.draw();
       }
     },
@@ -444,7 +444,7 @@
 
       // add the new layer to the layers list
       firstChild ? PS_Cover.cache.coverLayers.insertBefore(row, firstChild) : PS_Cover.cache.coverLayers.appendChild(row);
-      PS_Cover.cache.layers = PS_Cover.cache.coverLayers.childNodes;
+      PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
 
       // scroll directly to the top of the new layer
       if (!settings.noScroll) {
@@ -465,7 +465,7 @@
           PS_Cover.cache.coverLayers.removeChild(PS_Cover.cache.layers[i]);
         }
 
-        PS_Cover.cache.layers = PS_Cover.cache.coverLayers.childNodes;
+        PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
         PS_Cover.draw();
       }
     },
@@ -731,7 +731,7 @@
           } else if (!visible && img.dataset.hidden == 'false') {
             img.dataset.hidden = true;
           }
-        }, (PS_Cover.cache.Images.imageContent.scrollTop / (PS_Cover.cache.Images.imageContent.scrollHeight - PS_Cover.cache.Images.imageContent.clientHeight) * 100) > 50 ? -1 : +1).done(function () {
+        }, (PS_Cover.cache.Images.imageContent.scrollTop / (PS_Cover.cache.Images.imageContent.scrollHeight - PS_Cover.cache.Images.imageContent.clientHeight) * 100) > 50.0 ? -1 : +1).done(function () {
           delete PS_Cover.Images.fadeInOutLoop;
         });
       },
