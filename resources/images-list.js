@@ -635,7 +635,7 @@ PS_Cover.Images.list = {
       'qvxGVWB.png',
       'PGElfXy.jpg',
 
-      // # BACKGROUNDS / WALLPAPERS
+      // # BACKGROUNDS
       '0fBqUQZ.jpg',
       'dAvsuiZ.jpg',
       'wq06CUv.jpg',
@@ -692,6 +692,60 @@ PS_Cover.Images.list = {
   },
 
 
+  'Gravity Rush' : {
+    thumb : 'S06cvmM.png',
+    images : [
+      // # RENDERS
+      // Kat
+      '2F3t6Ho.png',
+      '6evxR3w.png',
+      'YR8hmuR.png',
+      '0QZEJm0.png',
+      'roS07KQ.png',
+      '9SyPRtv.png',
+      'zE6S4UY.png',
+      'RnC5YA4.png',
+      'hxGwmjN.png',
+      'HY4CSaG.png',
+      'WnZ0yop.png',
+      'puK0grp.png',
+      'FGhwbmF.png',
+      // Raven
+      '4wfOSYv.png',
+      'CE98ahz.png',
+      'YQv4pCd.png',
+      // Syd
+      'mArHwuf.png',
+      'n6j8dRm.png',
+      // Yunica
+      'hIcFnqJ.png',
+      'd6fmcOL.png',
+      // Dusty
+      'yGa3VeC.png',
+      // Misc
+      'B829KEG.png',
+
+      // # BACKGROUNDS
+      'qcgwZmD.jpg',
+      'Jt8sncH.jpg',
+      'WcHuGJa.jpg',
+      'SfB0g4K.jpg',
+      '291LZBC.jpg',
+      'U7YTkwt.jpg',
+      '0AhmWBp.jpg',
+      '2L6wBDh.jpg',
+      'WEZPpHo.jpg',
+      'TvUv9EK.jpg',
+      '9BBHYGl.jpg',
+      'ulpJ08h.jpg',
+      'EIHc61O.jpg',
+      'EwE7Cy0.jpg',
+      'q3BbORv.jpg',
+      'K5j4cXt.jpg'
+    ]
+  },
+
+
   'inFAMOUS' : {
     thumb : 'XsEGwnw.png',
     images : [
@@ -714,7 +768,7 @@ PS_Cover.Images.list = {
       // Misc
       'FhfkefY.png',
 
-      // # BACKGROUNDS / WALLPAPERS
+      // # BACKGROUNDS
       // inFAMOUS
       '1CHnJgH.jpg',
       'WdrLgEb.jpg',
@@ -958,7 +1012,7 @@ PS_Cover.Images.list = {
       // Flynn
       'cNUGqP9.png',
 
-      // # BACKGROUNDS / WALLPAPERS
+      // # BACKGROUNDS
       // UC4
       'I0y94qq.jpg',
       'N24My8i.jpg',
