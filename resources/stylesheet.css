@@ -1124,7 +1124,7 @@ a.select-image-action {
   bottom:3px;
 }
 
-.isPS4 .select-image-request { right:5px; }
+.isPS4 .select-image-request { right:6px; }
 .select-image-request a { border-top:2px solid #06B; }
 
 a.select-image-load {
