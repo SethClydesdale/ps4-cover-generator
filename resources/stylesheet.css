@@ -1120,11 +1120,11 @@ a.select-image-action {
   text-align:center;
   position:absolute;
   left:0;
-  right:0;
+  right:17px;
   bottom:3px;
 }
 
-.notPS4 .select-image-request { right:17px; }
+.isPS4 .select-image-request { right:5px; }
 .select-image-request a { border-top:2px solid #06B; }
 
 a.select-image-load {
