@@ -796,7 +796,7 @@
 
       Images : {
         close : '<a class="select-image-button select-image-close" href="#" onclick="PS_Cover.Images.close();return false;"><i class="fa fa-times"></i> Close</a>',
-        request : '<a class="select-image-action select-image-request" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Requesting-Images" target="_blank">Request Images</a>'
+        request : '<div class="select-image-request"><a class="select-image-action" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Requesting-Images" target="_blank">Request Images</a></div>'
       }
     },
 
@@ -992,6 +992,8 @@
   PS_Cover.ctx = PS_Cover.canvas.getContext('2d');
   PS_Cover.canvas.width = window.innerWidth;
   PS_Cover.canvas.height = 600;
+
+  document.body.className += PS_Cover.isPS4 ? ' isPS4' : ' notPS4';
 
 
   // open the cover in a new window so the user can take a screenshot / download the image

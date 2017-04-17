@@ -1116,13 +1116,16 @@ a.select-image-action {
   line-height:40px;
 }
 
-a.select-image-request {
-  border-top:2px solid #06B;
+.select-image-request {
+  text-align:center;
   position:absolute;
+  left:0;
+  right:0;
   bottom:3px;
-  left:50%;
-  margin-left:-108px;
 }
+
+.notPS4 .select-image-request { right:17px; }
+.select-image-request a { border-top:2px solid #06B; }
 
 a.select-image-load {
   display:block;
