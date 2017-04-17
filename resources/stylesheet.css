@@ -1061,12 +1061,17 @@ footer a:active { color:#FF8; }
   transition-duration:1000ms;
 }
 
-.select-image-option img, .select-image-option[data-hidden="true"]:after {
+.cover-layer {
+  transition-property:opacity, visibility;
+  transition-duration:1000ms;
+}
+
+.cover-layer, .select-image-option img, .select-image-option[data-hidden="true"]:after {
   opacity:1;
   visibility:visible;
 }
 
-.select-image-option[data-hidden="true"] img, .select-image-option:after {
+.cover-layer[data-hidden="true"], .select-image-option[data-hidden="true"] img, .select-image-option:after {
   opacity:0;
   visibility:hidden;
 }

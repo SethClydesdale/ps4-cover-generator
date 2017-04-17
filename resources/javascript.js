@@ -345,6 +345,7 @@
           selected;
 
       row.className = 'tools-row cover-layer';
+      row.dataset.hidden = true;
 
       coords = PS_Cover.templates.layer_coords
       .replace('value="0"', 'value="' + (settings.x || '0') + '"')
@@ -722,12 +723,12 @@
 
 
       // show / hide images as the user scrolls
-      fadeInOut : function () {
+      fadeInOut : function (layers) {
         if (PS_Cover.Images.fadeInOutLoop) {
           PS_Cover.Images.fadeInOutLoop.kill();
         }
 
-        PS_Cover.Images.fadeInOutLoop = new ForAll (PS_Cover.cache.Images.images, function (img) {
+        PS_Cover.Images.fadeInOutLoop = new ForAll (layers ? PS_Cover.cache.layers : PS_Cover.cache.Images.images, function (img) {
           var rect = img.getBoundingClientRect(),
               visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 
@@ -737,7 +738,7 @@
           } else if (!visible && img.dataset.hidden == 'false') {
             img.dataset.hidden = true;
           }
-        }, (PS_Cover.cache.Images.imageContent.scrollTop / (PS_Cover.cache.Images.imageContent.scrollHeight - PS_Cover.cache.Images.imageContent.clientHeight) * 100) > 50.0 ? -1 : +1).done(function () {
+        }, (layers ? (PS_Cover.cache.coverTools.scrollTop / (PS_Cover.cache.coverTools.scrollHeight - PS_Cover.cache.coverTools.clientHeight) * 100) : (PS_Cover.cache.Images.imageContent.scrollTop / (PS_Cover.cache.Images.imageContent.scrollHeight - PS_Cover.cache.Images.imageContent.clientHeight) * 100)) > 50.0 ? -1 : +1).done(function () {
           delete PS_Cover.Images.fadeInOutLoop;
         });
       },
@@ -1026,6 +1027,11 @@
   window.addEventListener('resize', function () {
     PS_Cover.canvas.width = window.innerWidth;
     PS_Cover.draw();
+  });
+
+
+  PS_Cover.cache.coverTools.addEventListener('scroll', function () {
+    PS_Cover.Images.fadeInOut(true);
   });
 
 
