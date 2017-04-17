@@ -666,6 +666,7 @@
         '<div id="select-image-container">'+
           '<div id="select-image-list" class="clear">'+
             '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[category].thumb) ? '' : PS_Cover.Images.host) + PS_Cover.Images.list[category].thumb + '"></a>'+
+            '<a class="select-image-action select-image-load" href="#" onclick="PS_Cover.Images.add(30); return false;">Load More</a>'+
           '</div>'+
         '</div>' +
         PS_Cover.templates.Images.request;
@@ -707,11 +708,15 @@
           min = PS_Cover.Images.index + 2;
 
           PS_Cover.cache.Images.title.innerHTML = 'Select an Image (' + (min > max ? max : min) + '/' + max + ')';
-          PS_Cover.cache.Images.imageList.insertAdjacentHTML('beforeend', str);
+          PS_Cover.cache.Images.imageList.lastChild.insertAdjacentHTML('beforebegin', str);
 
           PS_Cover.cache.Images.images = PS_Cover.cache.Images.imageList.childNodes;
           PS_Cover.Images.fadeInOut();
           PS_Cover.Images.adding = false;
+        }
+
+        if (!PS_Cover.cache.Images.imageList.dataset.fullyLoaded && PS_Cover.Images.index >= PS_Cover.Images.list[PS_Cover.Images.catg].images.length - 1) {
+          PS_Cover.cache.Images.imageList.dataset.fullyLoaded = true;
         }
       },
 
@@ -791,7 +796,7 @@
 
       Images : {
         close : '<a class="select-image-button select-image-close" href="#" onclick="PS_Cover.Images.close();return false;"><i class="fa fa-times"></i> Close</a>',
-        request : '<a class="select-image-request" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Requesting-Images" target="_blank">Request Images</a>'
+        request : '<a class="select-image-action select-image-request" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Requesting-Images" target="_blank">Request Images</a>'
       }
     },
 

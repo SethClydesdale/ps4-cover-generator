@@ -998,7 +998,7 @@ footer a:active { color:#FF8; }
   overflow-y:auto;
 }
 
-#select-image-list { padding:0.5% 0 50px 0; }
+#select-image-list { padding:0.5% 0 52px 0; }
 
 .select-image-category {
   background-color:#EEE;
@@ -1104,24 +1104,38 @@ footer a:active { color:#FF8; }
   right:12px;
 }
 
-a.select-image-request {
+a.select-image-action {
   color:#FFF;
   background:#07C;
   font-size:18px;
   text-align:center;
   text-transform:uppercase;
   display:inline-block;
-  position:absolute;
-  bottom:3px;
-  left:50%;
-  margin-left:-100px;
   width:200px;
   height:40px;
   line-height:40px;
 }
 
-a.select-image-request:hover { background:#06B; }
-a.select-image-request:active { background:#05A; }
+a.select-image-request {
+  border-top:2px solid #06B;
+  position:absolute;
+  bottom:3px;
+  left:50%;
+  margin-left:-108px;
+}
+
+a.select-image-load {
+  display:block;
+  clear:both;
+  position:relative;
+  top:75px;
+  margin:0 auto 150px;
+}
+
+[data-fully-loaded="true"] .select-image-load { display:none; }
+
+a.select-image-action:hover { background:#06B; }
+a.select-image-action:active { background:#05A; }
 
 
 /* TUTORIAL */
