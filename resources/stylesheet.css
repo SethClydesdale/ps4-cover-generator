@@ -294,7 +294,7 @@ a:active { color:#049; }
 .layer-controls { display:inline-block; }
 
 .cover-layer {
-  border:1px solid rgba(0, 0, 0, 0.2);
+  border:1px solid #CCC;
   border-radius:10px;
   padding:26px 6px 6px 6px;
   position:relative;
@@ -1061,17 +1061,12 @@ footer a:active { color:#FF8; }
   transition-duration:1000ms;
 }
 
-.cover-layer {
-  transition-property:opacity, visibility;
-  transition-duration:1000ms;
-}
-
-.cover-layer, .select-image-option img, .select-image-option[data-hidden="true"]:after {
+.select-image-option img, .select-image-option[data-hidden="true"]:after {
   opacity:1;
   visibility:visible;
 }
 
-.cover-layer[data-hidden="true"], .select-image-option[data-hidden="true"] img, .select-image-option:after {
+.select-image-option[data-hidden="true"] img, .select-image-option:after {
   opacity:0;
   visibility:hidden;
 }
