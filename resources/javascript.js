@@ -346,7 +346,8 @@
           selected;
 
       row.className = 'tools-row cover-layer';
-      
+      row.dataset.hidden = true;
+
       html = '<div class="cover-layer-type"><i class="fa fa-' + {
         text : 'font',
         image : 'file-image-o',
@@ -450,7 +451,7 @@
 
 
       // add the new layer to the layers list
-      row.innerHTML = html;
+      row.innerHTML = html + '<i class="fa fa-file cover-layer-placeholder"></i>';
       firstChild ? PS_Cover.cache.coverLayers.insertBefore(row, firstChild) : PS_Cover.cache.coverLayers.appendChild(row);
       PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
 
@@ -685,7 +686,7 @@
         PS_Cover.cache.Images.title = document.getElementById('select-image-title');
 
         PS_Cover.cache.Images.imageContent.addEventListener('scroll', function () {
-          PS_Cover.Images.fadeInOut();
+          PS_Cover.fadeInOut();
 
           if (this.scrollHeight - this.scrollTop === this.clientHeight) {
             PS_Cover.Images.add(30);
@@ -719,35 +720,13 @@
           PS_Cover.cache.Images.imageList.lastChild.insertAdjacentHTML('beforebegin', str);
 
           PS_Cover.cache.Images.images = PS_Cover.cache.Images.imageList.childNodes;
-          PS_Cover.Images.fadeInOut();
+          PS_Cover.fadeInOut();
           PS_Cover.Images.adding = false;
         }
 
         if (!PS_Cover.cache.Images.imageList.dataset.fullyLoaded && PS_Cover.Images.index >= PS_Cover.Images.list[PS_Cover.Images.catg].images.length - 1) {
           PS_Cover.cache.Images.imageList.dataset.fullyLoaded = true;
         }
-      },
-
-
-      // show / hide images as the user scrolls
-      fadeInOut : function () {
-        if (PS_Cover.Images.fadeInOutLoop) {
-          PS_Cover.Images.fadeInOutLoop.kill();
-        }
-
-        PS_Cover.Images.fadeInOutLoop = new ForAll (PS_Cover.cache.Images.images, function (img) {
-          var rect = img.getBoundingClientRect(),
-              visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= ((window.innerHeight || document.documentElement.clientHeight) + rect.height) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
-
-          if (visible && img.dataset.hidden == 'true') {
-            img.dataset.hidden = false;
-
-          } else if (!visible && img.dataset.hidden == 'false') {
-            img.dataset.hidden = true;
-          }
-        }, (PS_Cover.cache.Images.imageContent.scrollTop / (PS_Cover.cache.Images.imageContent.scrollHeight - PS_Cover.cache.Images.imageContent.clientHeight) * 100) > 50.0 ? -1 : +1).done(function () {
-          delete PS_Cover.Images.fadeInOutLoop;
-        });
       },
 
 
@@ -881,6 +860,30 @@
       'Love Ya Like A Sister',
       'Allerta Stencil'
     ],
+
+
+    // show / hide elements as the user scrolls
+    fadeInOut : function (layer) {
+      if (PS_Cover.fadeInOutLoop) {
+        PS_Cover.fadeInOutLoop.kill();
+      }
+
+      var node = layer ? PS_Cover.cache.coverTools : PS_Cover.cache.Images.imageContent;
+
+      PS_Cover.fadeInOutLoop = new ForAll (layer ? PS_Cover.cache.layers : PS_Cover.cache.Images.images, function (that) {
+        var rect = that.getBoundingClientRect(),
+            visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= ((window.innerHeight || document.documentElement.clientHeight) + rect.height) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+
+        if (visible && that.dataset.hidden == 'true') {
+          that.dataset.hidden = false;
+
+        } else if (!visible && that.dataset.hidden == 'false') {
+          that.dataset.hidden = true;
+        }
+      }, (node.scrollTop / (node.scrollHeight - node.clientHeight) * 100) > 50.0 ? -1 : +1).done(function () {
+        delete PS_Cover.fadeInOutLoop;
+      });
+    },
 
 
     // return a random hex or rgb color
@@ -1037,6 +1040,10 @@
     PS_Cover.draw();
   });
 
+  PS_Cover.cache.coverTools.addEventListener('scroll', function() {
+    PS_Cover.fadeInOut(true);
+  });
+
 
   // cover tool event handlers
   var tools = document.getElementById('cover-tools-box');
@@ -1134,6 +1141,7 @@
     noScroll : 1
   });
 
+  PS_Cover.fadeInOut(true);
   replaceCheckboxes(); // replace checkboxes w/custom ones
 
   // auto initiate the tutorial if the page hash is #tutorial
