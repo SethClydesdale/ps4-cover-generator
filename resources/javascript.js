@@ -729,7 +729,7 @@
 
         PS_Cover.Images.fadeInOutLoop = new ForAll (PS_Cover.cache.Images.images, function (img) {
           var rect = img.getBoundingClientRect(),
-              visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+              visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= ((window.innerHeight || document.documentElement.clientHeight) + rect.height) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 
           if (visible && img.dataset.hidden == 'true') {
             img.dataset.hidden = false;
