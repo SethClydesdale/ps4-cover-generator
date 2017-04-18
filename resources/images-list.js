@@ -794,6 +794,57 @@ PS_Cover.Images.list = {
   },
 
 
+  'Killzone' : {
+    thumb : 'esLv5BK.png',
+    images : [
+      // # RENDERS
+      'FDN1t0L.png',
+      'OhvokcZ.png',
+      'UMkqWaW.png',
+      'lygdS98.png',
+      'jBJMUDa.png',
+      'VlKTkrO.png',
+      'dnZ209q.png',
+      '6jIcODd.png',
+      'SurLD5F.png',
+      'lCqFfTe.png',
+      'TwYtU3I.png',
+      'zBgMGBW.png',
+      'oQkSStA.png',
+      'x5UXtIT.png',
+      'uJHnPxo.png',
+      'dm55zfj.png',
+      'vncPQOv.png',
+      '0h0mOvC.png',
+      'I1OKaSK.png',
+      'rEQvsrk.png',
+      'xXjY5Og.png',
+
+      // # BACKGROUNDS
+      'c15FJtZ.jpg',
+      '4jCNBP1.jpg',
+      'YtVju4N.jpg',
+      '5xX5tRV.jpg',
+      '4wOl1Gp.jpg',
+      'IXVsflM.jpg',
+      'xJjSnPI.jpg',
+      'KzUnL90.jpg',
+      'LQlFF7U.jpg',
+      'z0DkxF3.jpg',
+      '2gqb8ez.jpg',
+      'CtiKUVE.jpg',
+      'lNvsBpO.jpg',
+      'M6RRZO2.jpg',
+      'hna2ptC.jpg',
+      'dnf7D7M.jpg',
+      '3tWxEYo.jpg',
+      'iCepdtk.jpg',
+      'Hb7YTMf.jpg',
+      'dHZJYsr.jpg'
+    ]
+  },
+
+
   'Little Big Planet' : {
     thumb : 'JCOvIM0.png',
     images : [

@@ -382,10 +382,6 @@
           '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
           coords +
         '</div>';
-
-        if (!settings.value) {
-          PS_Cover.Images.call(row.querySelector('.image-caller'));
-        }
       }
 
 
@@ -416,8 +412,14 @@
       }
 
 
-      // add the new layer to the layers list
+      // add html to row
       row.innerHTML = html + '<i class="' + icon + ' cover-layer-placeholder"></i>';
+
+      if (type == 'image' && !settings.value) {
+        PS_Cover.Images.call(row.querySelector('.image-caller'));
+      }
+
+      // add the new layer to the layers list
       firstChild ? PS_Cover.cache.coverLayers.insertBefore(row, firstChild) : PS_Cover.cache.coverLayers.appendChild(row);
       PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
 
