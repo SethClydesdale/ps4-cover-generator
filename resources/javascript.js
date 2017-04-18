@@ -303,7 +303,12 @@
 
       var firstChild = PS_Cover.cache.coverLayers.firstChild,
           row = document.createElement('DIV'),
-          html = '',
+          icon = 'fa fa-' + {
+            text : 'font',
+            image : 'file-image-o',
+            shape : 'circle'
+          }[type],
+          html = '<div class="cover-layer-type"><i class="' + icon + '"></i>' + type.toUpperCase() + '</div>',
           color,
           cleanName,
           opts,
@@ -314,12 +319,6 @@
 
       row.className = 'tools-row cover-layer';
       row.dataset.hidden = true;
-
-      html = '<div class="cover-layer-type"><i class="fa fa-' + {
-        text : 'font',
-        image : 'file-image-o',
-        shape : 'circle'
-      }[type] + '"></i> ' + type.toUpperCase() + '</div>';
 
       coords = PS_Cover.templates.layer_coords
       .replace('value="0"', 'value="' + (settings.x || '0') + '"')
@@ -418,7 +417,7 @@
 
 
       // add the new layer to the layers list
-      row.innerHTML = html + '<i class="fa fa-file cover-layer-placeholder"></i>';
+      row.innerHTML = html + '<i class="' + icon + ' cover-layer-placeholder"></i>';
       firstChild ? PS_Cover.cache.coverLayers.insertBefore(row, firstChild) : PS_Cover.cache.coverLayers.appendChild(row);
       PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
 
