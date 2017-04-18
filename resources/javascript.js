@@ -297,39 +297,6 @@
     },
 
 
-    // move layers up / down
-    moveLayer : function (where, caller) {
-      var row = caller.parentsUntil('.cover-layer');
-
-      switch (where.toLowerCase()) {
-        case 'up' :
-          PS_Cover.cache.coverLayers.insertBefore(row, row.previousSibling);
-          break;
-
-        case 'down' :
-          var next = row.nextSibling.nextSibling;
-          next ? PS_Cover.cache.coverLayers.insertBefore(row, next) : PS_Cover.cache.coverLayers.appendChild(row);
-          break;
-      }
-
-      PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
-      PS_Cover.jumpToLayer(row);
-      PS_Cover.draw();
-    },
-
-
-    // delete the specified layer
-    deleteLayer : function (caller, skipConfirmation) {
-      if (skipConfirmation || confirm('You are about to delete this layer.\nDo you want to continue?')) {
-        var layer = caller.parentsUntil('.cover-layer');
-        layer.parentNode.removeChild(layer);
-
-        PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
-        PS_Cover.draw();
-      }
-    },
-
-
     // function for adding new layers
     add : function (type, settings) {
       settings = settings ? settings : {};
@@ -463,17 +430,49 @@
       ColorInpicker.init({ hide : true }); // create color pickers
       if (PS_Cover.isPS4) Inumber.init(); // create number input arrows
       replaceCheckboxes(); // replace checkboxes w/custom ones
+      PS_Cover.fadeInOut(true);
       PS_Cover.draw();
+    },
+
+
+    // move layers up / down
+    moveLayer : function (where, caller) {
+      var row = caller.parentsUntil('.cover-layer');
+
+      switch (where.toLowerCase()) {
+        case 'up' :
+          PS_Cover.cache.coverLayers.insertBefore(row, row.previousSibling);
+          break;
+
+        case 'down' :
+          var next = row.nextSibling.nextSibling;
+          next ? PS_Cover.cache.coverLayers.insertBefore(row, next) : PS_Cover.cache.coverLayers.appendChild(row);
+          break;
+      }
+
+      PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
+      PS_Cover.jumpToLayer(row);
+      PS_Cover.draw();
+    },
+
+
+    // delete the specified layer
+    deleteLayer : function (caller, skipConfirmation) {
+      if (skipConfirmation || confirm('You are about to delete this layer.\nDo you want to continue?')) {
+        var layer = caller.parentsUntil('.cover-layer');
+        layer.parentNode.removeChild(layer);
+
+        PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
+        PS_Cover.fadeInOut(true);
+        PS_Cover.draw();
+      }
     },
 
 
     // delete all layers
     deleteLayers : function (skipConfirmation) {
       if (skipConfirmation || confirm('You are about to delete all layers.\nDo you want to continue?')) {
-        for (var i = 0, j = PS_Cover.cache.layers.length; i < j; i++) {
-          PS_Cover.cache.coverLayers.removeChild(PS_Cover.cache.layers[i]);
-        }
-
+        PS_Cover.cache.coverLayers.innerHTML = '';
         PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
         PS_Cover.draw();
       }
@@ -1141,7 +1140,6 @@
     noScroll : 1
   });
 
-  PS_Cover.fadeInOut(true);
   replaceCheckboxes(); // replace checkboxes w/custom ones
 
   // auto initiate the tutorial if the page hash is #tutorial
