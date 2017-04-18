@@ -336,6 +336,7 @@
 
       var firstChild = PS_Cover.cache.coverLayers.firstChild,
           row = document.createElement('DIV'),
+          html = '',
           color,
           cleanName,
           opts,
@@ -345,6 +346,12 @@
           selected;
 
       row.className = 'tools-row cover-layer';
+      
+      html = '<div class="cover-layer-type"><i class="fa fa-' + {
+        text : 'font',
+        image : 'file-image-o',
+        shape : 'circle'
+      }[type] + '"></i> ' + type.toUpperCase() + '</div>';
 
       coords = PS_Cover.templates.layer_coords
       .replace('value="0"', 'value="' + (settings.x || '0') + '"')
@@ -374,7 +381,7 @@
 
 
         row.className += ' text-layer';
-        row.innerHTML =
+        html +=
         '<div class="main-layer-input">'+
           '<input class="main-input cover-text med" type="text" value="' + (settings.value || '') + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-size="' + ( settings.size || '40' ) + '" data-opacity="' + ( settings.opacity || '100' ) + '" data-color="' + ( settings.color || color ) + '" data-font="PlayStation" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
           '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
@@ -396,7 +403,7 @@
       // adds an image layer
       if (type == 'image') {
         row.className += ' image-layer';
-        row.innerHTML =
+        html +=
         '<div class="main-layer-input">'+
           '<img class="layer-thumb" src="" alt="">'+
           '<input class="main-input cover-image med" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-opacity="' + ( settings.opacity || '100' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
@@ -420,7 +427,7 @@
         color = PS_Cover.randomColor();
 
         row.className += ' shape-layer';
-        row.innerHTML =
+        html +=
         '<div class="main-layer-input">'+
           '<canvas class="layer-thumb" width="40" height="40"></canvas>'+
           '<select class="main-input cover-shape" data-height="' + (settings.height || '50') + '" data-width="' + (settings.width || '50') + '" data-color="' + ( settings.color || color ) + '" data-opacity="' + ( settings.opacity || '100' ) + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" onchange="PS_Cover.draw();">'+
@@ -443,6 +450,7 @@
 
 
       // add the new layer to the layers list
+      row.innerHTML = html;
       firstChild ? PS_Cover.cache.coverLayers.insertBefore(row, firstChild) : PS_Cover.cache.coverLayers.appendChild(row);
       PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
 
@@ -665,7 +673,7 @@
         + PS_Cover.templates.Images.close +
         '<div id="select-image-container">'+
           '<div id="select-image-list" class="clear">'+
-            '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[category].thumb) ? '' : PS_Cover.Images.host) + PS_Cover.Images.list[category].thumb + '"></a>'+
+            '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[category].thumb) ? '' : PS_Cover.Images.host) + PS_Cover.Images.list[category].thumb + '">' + PS_Cover.templates.Images.placeholder + '</a>'+
             '<a class="select-image-action select-image-load" href="#" onclick="PS_Cover.Images.add(30); return false;">Load More</a>'+
           '</div>'+
         '</div>' +
@@ -699,7 +707,7 @@
 
           for (; i < amount; i++) {
             if (PS_Cover.Images.list[PS_Cover.Images.catg].images[++PS_Cover.Images.index]) {
-              str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index]) ? PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index] : PS_Cover.Images.host + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].replace(/(\.[^\.]*?)$/, 'm$1')) + '"></a>';
+              str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index]) ? PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index] : PS_Cover.Images.host + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].replace(/(\.[^\.]*?)$/, 'm$1')) + '">' + PS_Cover.templates.Images.placeholder + '</a>';
             } else {
               break;
             }
@@ -796,7 +804,8 @@
 
       Images : {
         close : '<a class="select-image-button select-image-close" href="#" onclick="PS_Cover.Images.close();return false;"><i class="fa fa-times"></i> Close</a>',
-        request : '<div class="select-image-request"><a class="select-image-action" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Requesting-Images" target="_blank">Request Images</a></div>'
+        request : '<div class="select-image-request"><a class="select-image-action" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Requesting-Images" target="_blank">Request Images</a></div>',
+        placeholder : '<i class="fa fa-image select-image-placeholder"></i>',
       }
     },
 
