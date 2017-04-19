@@ -22,8 +22,9 @@
 
       // draw images onto the canvas
       for (var i = PS_Cover.cache.layers.length - 1, img, input; i > -1; i--) {
+        input = PS_Cover.cache.layers[i].querySelector('.main-input');
+
         if (/image-layer/.test(PS_Cover.cache.layers[i].className)) {
-          input = PS_Cover.cache.layers[i].querySelector('.main-input');
 
           img = input.previousSibling;
           img.crossOrigin = 'anonymous';
@@ -40,15 +41,16 @@
           PS_Cover.loadImage(img, input.dataset.x, input.dataset.y, input, {
             scale : +input.dataset.scale / 100,
             rotate : +input.dataset.rotate,
-            opacity : +input.dataset.opacity / 100
+            opacity : +input.dataset.opacity / 100,
+            blend : input.dataset.blend,
           });
 
         } else if (/text-layer/.test(PS_Cover.cache.layers[i].className)) {
-          input = PS_Cover.cache.layers[i].querySelector('.main-input');
 
           PS_Cover.transform({
             rotate : +input.dataset.rotate,
-            opacity : +input.dataset.opacity / 100
+            opacity : +input.dataset.opacity / 100,
+            blend : input.dataset.blend,
 
           }, function () {
             var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill';
@@ -59,12 +61,12 @@
           });
 
         } else if (/shape-layer/.test(PS_Cover.cache.layers[i].className)) {
-          input = PS_Cover.cache.layers[i].querySelector('.main-input');
 
           PS_Cover.transform({
             scale : +input.dataset.scale / 100,
             rotate : +input.dataset.rotate,
-            opacity : +input.dataset.opacity / 100
+            opacity : +input.dataset.opacity / 100,
+            blend : input.dataset.blend
 
           }, function () {
             var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill',
@@ -125,25 +127,15 @@
 
 
     // wait for images to load before drawing them
-    loadImage : function (img, x, y, input, transform) {
+    loadImage : function (img, x, y, input, transformData) {
       if (img.complete) {
-        PS_Cover.transform({
-          scale : transform.scale,
-          rotate : transform.rotate,
-          opacity : transform.opacity
-
-        }, function () {
+        PS_Cover.transform(transformData, function () {
           PS_Cover.ctx.drawImage(img, x, y);
         });
 
       } else if (!img.onload) {
         img.onload = function () {
-          PS_Cover.transform({
-            scale : transform.scale,
-            rotate : transform.rotate,
-            opacity : transform.opacity
-
-          }, function () {
+          PS_Cover.transform(transformData, function () {
             PS_Cover.ctx.drawImage(img, x, y);
           });
 
@@ -212,9 +204,12 @@
     transform : function (config, callback) {
       PS_Cover.ctx.save();
 
+      if (config.blend) {
+        PS_Cover.ctx.globalCompositeOperation = config.blend;
+      }
+
       if (typeof config.opacity != 'undefined') {
         PS_Cover.ctx.globalAlpha = config.opacity;
-
       }
 
       if (config.scale) {
@@ -309,6 +304,7 @@
             shape : 'circle'
           }[type],
           html = '<div class="cover-layer-type"><i class="' + icon + '"></i>' + type.toUpperCase() + '</div>',
+          defaultAttrs = 'data-blend="" data-opacity="100" data-rotate="0" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '"',
           color,
           cleanName,
           opts,
@@ -350,14 +346,14 @@
         row.className += ' text-layer';
         html +=
         '<div class="main-layer-input">'+
-          '<input class="main-input cover-text med" type="text" value="' + (settings.value || '') + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-size="' + ( settings.size || '40' ) + '" data-opacity="' + ( settings.opacity || '100' ) + '" data-color="' + ( settings.color || color ) + '" data-font="PlayStation" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '40' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="main-input cover-text med" type="text" value="' + (settings.value || '') + '" data-nofill="false" data-size="40" data-color="' + ( settings.color || color ) + '" data-font="PlayStation" oninput="PS_Cover.draw();" data-y="' + ( settings.y || '40' ) + '" ' + defaultAttrs + '>'+
           '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
-          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( settings.nofill ? 'checked' : '' ) + '>'+
+          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);">'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-input-tools clear">'+
-          '<a href="#" class="fa fa-low-vision tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-opacity" min="0" max="100" type="number" value="' + ( settings.opacity || '100' ) + '" oninput="PS_Cover.updateInput(this);">'+
-          '<a href="#" class="fa fa-text-height tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-size" type="number" value="' + ( settings.size || '40' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+          PS_Cover.templates.shared_tools+
+          '<a href="#" class="fa fa-text-height tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-size" type="number" value="40" oninput="PS_Cover.updateInput(this);" min="0">'+
           '<a href="#" class="fa fa-font tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><a class="fa fa-smile-o fa-caller layer-button" href="#" onclick="PS_Cover.FontAwesome.call(this);return false;" style="display:none;"></a>'+
           '<select class="cover-input-font" onchange="PS_Cover.updateInput(this);">'+
             opts+
@@ -373,13 +369,13 @@
         html +=
         '<div class="main-layer-input">'+
           '<img class="layer-thumb" src="" alt="">'+
-          '<input class="main-input cover-image med" type="text" value="' + ( settings.value || '' ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-opacity="' + ( settings.opacity || '100' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" oninput="PS_Cover.draw();">'+
+          '<input class="main-input cover-image med" type="text" value="' + ( settings.value || '' ) + '" data-scale="100" oninput="PS_Cover.draw();" ' + defaultAttrs + '>'+
           '<a class="fa fa-search image-caller layer-button" href="#" onclick="PS_Cover.Images.call(this);return false;"></a>'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-input-tools clear">'+
-          '<a href="#" class="fa fa-low-vision tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-opacity" min="0" max="100" type="number" value="' + ( settings.opacity || '100' ) + '" oninput="PS_Cover.updateInput(this);">'+
-          '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+          PS_Cover.templates.shared_tools+
+          '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="100" oninput="PS_Cover.updateInput(this);" min="0">'+
           coords +
         '</div>';
       }
@@ -393,20 +389,20 @@
         html +=
         '<div class="main-layer-input">'+
           '<canvas class="layer-thumb" width="40" height="40"></canvas>'+
-          '<select class="main-input cover-shape" data-height="' + (settings.height || '50') + '" data-width="' + (settings.width || '50') + '" data-color="' + ( settings.color || color ) + '" data-opacity="' + ( settings.opacity || '100' ) + '" data-nofill="' + ( settings.nofill ? true : false ) + '" data-scale="' + ( settings.size || '100' ) + '" data-rotate="' + ( settings.rotate || '0' ) + '" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '" onchange="PS_Cover.draw();">'+
+          '<select class="main-input cover-shape" data-height="50" data-width="50" data-color="' + color + '" data-nofill="false" data-scale="100" onchange="PS_Cover.draw();" ' + defaultAttrs + '>'+
             '<option value="rect" selected>Rectangle</option>'+
             '<option value="tri">Triangle</option>'+
             '<option value="arc">Circle</option>'+
           '</select>'+
-          '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
-          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( settings.nofill ? 'checked' : '' ) + '>'+
+          '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + color + '" oninput="PS_Cover.updateInput(this);">'+
+          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);">'+
           PS_Cover.templates.layer_controls+
         '</div>'+
         '<div class="cover-input-tools clear">'+
-          '<a href="#" class="fa fa-low-vision tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-opacity" min="0" max="100" type="number" value="' + ( settings.opacity || '100' ) + '" oninput="PS_Cover.updateInput(this);">'+
-          '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + ( settings.size || '100' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
-          '<a href="#" class="fa fa-arrows-h tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-width" type="number" value="' + ( settings.width || '50' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
-          '<a href="#" class="fa fa-arrows-v tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-height" type="number" value="' + ( settings.height || '50' ) + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+          PS_Cover.templates.shared_tools+
+          '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="100" oninput="PS_Cover.updateInput(this);" min="0">'+
+          '<a href="#" class="fa fa-arrows-h tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-width" type="number" value="50" oninput="PS_Cover.updateInput(this);" min="0">'+
+          '<a href="#" class="fa fa-arrows-v tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-height" type="number" value="50" oninput="PS_Cover.updateInput(this);" min="0">'+
           coords +
         '</div>';
       }
@@ -752,6 +748,7 @@
 
     // html templates
     templates : {
+
       layer_controls :
       '<div class="layer-controls">'+
 
@@ -774,6 +771,33 @@
 
         '<a class="fa fa-times" href="#" onclick="PS_Cover.deleteLayer(this); return false;"></a>'+
       '</div>',
+
+      shared_tools :
+      '<a href="#" class="fa fa-square tools-icon" onclick="PS_Cover.help(this.className); return false;"></a>'+
+      '<select class="cover-input-blend" onchange="PS_Cover.updateInput(this);">'+
+        '<option value="">Normal</option>'+
+        '<option value="darken">Darken</option>'+
+        '<option value="multiply">Multiply</option>'+
+        '<option value="color-burn">Color Burn</option>'+
+        '<option value="lighter">Lighter</option>'+
+        '<option value="lighten">Lighten</option>'+
+        '<option value="screen">Screen</option>'+
+        '<option value="color-dodge">Color Dodge</option>'+
+        '<option value="overlay">Overlay</option>'+
+        '<option value="soft-light">Soft Light</option>'+
+        '<option value="hard-light">Hard Light</option>'+
+        '<option value="difference">Difference</option>'+
+        '<option value="exclusion">Exclusion</option>'+
+        '<option value="hue">Hue</option>'+
+        '<option value="saturation">Saturation</option>'+
+        '<option value="color">Color</option>'+
+        '<option value="luminosity">Luminosity</option>'+
+        '<option value="xor">Xor</option>'+
+        '<option value="destination-atop">Destination Atop</option>'+
+        '<option value="copy">Copy</option>'+
+      '</select>'+
+      '<a href="#" class="fa fa-low-vision tools-icon" onclick="PS_Cover.help(this.className); return false;"></a>'+
+      '<input class="cover-input-opacity" min="0" max="100" type="number" value="100" oninput="PS_Cover.updateInput(this);">',
 
       layer_coords :
       '<div class="layer-coords">'+
@@ -912,6 +936,7 @@
         className = className.replace(/fa | tools-icon/g, '');
 
         alert({
+          'fa-square' : 'Changes the blend mode of this layer.',
           'fa-low-vision' : 'Adjusts the opacity (or visibility) of this layer. (In percentages)',
           'fa-eyedropper' : 'Click the color palette to select a color.',
           'fa-adjust' : 'Click the checkbox to toggle between fill and nofill.',
@@ -1135,7 +1160,6 @@
   PS_Cover.add('text', {
     value : 'PS4 Cover Generator',
     color : '#FFFFFF',
-    size : 40,
     x : (PS_Cover.canvas.width / 2) - 175,
     y : 120,
     noScroll : 1

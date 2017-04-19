@@ -284,11 +284,21 @@ a:active { color:#049; }
 .tools-icon {
   color:#07C;
   font-size:18px;
+  position:relative;
   display:inline-block;
   margin:0 3px 0 12px;
 }
 
 .tools-icon:first-child { margin-left:0; }
+
+/* blend mode icon */
+.fa-square.tools-icon:after {
+  content:"\f10C";
+  color:#05A;
+  position:absolute;
+  left:4px;
+  top:4px;
+}
 
 /* layer styles */
 .layer-controls { display:inline-block; }
