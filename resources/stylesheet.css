@@ -51,6 +51,10 @@ a:active { color:#049; }
 .button:hover { background:#06B; }
 .button:focus { background:#05A; }
 
+/* hide ps4 specific hints on PC */
+.ps4-hint { display:none; }
+.isPS4 .ps4-hint { display:initial; }
+
 /* COVER STYLES */
 #ps4-cover-photo {
   border-top:1px solid #000;
