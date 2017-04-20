@@ -303,7 +303,7 @@
             image : 'file-image-o',
             shape : 'circle'
           }[type],
-          html = '<div class="cover-layer-type"><i class="' + icon + '"></i>' + type.toUpperCase() + '</div>',
+          html = '<div class="cover-layer-type"><i class="' + icon + '"></i> ' + type.toUpperCase() + '</div>',
           defaultAttrs = 'data-blend="" data-opacity="100" data-rotate="0" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '"',
           color,
           cleanName,
