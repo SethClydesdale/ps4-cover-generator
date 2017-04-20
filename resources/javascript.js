@@ -7,7 +7,7 @@
     cache : {
       bgColor : document.getElementById('cover-bg-color'),
       coverTools : document.getElementById('cover-tools'),
-      coverLayers : document.getElementById('cover-layers'),
+      layerSettings : document.getElementById('layer-settings'),
       layerList : document.getElementById('layer-list'),
       layerTotal : document.getElementById('layer-total'),
 
@@ -21,82 +21,80 @@
       PS_Cover.ctx.fillRect(0, 0, PS_Cover.canvas.width, PS_Cover.canvas.height);
 
       // draw images onto the canvas
-      for (var i = PS_Cover.cache.layers.length - 1, img, input; i > -1; i--) {
-        input = PS_Cover.cache.layers[i].querySelector('.main-input');
+      for (var i = PS_Cover.cache.layers.length - 1, img, data; i > -1; i--) {
+        data = PS_Cover.cache.layers[i].dataset;
 
-        if (/image-layer/.test(PS_Cover.cache.layers[i].className)) {
+        switch (data.type) {
+          case 'text' :
+            PS_Cover.transform({
+              rotate : +data.rotate,
+              opacity : +data.opacity / 100,
+              blend : data.blend,
 
-          img = input.previousSibling;
-          img.crossOrigin = 'anonymous';
+            }, function () {
+              var fill = data.nofill == 'true' ? 'stroke' : 'fill';
 
-          if (!img.dataset.last || img.dataset.last != input.value) {
-            img.dataset.last = input.value;
-            img.src = input.value;
-          }
+              PS_Cover.ctx.font = data.size + 'px ' + data.font;
+              PS_Cover.ctx[fill + 'Style'] = data.color;
+              PS_Cover.ctx[fill + 'Text'](data.value, data.x, data.y);
+            });
+            break;
 
-          if (input.style.borderColor) {
-            input.style.borderColor = '';
-          }
 
-          PS_Cover.loadImage(img, input.dataset.x, input.dataset.y, input, {
-            scale : +input.dataset.scale / 100,
-            rotate : +input.dataset.rotate,
-            opacity : +input.dataset.opacity / 100,
-            blend : input.dataset.blend,
-          });
+          case 'image' :
+            img = PS_Cover.cache.layers[i].firstChild;
+            img.crossOrigin = 'anonymous';
 
-        } else if (/text-layer/.test(PS_Cover.cache.layers[i].className)) {
+            if (!img.dataset.last || img.dataset.last != data.value) {
+              img.dataset.last = data.value;
+              img.src = data.value;
+            }
 
-          PS_Cover.transform({
-            rotate : +input.dataset.rotate,
-            opacity : +input.dataset.opacity / 100,
-            blend : input.dataset.blend,
+            PS_Cover.loadImage(img, data.x, data.y, {
+              scale : +data.scale / 100,
+              rotate : +data.rotate,
+              opacity : +data.opacity / 100,
+              blend : data.blend,
+            });
+            break;
 
-          }, function () {
-            var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill';
 
-            PS_Cover.ctx.font = input.dataset.size + 'px ' + input.dataset.font;
-            PS_Cover.ctx[fill + 'Style'] = input.dataset.color;
-            PS_Cover.ctx[fill + 'Text'](input.value, input.dataset.x, input.dataset.y);
-          });
+          case 'shape' :
+            PS_Cover.transform({
+              scale : +data.scale / 100,
+              rotate : +data.rotate,
+              opacity : +data.opacity / 100,
+              blend : data.blend
 
-        } else if (/shape-layer/.test(PS_Cover.cache.layers[i].className)) {
+            }, function () {
+              var fill = data.nofill == 'true' ? 'stroke' : 'fill',
+                  thumb = PS_Cover.cache.layers[i].firstChild.getContext('2d');
 
-          PS_Cover.transform({
-            scale : +input.dataset.scale / 100,
-            rotate : +input.dataset.rotate,
-            opacity : +input.dataset.opacity / 100,
-            blend : input.dataset.blend
+              PS_Cover.drawShape(data.value, {
+                style : fill,
+                color : data.color,
+                x : +data.x,
+                y : +data.y,
+                height : +data.height,
+                width : +data.width
+              }, PS_Cover.ctx);
 
-          }, function () {
-            var fill = input.dataset.nofill == 'true' ? 'stroke' : 'fill',
-                thumb = input.previousSibling.getContext('2d');
+              thumb.clearRect(0, 0, 40, 40);
+              PS_Cover.drawShape(data.value, {
+                style : fill,
+                color : data.color,
+                x : /tri|arc/.test(data.value) ? 20 : 5,
+                y : data.value == 'arc' ? 20 : 5,
+                height : 30,
+                width : 30
+              }, thumb);
 
-            PS_Cover.drawShape(input.value, {
-              style : fill,
-              color : input.dataset.color,
-              x : +input.dataset.x,
-              y : +input.dataset.y,
-              height : +input.dataset.height,
-              width : +input.dataset.width
-            }, PS_Cover.ctx);
-
-            thumb.clearRect(0, 0, 40, 40);
-            PS_Cover.drawShape(input.value, {
-              style : fill,
-              color : input.dataset.color,
-              x : /tri|arc/.test(input.value) ? 20 : 5,
-              y : input.value == 'arc' ? 20 : 5,
-              height : 30,
-              width : 30
-            }, thumb);
-
-          });
+            });
+            break;
         }
 
       }
 
-      PS_Cover.syncLayerList();
     },
 
 
@@ -127,7 +125,7 @@
 
 
     // wait for images to load before drawing them
-    loadImage : function (img, x, y, input, transformData) {
+    loadImage : function (img, x, y, transformData) {
       if (img.complete) {
         PS_Cover.transform(transformData, function () {
           PS_Cover.ctx.drawImage(img, x, y);
@@ -144,15 +142,6 @@
           PS_Cover.draw();
         };
       }
-
-      // if an image URL is invalid or cannot load, make the input border red
-      if (!img.onerror) {
-        img.onerror = function () {
-          if (input.value) {
-            input.style.borderColor = '#F00';
-          }
-        };
-      }
     },
 
 
@@ -162,7 +151,6 @@
         PS_Cover.cache.updateInput = {
           lastCaller : caller,
           type : caller.className.replace(/cover-input-/g, ''),
-          input : caller.parentsUntil('.cover-layer').querySelector('.main-input'),
           fa : caller.parentNode.querySelector('.fa-caller')
         };
       }
@@ -171,8 +159,8 @@
           value = caller[caller.type == 'checkbox' ? 'checked' : 'value'];
 
       if (PS_Cover.cache.updateInput.type == 'font' && !selected.dataset.loaded) {
-        PS_Cover.cache.updateInput.input.style.fontFamily = value;
-        PS_Cover.cache.updateInput.input.dataset[PS_Cover.cache.updateInput.type] = value;
+        PS_Cover.cache.activeLayer.style.fontFamily = value;
+        PS_Cover.cache.activeLayer.dataset[PS_Cover.cache.updateInput.type] = value;
 
         FontDetect.onFontLoaded(value, function () {
           selected.dataset.loaded = true;
@@ -181,10 +169,17 @@
 
       } else {
         if (PS_Cover.cache.updateInput.type == 'font') {
-          PS_Cover.cache.updateInput.input.style.fontFamily = value;
+          PS_Cover.cache.activeLayer.style.fontFamily = value;
         }
 
-        PS_Cover.cache.updateInput.input.dataset[PS_Cover.cache.updateInput.type] = value;
+        if (PS_Cover.cache.updateInput.type == 'value') {
+          PS_Cover.cache.activeLayer.lastChild.innerHTML =
+          PS_Cover.cache.activeLayer.dataset.type == 'image' ? value.replace(/https:\/\/i\.imgur\.com\//, '') :
+          selected ? selected.innerHTML :
+          value;
+        }
+
+        PS_Cover.cache.activeLayer.dataset[PS_Cover.cache.updateInput.type] = value;
         PS_Cover.draw();
       }
 
@@ -233,11 +228,9 @@
       if (!PS_Cover.rotating && caller != 'stop' && amount == 1) {
         PS_Cover.rotating = true;
 
-        var input = caller.parentsUntil('.cover-layer').querySelector('.main-input');
-
         PS_Cover.rotator = window.setInterval(function () {
-          var total = +input.dataset.rotate + amount;
-          input.dataset.rotate = total > 360 ? 0 : total;
+          var total = +PS_Cover.cache.activeLayer.dataset.rotate + amount;
+          PS_Cover.cache.activeLayer.dataset.rotate = total > 360 ? 0 : total;
           PS_Cover.draw();
         }, 10);
 
@@ -246,8 +239,7 @@
         window.clearInterval(PS_Cover.rotator);
 
       } else if (amount == 90) {
-        var input = caller.parentsUntil('.cover-layer').querySelector('.main-input'),
-            total = +input.dataset.rotate;
+        var total = +PS_Cover.cache.activeLayer.dataset.rotate;
 
         if (total < 90) {
           total = 90;
@@ -259,7 +251,7 @@
           total = 0;
         }
 
-        input.dataset.rotate = total;
+        PS_Cover.cache.activeLayer.dataset.rotate = total;
         PS_Cover.draw();
       }
     },
@@ -270,8 +262,7 @@
       if (!PS_Cover.moving && caller != 'stop') {
         PS_Cover.moving = true;
 
-        var row = caller.parentsUntil('.cover-layer'),
-            input = row.querySelector('.main-input'),
+        var row = caller.parentsUntil('#layer-settings'),
             raw = {
               x : row.querySelector('.cover-input-x'),
               y : row.querySelector('.cover-input-y')
@@ -280,8 +271,8 @@
             amount = /up|left/.test(caller.className) ? -1 : +1;
 
         PS_Cover.mover = window.setInterval(function () {
-          input.dataset[coord] = +input.dataset[coord] + amount;
-          raw[coord].value = input.dataset[coord];
+          PS_Cover.cache.activeLayer.dataset[coord] = +PS_Cover.cache.activeLayer.dataset[coord] + amount;
+          raw[coord].value = PS_Cover.cache.activeLayer.dataset[coord];
           PS_Cover.draw();
         }, 1);
 
@@ -296,171 +287,200 @@
     add : function (type, settings) {
       settings = settings ? settings : {};
 
-      var firstChild = PS_Cover.cache.coverLayers.firstChild,
+      var firstChild = PS_Cover.cache.layerList.firstChild,
           row = document.createElement('DIV'),
-          icon = 'fa fa-' + {
-            text : 'font',
-            image : 'file-image-o',
-            shape : 'circle'
-          }[type],
-          html = '<div class="cover-layer-type"><i class="' + icon + '"></i> ' + type.toUpperCase() + '</div>',
-          defaultAttrs = 'data-blend="" data-opacity="100" data-rotate="0" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '"',
-          color,
-          cleanName,
-          opts,
-          i,
-          j,
-          loaded,
-          selected;
+          defaultAttrs = 'class="cover-layer ' + type + '-layer"  data-type="' + type + '" data-blend="" data-opacity="100" data-rotate="0" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '"',
+          val = settings.value || '';
 
-      row.className = 'tools-row cover-layer';
-      row.dataset.hidden = true;
-
-      coords = PS_Cover.templates.layer_coords
-      .replace('value="0"', 'value="' + (settings.x || '0') + '"')
-      .replace('value="0"', 'value="' + (settings.y || '0') + '"');
-
-      // adds a text layer
-      if (type == 'text') {
-        color = PS_Cover.randomColor();
-
-        for (opts = '', i = 0, j = PS_Cover.fonts.length; i < j; i++) {
-          cleanName = PS_Cover.fonts[i].replace(/:loaded|:selected/g, '');
-          loaded = false;
-          selected = false;
-
-          // set loaded attr
-          if (/:loaded/.test(PS_Cover.fonts[i])) {
-            loaded = true;
-          }
-
-          // set selected attr
-          if (/:selected/.test(PS_Cover.fonts[i])) {
-            selected = true;
-          }
-
-          opts += '<option value="' + cleanName + '"' + ( loaded ? ' data-loaded="true"' : '' ) + ( selected ? ' selected' : '' ) + '>' + cleanName + '</option>';
-        }
+      // add a new layer based on the chosen type
+      switch (type) {
+        case 'text' :
+          row.innerHTML =
+          '<a data-value="' + val + '" data-nofill="false" data-size="40" data-font="PlayStation" data-color="' + (settings.color || PS_Cover.randomColor()) + '" data-y="' + ( settings.y || '40' ) + '" ' + defaultAttrs + ' href="#" onclick="PS_Cover.openLayer(this); return false;">'+
+            '<i class="layer-thumb fa fa-font"></i>'+
+            '<span class="layer-value">' + val + '</span>'+
+          '</a>';
+          break;
 
 
-        row.className += ' text-layer';
-        html +=
-        '<div class="main-layer-input">'+
-          '<input class="main-input cover-text med" type="text" value="' + (settings.value || '') + '" data-nofill="false" data-size="40" data-color="' + ( settings.color || color ) + '" data-font="PlayStation" oninput="PS_Cover.draw();" data-y="' + ( settings.y || '40' ) + '" ' + defaultAttrs + '>'+
-          '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + ( settings.color || color ) + '" oninput="PS_Cover.updateInput(this);">'+
-          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);">'+
-          PS_Cover.templates.layer_controls+
-        '</div>'+
-        '<div class="cover-input-tools clear">'+
-          PS_Cover.templates.shared_tools+
-          '<a href="#" class="fa fa-text-height tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-size" type="number" value="40" oninput="PS_Cover.updateInput(this);" min="0">'+
-          '<a href="#" class="fa fa-font tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><a class="fa fa-smile-o fa-caller layer-button" href="#" onclick="PS_Cover.FontAwesome.call(this);return false;" style="display:none;"></a>'+
-          '<select class="cover-input-font" onchange="PS_Cover.updateInput(this);">'+
-            opts+
-          '</select>'+
-          coords +
-        '</div>';
-      }
+        case 'image' :
+          row.innerHTML =
+          '<a data-value="' + val + '" data-scale="100" ' + defaultAttrs + ' href="#" onclick="PS_Cover.openLayer(this); return false;">'+
+            '<img class="layer-thumb" src="' + val + '" alt="">'+
+            '<span class="layer-value">' + val.replace(/https:\/\/i\.imgur\.com\//, '') + '</span>'+
+          '</a>';
+          break;
 
-
-      // adds an image layer
-      if (type == 'image') {
-        row.className += ' image-layer';
-        html +=
-        '<div class="main-layer-input">'+
-          '<img class="layer-thumb" src="" alt="">'+
-          '<input class="main-input cover-image med" type="text" value="' + ( settings.value || '' ) + '" data-scale="100" oninput="PS_Cover.draw();" ' + defaultAttrs + '>'+
-          '<a class="fa fa-search image-caller layer-button" href="#" onclick="PS_Cover.Images.call(this);return false;"></a>'+
-          PS_Cover.templates.layer_controls+
-        '</div>'+
-        '<div class="cover-input-tools clear">'+
-          PS_Cover.templates.shared_tools+
-          '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="100" oninput="PS_Cover.updateInput(this);" min="0">'+
-          coords +
-        '</div>';
-      }
-
-
-      // adds a shape layer
-      if (type == 'shape') {
-        color = PS_Cover.randomColor();
-
-        row.className += ' shape-layer';
-        html +=
-        '<div class="main-layer-input">'+
-          '<canvas class="layer-thumb" width="40" height="40"></canvas>'+
-          '<select class="main-input cover-shape" data-height="50" data-width="50" data-color="' + color + '" data-nofill="false" data-scale="100" onchange="PS_Cover.draw();" ' + defaultAttrs + '>'+
-            '<option value="rect" selected>Rectangle</option>'+
-            '<option value="tri">Triangle</option>'+
-            '<option value="arc">Circle</option>'+
-          '</select>'+
-          '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + color + '" oninput="PS_Cover.updateInput(this);">'+
-          '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);">'+
-          PS_Cover.templates.layer_controls+
-        '</div>'+
-        '<div class="cover-input-tools clear">'+
-          PS_Cover.templates.shared_tools+
-          '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="100" oninput="PS_Cover.updateInput(this);" min="0">'+
-          '<a href="#" class="fa fa-arrows-h tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-width" type="number" value="50" oninput="PS_Cover.updateInput(this);" min="0">'+
-          '<a href="#" class="fa fa-arrows-v tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-height" type="number" value="50" oninput="PS_Cover.updateInput(this);" min="0">'+
-          coords +
-        '</div>';
-      }
-
-
-      // add html to row
-      row.innerHTML = html + '<i class="' + icon + ' cover-layer-placeholder"></i>';
-
-      if (type == 'image' && !settings.value) {
-        PS_Cover.Images.call(row.querySelector('.image-caller'));
+        case 'shape' :
+          row.innerHTML =
+          '<a data-value="rect" data-height="' + ( settings.height || '50' ) + '" data-width="' + ( settings.width || '50' ) + '" data-color="' + PS_Cover.randomColor() + '" data-nofill="false" data-scale="100" ' + defaultAttrs + ' href="#" onclick="PS_Cover.openLayer(this); return false;">'+
+            '<canvas class="layer-thumb" width="40" height="40"></canvas>'+
+            '<span class="layer-value">Rectangle</span>'+
+          '</a>';
+          break;
       }
 
       // add the new layer to the layers list
-      firstChild ? PS_Cover.cache.coverLayers.insertBefore(row, firstChild) : PS_Cover.cache.coverLayers.appendChild(row);
-      PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
+      row = row.firstChild;
+      firstChild ? PS_Cover.cache.layerList.insertBefore(row, firstChild) : PS_Cover.cache.layerList.appendChild(row);
+      PS_Cover.cache.layers = PS_Cover.cache.layerList.querySelectorAll('.cover-layer');
 
-      // scroll directly to the top of the new layer
-      if (!settings.noScroll) {
-        PS_Cover.jumpToLayer(row);
+      if (!settings.noOpen) PS_Cover.openLayer(row, settings.noScroll);
+      PS_Cover.updateLayerCount();
+      PS_Cover.draw();
+    },
+
+
+    // opens the tools for editing the selected layer
+    openLayer : function (caller, noScroll, noOpen) {
+      var data = caller.dataset,
+
+          coords = PS_Cover.templates.layer_coords
+          .replace('value="0"', 'value="' + data.x + '"')
+          .replace('value="0"', 'value="' + data.y + '"'),
+
+          shared_tools = PS_Cover.templates.shared_tools
+          .replace('value="' + data.blend + '"', 'value="' + data.blend + '" selected')
+          .replace('value="100"', 'value="' + data.opacity + '"');
+
+
+      switch (data.type) {
+        case 'text' :
+          for (var opts = '', i = 0, j = PS_Cover.fonts.length, loaded, cleanName; i < j; i++) {
+            cleanName = PS_Cover.fonts[i].replace(':loaded', '');
+            loaded = false;
+
+            // set loaded attr
+            if (/:loaded/.test(PS_Cover.fonts[i])) {
+              loaded = true;
+            }
+
+            opts += '<option value="' + cleanName + '"' + ( loaded ? ' data-loaded="true"' : '' ) + ( data.font == cleanName ? ' selected' : '' ) + '>' + cleanName + '</option>';
+          }
+
+          PS_Cover.cache.layerSettings.innerHTML = '<div class="main-layer-input">'+
+            '<input class="cover-input-value" type="text" value="' + data.value + '" oninput="PS_Cover.updateInput(this);">'+
+            '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + data.color + '" oninput="PS_Cover.updateInput(this);">'+
+            '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( data.nofill == 'true' ? 'checked' : '' ) + '>'+
+            PS_Cover.templates.layer_controls+
+          '</div>'+
+          '<div class="cover-input-tools clear">'+
+            shared_tools+
+            '<a href="#" class="fa fa-text-height tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-size" type="number" value="' + data.size + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+            '<a href="#" class="fa fa-font tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><a class="fa fa-smile-o fa-caller layer-button" href="#" onclick="PS_Cover.FontAwesome.call(this);return false;" ' + (data.font == 'FontAwesome' ? '' : 'style="display:none;"') + '></a>'+
+            '<select class="cover-input-font" onchange="PS_Cover.updateInput(this);">'+
+              opts+
+            '</select>'+
+            coords +
+          '</div>';
+          break;
+
+
+        case 'image' :
+          PS_Cover.cache.layerSettings.innerHTML =
+          '<div class="main-layer-input">'+
+            '<input class="cover-input-value" type="text" value="' + data.value + '" oninput="PS_Cover.updateInput(this);">'+
+            '<a class="fa fa-search image-caller layer-button" href="#" onclick="PS_Cover.Images.call(this);return false;"></a>'+
+            PS_Cover.templates.layer_controls+
+          '</div>'+
+          '<div class="cover-input-tools clear">'+
+            shared_tools+
+            '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + data.scale + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+            coords +
+          '</div>';
+
+          // open the image selector
+          if (!data.value) {
+            PS_Cover.Images.call(PS_Cover.cache.layerSettings.querySelector('.image-caller'));
+          }
+          break;
+
+
+        case 'shape' :
+          PS_Cover.cache.layerSettings.innerHTML =
+          '<div class="main-layer-input">'+
+            '<select class="cover-input-value" onchange="PS_Cover.updateInput(this);">'+
+              '<option value="rect" ' + ( data.value == 'rect' ? 'selected' : '' ) + '>Rectangle</option>'+
+              '<option value="tri" ' + ( data.value == 'tri' ? 'selected' : '' ) + '>Triangle</option>'+
+              '<option value="arc" ' + ( data.value == 'arc' ? 'selected' : '' ) + '>Circle</option>'+
+            '</select>'+
+            '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + data.color + '" oninput="PS_Cover.updateInput(this);">'+
+            '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( data.nofill == 'true' ? 'checked' : '' ) + '>'+
+            PS_Cover.templates.layer_controls+
+          '</div>'+
+          '<div class="cover-input-tools clear">'+
+            shared_tools+
+            '<a href="#" class="fa fa-arrows tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-scale" type="number" value="' + data.scale + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+            '<a href="#" class="fa fa-arrows-h tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-width" type="number" value="' + data.width + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+            '<a href="#" class="fa fa-arrows-v tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-height" type="number" value="' + data.height + '" oninput="PS_Cover.updateInput(this);" min="0">'+
+            coords +
+          '</div>';
+          break;
       }
+
+
+      if (PS_Cover.cache.activeLayer) {
+        PS_Cover.cache.activeLayer.className = PS_Cover.cache.activeLayer.className.replace('activeLayer', '');
+      }
+
+      caller.className += ' activeLayer';
+      PS_Cover.cache.activeLayer = caller;
 
       ColorInpicker.init({ hide : true }); // create color pickers
       if (PS_Cover.isPS4) Inumber.init(); // create number input arrows
       replaceCheckboxes(); // replace checkboxes w/custom ones
-      PS_Cover.fadeInOut(true);
-      PS_Cover.draw();
+      if (!noScroll) PS_Cover.jumpToLayer(PS_Cover.cache.activeLayer);
     },
 
 
     // move layers up / down
     moveLayer : function (where, caller) {
-      var row = caller.parentsUntil('.cover-layer');
-
       switch (where.toLowerCase()) {
         case 'up' :
-          PS_Cover.cache.coverLayers.insertBefore(row, row.previousSibling);
+          PS_Cover.cache.layerList.insertBefore(PS_Cover.cache.activeLayer, PS_Cover.cache.activeLayer.previousSibling);
           break;
 
         case 'down' :
-          var next = row.nextSibling.nextSibling;
-          next ? PS_Cover.cache.coverLayers.insertBefore(row, next) : PS_Cover.cache.coverLayers.appendChild(row);
+          var next = PS_Cover.cache.activeLayer.nextSibling;
+
+          if (PS_Cover.cache.layerList.lastChild == PS_Cover.cache.activeLayer) {
+            PS_Cover.cache.layerList.insertBefore(PS_Cover.cache.activeLayer, PS_Cover.cache.layerList.firstChild);
+
+          } else if (next && next.nextSibling) {
+            PS_Cover.cache.layerList.insertBefore(PS_Cover.cache.activeLayer, next.nextSibling);
+
+          } else {
+            PS_Cover.cache.layerList.appendChild(PS_Cover.cache.activeLayer);
+          }
           break;
       }
 
-      PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
-      PS_Cover.jumpToLayer(row);
+      PS_Cover.cache.layers = PS_Cover.cache.layerList.querySelectorAll('.cover-layer');
+      PS_Cover.jumpToLayer(PS_Cover.cache.activeLayer);
       PS_Cover.draw();
     },
 
 
     // delete the specified layer
-    deleteLayer : function (caller, skipConfirmation) {
+    deleteLayer : function (node, skipConfirmation) {
       if (skipConfirmation || confirm('You are about to delete this layer.\nDo you want to continue?')) {
-        var layer = caller.parentsUntil('.cover-layer');
-        layer.parentNode.removeChild(layer);
+        var next = PS_Cover.cache.activeLayer.previousSibling ?
+                   PS_Cover.cache.activeLayer.previousSibling :
+                   PS_Cover.cache.activeLayer.nextSibling ?
+                   PS_Cover.cache.activeLayer.nextSibling :
+                   null;
 
-        PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
-        PS_Cover.fadeInOut(true);
+        PS_Cover.cache.layerList.removeChild(node || PS_Cover.cache.activeLayer);
+
+        if (next) {
+          PS_Cover.openLayer(next);
+
+        } else {
+          PS_Cover.cache.layerSettings.innerHTML = PS_Cover.templates.no_layers;
+        }
+
+        PS_Cover.cache.layers = PS_Cover.cache.layerList.querySelectorAll('.cover-layer');
+        PS_Cover.updateLayerCount();
         PS_Cover.draw();
       }
     },
@@ -469,10 +489,18 @@
     // delete all layers
     deleteLayers : function (skipConfirmation) {
       if (skipConfirmation || confirm('You are about to delete all layers.\nDo you want to continue?')) {
-        PS_Cover.cache.coverLayers.innerHTML = '';
-        PS_Cover.cache.layers = PS_Cover.cache.coverLayers.querySelectorAll('.cover-layer');
+        PS_Cover.cache.layerList.innerHTML = '';
+        PS_Cover.cache.layerSettings.innerHTML = PS_Cover.templates.no_layers;
+        PS_Cover.cache.layers = PS_Cover.cache.layerList.querySelectorAll('.cover-layer');
+        PS_Cover.updateLayerCount();
         PS_Cover.draw();
       }
+    },
+
+
+    // updates the layer count
+    updateLayerCount : function () {
+      PS_Cover.cache.layerTotal.innerHTML = '(' + PS_Cover.cache.layers.length + ')';
     },
 
 
@@ -481,51 +509,9 @@
       layer = typeof layer == 'number' ? PS_Cover.cache.layers[layer] : layer;
 
       if (layer) {
-        PS_Cover.cache.coverTools.scrollTop = layer.offsetTop - 3;
+        PS_Cover.cache.coverTools.scrollTop = PS_Cover.cache.layerSettings.offsetTop - 68;
+        PS_Cover.cache.layerList.scrollTop = layer.offsetTop - 41;
       }
-    },
-
-
-    // sync the layer list w/the layers on the canvas
-    syncLayerList : function () {
-      var layerList = '',
-          thumb,
-          val;
-
-      if (PS_Cover.cache.syncLayerListLoop) {
-        PS_Cover.cache.syncLayerListLoop.kill();
-      }
-
-      PS_Cover.cache.syncLayerListLoop = new ForAll (PS_Cover.cache.layers, function (layer) {
-        thumb = layer.querySelector('.layer-thumb');
-        val = layer.querySelector('.main-input');
-
-        thumb = !thumb ? '<i class="layer-thumb fa fa-font"></i>' :
-                '<img class="layer-thumb" src="' + (thumb.tagName == 'CANVAS' ? thumb.toDataURL('image/png') : thumb.src) + '" alt="">';
-
-        val = val.tagName == 'SELECT' ? val.options[val.selectedIndex].innerHTML :
-              /cover-image/.test(val.className) ? val.value.replace(/https:\/\/i\.imgur\.com\//, '') :
-              val.value;
-
-        layerList +=
-        '<li class="' + layer.className.replace(/tools-row|cover-layer/g, '') + '-list">'+
-          '<a href="#" onclick="PS_Cover.jumpToLayer(' + this.index + '); return false;">'+
-            thumb+
-            val+
-          '</a>'+
-        '</li>';
-
-      }).done(function () {
-        delete PS_Cover.cache.syncLayerListLoop;
-
-        if (PS_Cover.cache.layerList.innerHTML != layerList) {
-          PS_Cover.cache.layerList.innerHTML = layerList;
-
-          if ('(' + PS_Cover.cache.layers.length + ')' != PS_Cover.cache.layerTotal.innerHTML) {
-            PS_Cover.cache.layerTotal.innerHTML = '(' + PS_Cover.cache.layers.length + ')';
-          }
-        }
-      });
     },
 
 
@@ -580,7 +566,10 @@
 
       // insert the icon into the input area
       insert : function (caller) {
-        caller.parentsUntil('.cover-layer').querySelector('.main-input').value += ' ' + caller.innerHTML;
+        var input = caller.parentsUntil('#layer-settings').querySelector('.cover-input-value');
+
+        input.value += ' ' + caller.innerHTML;
+        PS_Cover.updateInput(input);
         PS_Cover.draw();
       }
     },
@@ -728,8 +717,11 @@
 
       // insert the image url into the input
       insert : function (img) {
+        var input = PS_Cover.Images.caller.previousSibling;
+
         PS_Cover.Images.close();
-        PS_Cover.Images.caller.previousSibling.value = /imgur/.test(img) ? img.replace(/m(\.[^\.]*?)$/, '$1') : img;
+        input.value = /imgur/.test(img) ? img.replace(/m(\.[^\.]*?)$/, '$1') : img;
+        PS_Cover.updateInput(input);
         PS_Cover.draw();
       },
 
@@ -748,6 +740,8 @@
 
     // html templates
     templates : {
+
+      no_layers : '<p id="no-layers">There are no layers to modify. Why not add one by using the buttons above?</p>',
 
       layer_controls :
       '<div class="layer-controls">'+
@@ -769,7 +763,7 @@
           '<a class="fa fa-sort-desc" href="#" onclick="PS_Cover.moveLayer(\'down\', this); return false;"></a>'+
         '</span>'+
 
-        '<a class="fa fa-times" href="#" onclick="PS_Cover.deleteLayer(this); return false;"></a>'+
+        '<a class="fa fa-times" href="#" onclick="PS_Cover.deleteLayer(); return false;"></a>'+
       '</div>',
 
       shared_tools :
@@ -814,7 +808,7 @@
 
     // fonts available for text
     fonts : [
-      'PlayStation:loaded:selected',
+      'PlayStation:loaded',
       'Courier New:loaded',
       'FontAwesome:loaded',
       'Revalia',

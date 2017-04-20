@@ -182,7 +182,8 @@ window.ColorInpicker = {
 
       ColorInpicker.last = that;
       ColorInpicker.input = that.nextSibling;
-      ColorInpicker.picker.style.left = offset[/cover-layer/.test(that.parentNode.parentNode.className) ? 'right' : 'left'] + 'px';
+      ColorInpicker.picker.style.marginLeft = offset.width + offset.left + 'px';
+      ColorInpicker.picker.style.marginTop = '-' + (offset.height + 60) + 'px';
 
       for (i = 0, j = bar.length; i < j; i++) {
         bar[i].style.backgroundColor = 'rgb(' + ( [rgb[i] + ', 0, 0', '0, ' + rgb[i] + ', 0', '0, 0, ' + rgb[i]][i] ) + ')';

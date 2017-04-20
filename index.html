@@ -121,30 +121,35 @@
     <div id="cover-tools-box">
       <div id="cover-tools-layer-list">
         <a id="layer-list-title" class="tools-title" href="#" onclick="return false;"><i class="fa fa-list"></i> Layer List <span id="layer-total">(0)</span></a>
-        <ol id="layer-list"></ol>
+        <div id="layer-list"></div>
       </div>
 
       <div id="cover-tools">
+        <div class="tools-row">
+          <div class="tools-title"><i class="fa fa-chevron-circle-right"></i> Actions</div>
+          <div class="tools-inner">
+            <div class="tools-actions clear">
+              <a id="add-text" class="tools-add" href="#" onclick="PS_Cover.add('text');return false;"><i class="fa fa-font"></i> Add Text</a>
+              <a id="add-image" class="tools-add" href="#" onclick="PS_Cover.add('image');return false;"><i class="fa fa-image"></i> Add Image</a>
+              <a id="add-shape" class="tools-add" href="#" onclick="PS_Cover.add('shape');return false;"><i class="fa fa-circle"></i> Add Shape</a>
+              <a id="delete-all" class="tools-delete" href="#" onclick="PS_Cover.deleteLayers();return false;"><i class="fa fa-times"></i> Delete All</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tools-row">
+          <div class="tools-title"><i class="fa fa-cog"></i> Selected Layer Settings</div>
+          <div class="tools-inner">
+            <div id="layer-settings"></div>
+          </div>
+        </div>
+
         <div class="tools-row">
           <div class="tools-title"><i class="fa fa-paint-brush"></i> Canvas Settings</div>
           <div class="tools-inner">
             <div class="tools-row"><label for="cover-bg-color">Background Color : </label><input id="cover-bg-color" class="color-inpicker" type="text" value="#0077CC" oninput="PS_Cover.draw();"></div>
             <div class="tools-row"><label for="cover-show-profile">Show Demo Profile : </label><input id="cover-show-profile" type="checkbox"></div>
             <div class="tools-row"><label for="cover-go-fullscreen">Full Screen : </label><input id="cover-go-fullscreen" type="checkbox"></div>
-          </div>
-        </div>
-
-        <div class="tools-row">
-          <div class="tools-title"><i class="fa fa-file"></i> Layers</div>
-          <div class="tools-inner">
-            <div class="tools-actions">
-              <a id="add-text" class="tools-add" href="#" onclick="PS_Cover.add('text');return false;"><i class="fa fa-font"></i> Add Text</a>
-              <a id="add-image" class="tools-add" href="#" onclick="PS_Cover.add('image');return false;"><i class="fa fa-image"></i> Add Image</a>
-              <a id="add-shape" class="tools-add" href="#" onclick="PS_Cover.add('shape');return false;"><i class="fa fa-circle"></i> Add Shape</a>
-              <a id="delete-all" class="tools-delete" href="#" onclick="PS_Cover.deleteLayers();return false;"><i class="fa fa-times"></i> Delete All</a>
-            </div>
-
-            <div id="cover-layers"></div>
           </div>
         </div>
       </div>

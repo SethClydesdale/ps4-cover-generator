@@ -2,7 +2,7 @@
 PS_Cover.Tutorial.next = function () {
   document.getElementById('tutorial-button-next').disabled = true;
 
-  PS_Cover.Tutorial.focus();
+  PS_Cover.Tutorial.focus(PS_Cover.Tutorial.step[PS_Cover.Tutorial.progress] && PS_Cover.Tutorial.step[PS_Cover.Tutorial.progress].noRemoval);
   PS_Cover.Tutorial.progress++;
   PS_Cover.Tutorial.focus();
 
@@ -25,7 +25,7 @@ PS_Cover.Tutorial.next = function () {
 
 
 // toggle focus on an element or elements in a step
-PS_Cover.Tutorial.focus = function () {
+PS_Cover.Tutorial.focus = function (noRemoval) {
   var step = PS_Cover.Tutorial.step[PS_Cover.Tutorial.progress];
 
   if (step && step.focus) {
@@ -45,7 +45,7 @@ PS_Cover.Tutorial.focus = function () {
       document.body.scrollTop = a[0].offsetTop - 210;
     }
 
-    if (step.focus.event) {
+    if (step.focus.event && !noRemoval) {
       for (var a = document.querySelectorAll(step.focus.event), i = 0, j = a.length; i < j; i++) {
         a[i].dataset.tutorialEvent = a[i].dataset.tutorialEvent == 'true' ? '' : true;
       }
@@ -117,6 +117,7 @@ PS_Cover.Tutorial.step = [
       del.setAttribute('onclick', 'return false');
 
       del.addEventListener('click', delTuto);
+      document.getElementById('cover-tools').scrollTop = 0;
     }
   },
 
@@ -131,10 +132,12 @@ PS_Cover.Tutorial.step = [
     },
 
     condition : function () {
-      PS_Cover.Tutorial.listen(function(stop) {
-        var layer = document.querySelector('.image-layer');
+      document.getElementById('cover-tools').scrollTop = 0;
 
-        if (layer && layer.querySelector('.main-input').value) {
+      PS_Cover.Tutorial.listen(function(stop) {
+        var layer = document.querySelector('.main-layer-input');
+
+        if (layer && layer.querySelector('.cover-input-value').value) {
           stop();
           PS_Cover.Tutorial.next();
         }
@@ -155,12 +158,12 @@ PS_Cover.Tutorial.step = [
 
 
   {
-    message : 'Layers consist of three sections : The main input field, controls, and tools. We\'ll go over each section and their sub-options to get you familiar with how things work. But first let\'s go over the layer list, as it\'ll play a vital role in navigation.'
+    message : 'Layers consist of three sections : The main input field, controls, and tools. We\'ll go over each section and their sub-options to get you familiar with how things work. But first let\'s go over the layer list, as it\'ll play a vital role in creating your cover image.'
   },
 
 
   {
-    message : 'See the column on the right? That\'s the layer list. It shows all the layers in your cover image so you can easily keep track of and jump to any layers in the toolbox.',
+    message : 'See the column on the right? That\'s the layer list. It shows all the layers in your cover image so you can easily keep track of and edit them.',
 
     focus : {
       selectors : '#cover-tools-layer-list',
@@ -186,11 +189,11 @@ PS_Cover.Tutorial.step = [
 
 
   {
-    message : 'If you want to quickly jump to a layer in the toolbox all you need to do is click the layer in the layer list. Try it now by clicking the image you just added.',
+    message : 'If you want to edit a layer, all you have to do is click it in the layer list and the tools for editing it will show up on the left under SELECTED LAYER SETTINGS. Get these squares out of the way by clicking the image you just added.',
 
     focus : {
       selectors : '#cover-tools-layer-list',
-      event : '.image-layer-list a',
+      event : '.image-layer',
       noclick : true
     },
 
@@ -200,13 +203,13 @@ PS_Cover.Tutorial.step = [
         PS_Cover.Tutorial.next();
       };
 
-      document.querySelector('.image-layer-list a').addEventListener('click', click);
+      document.querySelector('.image-layer').addEventListener('click', click);
     }
   },
 
 
   {
-    message : 'Well done! Makes getting around easier, no? If you ever find that the layer list is just in the way, feel free to click its title to make it go away. Go ahead and try that now!',
+    message : 'Well done! That was super easy, no? Remember to click the layers in the layer list whenever you want to edit their settings. If you ever find that the layer list is just in the way, feel free to click its title to make it go away. Go ahead and try that now!',
 
     focus : {
       selectors : '#cover-tools-layer-list',
@@ -215,7 +218,14 @@ PS_Cover.Tutorial.step = [
     },
 
     condition : function () {
-      var list = document.getElementById('cover-tools-layer-list');
+      var list = document.getElementById('cover-tools-layer-list'),
+          a = document.querySelectorAll('.shape-layer'),
+          i = 0,
+          j = a.length;
+
+      for (; i < j; i++) {
+        PS_Cover.deleteLayer(a[i], true);
+      }
 
       PS_Cover.Tutorial.listen(function (stop) {
         if (list.className == 'hidden') {
@@ -237,14 +247,7 @@ PS_Cover.Tutorial.step = [
     },
 
     condition : function () {
-      var list = document.getElementById('cover-tools-layer-list'),
-          a = document.querySelectorAll('.shape-layer'),
-          i = 0,
-          j = a.length;
-
-      for (; i < j; i++) {
-        PS_Cover.deleteLayer(a[i].firstChild, true);
-      }
+      var list = document.getElementById('cover-tools-layer-list');
 
       PS_Cover.Tutorial.listen(function (stop) {
         if (!list.className) {
@@ -266,7 +269,7 @@ PS_Cover.Tutorial.step = [
 
     focus : {
       selectors : '#cover-tools-box',
-      event : '.cover-image',
+      event : '.cover-input-value',
       noclick : true
     }
   },
@@ -319,9 +322,10 @@ PS_Cover.Tutorial.step = [
   {
     message : 'These buttons change the stack order of the layers. For example, the topmost layer is shown on top of everything and the bottommost layer is covered by everything else. If you want to bring a layer to the front so it\'s not covered by anything, click these buttons to change the stack order of each layer. Go ahead and show this square who\'s boss by bringing your image back to the front!',
 
+    noRemoval : true,
     focus : {
       selectors : '#cover-tools-box',
-      event : '.image-layer .layer-move-box a',
+      event : '.layer-move-box a',
       noclick : true
     },
 
@@ -330,18 +334,22 @@ PS_Cover.Tutorial.step = [
         x : 0,
         y : 0,
         noScroll : 1,
+        noOpen : true,
         width : PS_Cover.canvas.width,
         height : PS_Cover.canvas.height
       });
 
-      var image = document.querySelector('.image-layer'),
+      var a = document.querySelectorAll('.fa-sort-asc, .fa-sort-desc'),
+          i = 0,
+          j = a.length,
           moveTuto = function () {
-            this.removeEventListener('click', moveTuto);
+            PS_Cover.openLayer(document.querySelector('.shape-layer'));
             PS_Cover.Tutorial.next();
           };
 
-      document.getElementById('cover-tools').scrollTop = image.offsetTop - 3;
-      image.querySelector('.fa-sort-asc').addEventListener('click', moveTuto);
+      for (; i < j; i++) {
+        a[i].addEventListener('click', moveTuto);
+      }
     }
   },
 
@@ -349,18 +357,20 @@ PS_Cover.Tutorial.step = [
   {
     message : 'Great job! You really showed that square who\'s boss! Let\'s teach it one more lesson by deleting it from our Cover Image. See that cross? Clicking it will delete the layer. Go ahead and take out the trash!',
 
+    noRemoval : true,
     focus : {
       selectors : '#cover-tools-box',
-      event : '.shape-layer .layer-controls .fa-times',
+      event : '.layer-controls .fa-times',
       noclick : true
     },
 
     condition : function () {
-      var del = document.querySelector('.shape-layer .layer-controls .fa-times');
+      var del = document.querySelector('.layer-controls .fa-times');
 
       del.setAttribute('onclick', 'return false');
       del.addEventListener('click', function () {
-        PS_Cover.deleteLayer(this, true);
+        PS_Cover.deleteLayer(document.querySelector('.shape-layer'), true);
+        PS_Cover.openLayer(document.querySelector('.image-layer'));
         PS_Cover.Tutorial.next();
       });
     }
@@ -385,7 +395,7 @@ PS_Cover.Tutorial.step = [
 
     focus : {
       selectors : '#cover-tools-box',
-      event : '.cover-input-tools input, .cover-input-tools a',
+      event : '.cover-input-tools input, .cover-input-tools select, .cover-input-tools a',
       noclick : true
     }
   },
@@ -412,7 +422,7 @@ PS_Cover.Tutorial.step = [
     },
 
     condition : function () {
-      document.getElementById('cover-tools').scrollTop = 0;
+      document.getElementById('cover-tools').scrollTop = 9999;
 
       var bg = document.getElementById('cover-bg-color'),
           oldVal = bg.value;
@@ -448,7 +458,7 @@ PS_Cover.Tutorial.step = [
     },
 
     condition : function () {
-      document.getElementById('cover-tools').scrollTop = 0;
+      document.getElementById('cover-tools').scrollTop = 9999;
 
       var demo = document.getElementById('cover-show-profile');
       demo.checked = false;
@@ -484,7 +494,7 @@ PS_Cover.Tutorial.step = [
     },
 
     condition : function () {
-      document.getElementById('cover-tools').scrollTop = 0;
+      document.getElementById('cover-tools').scrollTop = 9999;
 
       var fs = document.getElementById('cover-go-fullscreen');
       fs.checked = false;
@@ -546,14 +556,14 @@ PS_Cover.Tutorial.step = [
 
     focus : {
       selectors : '#cover-tools-box',
-      event : '.cover-text',
+      event : '.cover-input-value',
       noclick : true
     },
 
     condition : function () {
       var next = document.getElementById('tutorial-button-next');
 
-      document.querySelector('.cover-text').addEventListener('keyup', function() {
+      document.querySelector('.cover-input-value').addEventListener('keyup', function() {
         if (this.value && next.disabled) {
           next.disabled = false;
         } else if (!this.value && !next.disabled) {
@@ -569,7 +579,7 @@ PS_Cover.Tutorial.step = [
 
     focus : {
       selectors : '#cover-tools-box',
-      event : '.text-layer .color-inpicker-box',
+      event : '#layer-settings .color-inpicker-box',
       noclick : true
     }
   },
@@ -602,7 +612,7 @@ PS_Cover.Tutorial.step = [
 
     focus : {
       selectors : '#cover-tools-box',
-      event : '.text-layer .arrow-box a',
+      event : '.arrow-box a',
       noclick : true
     }
   },
