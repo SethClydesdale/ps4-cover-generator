@@ -196,7 +196,8 @@ a:active { color:#049; }
   color:#333;
   font-size:14px;
   display:block;
-  padding:0 6px;
+  position:relative;
+  padding:0 6px 0 51px;
   border-bottom:1px solid #CCC;
   box-sizing:border-box;
   height:50px;
@@ -215,13 +216,14 @@ a:active { color:#049; }
 #layer-list a.cover-layer:hover { background:#DDD; }
 #layer-list a.activeLayer:hover { background:#06B; }
 
-.layer-thumb {
+#layer-list .layer-thumb {
   border:1px solid #CCC;
   display:inline-block;
+  position:absolute;
+  top:3px;
+  left:6px;
   height:40px;
   width:40px;
-  vertical-align:-16px;
-  margin-right:3px;
 }
 
 #layer-list .layer-thumb.fa-font {
@@ -229,7 +231,6 @@ a:active { color:#049; }
   font-size:36px;
   line-height:40px;
   text-align:center;
-  vertical-align:-6px;
 }
 
 #layer-list a.activeLayer .layer-thumb { border-color:#049; }
