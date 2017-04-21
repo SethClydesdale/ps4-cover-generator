@@ -224,6 +224,7 @@ a:active { color:#049; }
   left:6px;
   height:40px;
   width:40px;
+  pointer-events:none;
 }
 
 #layer-list .layer-thumb.fa-font {
