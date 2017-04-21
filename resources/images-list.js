@@ -1,4 +1,4 @@
-PS_Cover.Images.host = window.location.href.replace('index.html', '') + 'resources/images/';
+PS_Cover.Images.host = 'resources/images/';
 
 PS_Cover.Images.list = {
 

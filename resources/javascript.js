@@ -718,10 +718,11 @@
       // insert the image url into the input
       insert : function (img) {
         var input = PS_Cover.Images.caller.previousSibling,
+            src = img.getAttribute('src'),
             regex = /_tn\.jpg$/;
 
         PS_Cover.Images.close();
-        input.value = regex.test(img.src) ? img.src.replace(regex, '.' + img.dataset.ext) : img.src;
+        input.value = regex.test(src) ? src.replace(regex, '.' + img.dataset.ext) : src;
         PS_Cover.updateInput(input);
         PS_Cover.draw();
       },

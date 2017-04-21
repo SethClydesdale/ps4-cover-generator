@@ -1037,13 +1037,13 @@ footer a:active { color:#FF8; }
   left:0;
   right:0;
   bottom:0;
-  pointer-events:none;
 }
 
 /* fadeInOut visibility */
 .select-image-option img, .select-image-placeholder {
   transition-property:opacity, visibility;
   transition-duration:1000ms;
+  pointer-events:none;
 }
 
 .select-image-option img, .select-image-option[data-hidden="true"] .select-image-placeholder {
