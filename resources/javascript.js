@@ -174,7 +174,7 @@
 
         if (PS_Cover.cache.updateInput.type == 'value') {
           PS_Cover.cache.activeLayer.lastChild.innerHTML =
-          PS_Cover.cache.activeLayer.dataset.type == 'image' ? value.replace(/https:\/\/i\.imgur\.com\//, '') :
+          PS_Cover.cache.activeLayer.dataset.type == 'image' ? value.split('/').pop() :
           selected ? selected.innerHTML :
           value;
         }
@@ -307,7 +307,7 @@
           row.innerHTML =
           '<a data-value="' + val + '" data-scale="100" ' + defaultAttrs + ' href="#" onclick="PS_Cover.openLayer(this); return false;">'+
             '<img class="layer-thumb" src="' + val + '" alt="">'+
-            '<span class="layer-value">' + val.replace(/https:\/\/i\.imgur\.com\//, '') + '</span>'+
+            '<span class="layer-value">' + val.split('/').pop() + '</span>'+
           '</a>';
           break;
 
@@ -610,7 +610,7 @@
               PS_Cover.Images.total[0]++;
               PS_Cover.Images.total[1] += len;
 
-              str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + ( /^http/.test(PS_Cover.Images.list[i].thumb) ? '' : PS_Cover.Images.host ) + PS_Cover.Images.list[i].thumb + ')"><span class="select-image-total">' + len + ' images</span></a>';
+              str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + PS_Cover.Images.host + i + '/' + PS_Cover.Images.list[i].thumb + ')"><span class="select-image-total">' + len + ' images</span></a>';
             }
           } else {
             str +=
@@ -659,7 +659,7 @@
         + PS_Cover.templates.Images.close +
         '<div id="select-image-container">'+
           '<div id="select-image-list" class="clear">'+
-            '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[category].thumb) ? '' : PS_Cover.Images.host) + PS_Cover.Images.list[category].thumb + '">' + PS_Cover.templates.Images.placeholder + '</a>'+
+            '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild);return false;"><img src="' + PS_Cover.Images.host + category + '/' + PS_Cover.Images.list[category].thumb + '" alt="">' + PS_Cover.templates.Images.placeholder + '</a>'+
             '<a class="select-image-action select-image-load" href="#" onclick="PS_Cover.Images.add(30); return false;">Load More</a>'+
           '</div>'+
         '</div>' +
@@ -693,7 +693,7 @@
 
           for (; i < amount; i++) {
             if (PS_Cover.Images.list[PS_Cover.Images.catg].images[++PS_Cover.Images.index]) {
-              str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild.src);return false;"><img src="' + (/^http/.test(PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index]) ? PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index] : PS_Cover.Images.host + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].replace(/(\.[^\.]*?)$/, 'm$1')) + '">' + PS_Cover.templates.Images.placeholder + '</a>';
+              str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild);return false;"><img src="' + PS_Cover.Images.host + PS_Cover.Images.catg + '/' + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].replace(/(\.[^\.]*?)$/, '_tn.jpg') + '" data-ext="' + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].split('.').pop() + '" alt="">' + PS_Cover.templates.Images.placeholder + '</a>';
             } else {
               break;
             }
@@ -717,10 +717,11 @@
 
       // insert the image url into the input
       insert : function (img) {
-        var input = PS_Cover.Images.caller.previousSibling;
+        var input = PS_Cover.Images.caller.previousSibling,
+            regex = /_tn\.jpg$/;
 
         PS_Cover.Images.close();
-        input.value = /imgur/.test(img) ? img.replace(/m(\.[^\.]*?)$/, '$1') : img;
+        input.value = regex.test(img.src) ? img.src.replace(regex, '.' + img.dataset.ext) : img.src;
         PS_Cover.updateInput(input);
         PS_Cover.draw();
       },
@@ -1145,7 +1146,7 @@
 
   // create example presets
   PS_Cover.add('image', {
-    value : 'https://i.imgur.com/OXtas9o.png',
+    value : 'resources/images/ps4.png',
     x : (PS_Cover.canvas.width / 2) - 100,
     y : (PS_Cover.canvas.height / 2) - 100,
     noScroll : 1
