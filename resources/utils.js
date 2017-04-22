@@ -290,6 +290,15 @@ window.ColorInpicker = {
   }
 };
 
+// change the random color every 3s when the color picker is opened
+window.setInterval(function() {
+  var randomColor = document.querySelector('#color-inpicker-presets .fa-random');
+
+  if (randomColor) {
+    randomColor.style.backgroundColor = PS_Cover.randomColor();
+  }
+}, 3000);
+
 
 /* -- 01. Inumber -- */
 // Prototype for adding arrow controls to input[type="number"] on the PS4 web browser or browsers that don't support it
@@ -338,15 +347,6 @@ window.Inumber = {
     }
   }
 };
-
-// change the random color every 3s when the color picker is opened
-window.setInterval(function() {
-  var randomColor = document.querySelector('#color-inpicker-presets .fa-random');
-
-  if (randomColor) {
-    randomColor.style.backgroundColor = PS_Cover.randomColor();
-  }
-}, 3000);
 
 
 /* -- 03. parentsUntil -- */

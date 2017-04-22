@@ -929,6 +929,19 @@
     },
 
 
+    // sets the height / width of the canvas
+    setDimensions : function (caller, type) {
+      if (caller.value) {
+        PS_Cover.canvas[type] = caller.value;
+
+      } else {
+        PS_Cover.canvas[type] = type == 'width' ? window.innerWidth : 600;
+      }
+
+      PS_Cover.draw();
+    },
+
+
     // return a random hex or rgb color
     randomColor : function (rgb) {
       var hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'],
@@ -1088,26 +1101,12 @@
 
   // changes the width of the canvas on input
   document.getElementById('cover-width').addEventListener('input', function () {
-    if (this.value) {
-      PS_Cover.canvas.width = this.value;
-
-    } else {
-      PS_Cover.canvas.width = window.innerWidth;
-    }
-
-    PS_Cover.draw();
+    PS_Cover.setDimensions(this, 'width');
   });
 
   // changes the height of the canvas on input
   document.getElementById('cover-height').addEventListener('input', function () {
-    if (this.value) {
-      PS_Cover.canvas.height = this.value;
-
-    } else {
-      PS_Cover.canvas.height = 600;
-    }
-
-    PS_Cover.draw();
+    PS_Cover.setDimensions(this, 'height');
   });
 
 
@@ -1187,6 +1186,10 @@
     Inumber.callback = function (input) {
       PS_Cover.updateInput(input);
       PS_Cover.draw();
+
+      if (/cover-(?:width|height)/.test(input.id)) {
+        PS_Cover.setDimensions(input, input.id.split('-').pop());
+      }
     };
   }
 
