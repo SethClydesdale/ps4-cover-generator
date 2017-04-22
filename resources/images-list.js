@@ -2,6 +2,71 @@ PS_Cover.Images.host = 'resources/images/';
 
 PS_Cover.Images.list = {
 
+  'batman' : {
+    thumb : 'batman-logo.png',
+    images : [
+      // # RENDERS
+      // Batman
+      'batman-00.png',
+      'batman-01.png',
+      'batman-02.png',
+      'batman-03.png',
+      'batman-04.png',
+      'batman-05.png',
+      'batman-06.png',
+      'batman-08.png',
+      'batman-09.png',
+      'batman-11.png',
+      'batman-12.png',
+      // Catwoman
+      'catwoman-00.png',
+      'catwoman-01.png',
+      'catwoman-02.png',
+      'catwoman-03.png',
+      // Harley Quinn
+      'harley_quinn-00.png',
+      'harley_quinn-01.png',
+      'harley_quinn-02.png',
+      // Joker
+      'joker-00.png',
+      'joker-01.png',
+      'joker-02.png',
+      'joker-03.png',
+
+      // # BACKGROUNDS
+      'batmanw-00.jpg',
+      'batmanw-01.jpg',
+      'batmanw-02.jpg',
+      'batmanw-03.jpg',
+      'batmanw-04.jpg',
+      'batmanw-05.jpg',
+      'batmanw-06.jpg',
+      'batmanw-07.jpg',
+      'batmanw-08.jpg',
+      'batmanw-09.jpg',
+      'batmanw-10.jpg',
+      'batmanw-11.jpg',
+      'batmanw-12.jpg',
+      'batmanw-13.jpg',
+      'batmanw-14.jpg',
+      'batmanw-15.jpg',
+      'batmanw-16.jpg',
+      'batmanw-17.jpg',
+      'batmanw-18.jpg',
+      'batmanw-19.jpg',
+      'batmanw-20.jpg',
+      'batmanw-21.jpg',
+      'batmanw-22.jpg',
+      'batmanw-23.jpg',
+      'batmanw-24.jpg',
+      'batmanw-25.jpg',
+      'batmanw-26.jpg',
+      'batmanw-27.jpg',
+      'batmanw-29.jpg',
+      'batmanw-30.jpg'
+    ]
+  },
+
 
   'battlefield' : {
     thumb : 'bf-logo.png',
