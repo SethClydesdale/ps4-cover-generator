@@ -1208,6 +1208,7 @@ a.select-image-action:active { background:#05A; }
 
 /* fix element display in tutoral */
 .inTutorial #cover-image-box { position:static; }
+.inTutorial #ps4-demo-profile { top:auto; }
 .inTutorial #ps4-demo-profile[style*="relative"] {
   margin-bottom:-600px;
   z-index:12 !important;
