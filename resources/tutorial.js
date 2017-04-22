@@ -530,26 +530,23 @@ PS_Cover.Tutorial.step = [
     },
 
     condition : function () {
+      document.getElementById('ps4-demo-profile').className = 'hidden';
+      document.getElementById('cover-go-fullscreen').checked = false;
+      document.getElementById('cover-show-profile').checked = false;
 
-      try {
-        document.getElementById('ps4-demo-profile').className = 'hidden';
-        document.getElementById('cover-go-fullscreen').checked = false;
-        document.getElementById('cover-show-profile').checked = false;
+      for (var a = document.querySelectorAll('[data-fullscreen="true"]'), i = 0, j = a.length; i < j; i++) {
+        a[i].dataset.fullscreen = false;
+      }
 
-        for (var a = document.querySelectorAll('[data-fullscreen="true"]'), i = 0, j = a.length; i < j; i++) {
-          a[i].dataset.fullscreen = false;
+      document.getElementById('cover-tools').scrollTop = 0;
+      document.body.scrollTop = document.getElementById('ps4-cover-photo').offsetTop - 210;
+
+      PS_Cover.Tutorial.listen(function(stop) {
+        if (document.querySelector('.text-layer')) {
+          stop();
+          PS_Cover.Tutorial.next();
         }
-
-        document.getElementById('cover-tools').scrollTop = 0;
-        document.body.scrollTop = document.getElementById('ps4-cover-photo').offsetTop - 210;
-
-        PS_Cover.Tutorial.listen(function(stop) {
-          if (document.querySelector('.text-layer')) {
-            stop();
-            PS_Cover.Tutorial.next();
-          }
-        });
-      } catch (e) { alert(e) }
+      });
     }
   },
 
