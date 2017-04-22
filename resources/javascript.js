@@ -195,7 +195,7 @@
     },
 
 
-    // adjusts the scale of a single canvas element
+    // adjusts the scale, rotation, etc.. of a single canvas element
     transform : function (config, callback) {
       PS_Cover.ctx.save();
 
@@ -289,7 +289,15 @@
 
       var firstChild = PS_Cover.cache.layerList.firstChild,
           row = document.createElement('DIV'),
-          defaultAttrs = 'class="cover-layer ' + type + '-layer"  data-type="' + type + '" data-blend="" data-opacity="100" data-rotate="0" data-x="' + ( settings.x || '0' ) + '" data-y="' + ( settings.y || '0' ) + '"',
+          defaultAttrs =
+          'class="cover-layer ' + type + '-layer"'+
+          'data-type="' + type + '"'+
+          'data-blend=""'+
+          'data-opacity="100"'+
+          'data-rotate="0"'+
+          'data-x="' + ( settings.x || '0' ) + '"'+
+          'data-y="' + ( settings.y || '0' ) + '"',
+
           val = settings.value || '';
 
       // add a new layer based on the chosen type
@@ -325,7 +333,10 @@
       firstChild ? PS_Cover.cache.layerList.insertBefore(row, firstChild) : PS_Cover.cache.layerList.appendChild(row);
       PS_Cover.cache.layers = PS_Cover.cache.layerList.querySelectorAll('.cover-layer');
 
-      if (!settings.noOpen) PS_Cover.openLayer(row, settings.noScroll);
+      if (!settings.noOpen) {
+        PS_Cover.openLayer(row, settings.noScroll);
+      }
+
       PS_Cover.updateLayerCount();
       PS_Cover.draw();
     },
@@ -397,12 +408,15 @@
 
 
         case 'shape' :
+          var opts =
+          '<option value="rect">Rectangle</option>'+
+          '<option value="tri">Triangle</option>'+
+          '<option value="arc">Circle</option>';
+
           PS_Cover.cache.layerSettings.innerHTML =
           '<div class="main-layer-input">'+
             '<select class="cover-input-value" onchange="PS_Cover.updateInput(this);">'+
-              '<option value="rect" ' + ( data.value == 'rect' ? 'selected' : '' ) + '>Rectangle</option>'+
-              '<option value="tri" ' + ( data.value == 'tri' ? 'selected' : '' ) + '>Triangle</option>'+
-              '<option value="arc" ' + ( data.value == 'arc' ? 'selected' : '' ) + '>Circle</option>'+
+              opts.replace('value="' + data.value + '"', 'value="' + data.value + '" selected')+
             '</select>'+
             '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + data.color + '" oninput="PS_Cover.updateInput(this);">'+
             '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( data.nofill == 'true' ? 'checked' : '' ) + '>'+
@@ -418,7 +432,7 @@
           break;
       }
 
-
+      // set and replace the activeLayer
       if (PS_Cover.cache.activeLayer) {
         PS_Cover.cache.activeLayer.className = PS_Cover.cache.activeLayer.className.replace('activeLayer', '');
       }
@@ -426,10 +440,19 @@
       caller.className += ' activeLayer';
       PS_Cover.cache.activeLayer = caller;
 
-      ColorInpicker.init({ hide : true }); // create color pickers
-      if (PS_Cover.isPS4) Inumber.init(); // create number input arrows
+      // various modifications to the layer elements are below
       replaceCheckboxes(); // replace checkboxes w/custom ones
-      if (!noScroll) PS_Cover.jumpToLayer(PS_Cover.cache.activeLayer);
+      ColorInpicker.init({ hide : true }); // create color pickers
+
+      // ps4 specific modifications
+      if (PS_Cover.isPS4) {
+        Inumber.init(); // create number input arrows
+      }
+
+      // scoll to the current layer
+      if (!noScroll) {
+        PS_Cover.jumpToLayer(PS_Cover.cache.activeLayer);
+      }
     },
 
 
@@ -811,86 +834,86 @@
     // fonts available for text
     fonts : [
       'PlayStation:loaded',
-      'Courier New:loaded',
       'FontAwesome:loaded',
-      'Revalia',
-      'Roboto',
-      'Macondo',
-      'Spirax',
-      'Open Sans',
-      'Space Mono',
-      'Raleway',
-      'Indie Flower',
-      'Arvo',
-      'Lobster',
-      'Gloria Hallelujah',
-      'Amatic SC',
-      'Play',
-      'Dancing Script',
-      'Shadows Into Light',
       'Acme',
-      'Exo',
-      'Orbitron',
+      'Aldrich',
+      'Allerta Stencil',
+      'Amatic SC',
+      'Antic Slab',
       'Architects Daughter',
-      'Lobster Two',
+      'Arsenal',
+      'Arvo',
+      'Audiowide',
+      'Bangers',
+      'Barrio',
+      'Bevan',
+      'Boogaloo',
+      'Chewy',
       'Cinzel',
-      'Satisfy',
-      'Russo One',
-      'Monda',
-      'Kanit',
-      'Righteous',
-      'Permanent Marker',
+      'Cinzel Decorative',
+      'Clicker Script',
+      'Coming Soon',
       'Cookie',
+      'Courier New:loaded',
+      'Covered By Your Grace',
+      'Dancing Script',
+      'Days One',
+      'Exo',
+      'Fascinate Inline',
+      'Fredericka the Great',
+      'Fredoka One',
+      'Gloria Hallelujah',
+      'Graduate',
+      'Great Vibes',
+      'Handlee',
+      'Homemade Apple',
+      'Indie Flower',
+      'Kanit',
+      'Khand',
+      'Lobster',
+      'Lobster Two',
+      'Love Ya Like A Sister',
+      'Luckiest Guy',
+      'Macondo',
+      'Monda',
+      'Monoton',
+      'Nothing You Could Do',
+      'Open Sans',
+      'Orbitron',
+      'Permanent Marker',
+      'Philosopher',
+      'Play',
+      'Press Start 2P',
+      'Rajdhani',
+      'Raleway',
+      'Revalia',
+      'Righteous',
+      'Roboto',
+      'Ruda',
+      'Russo One',
+      'Satisfy',
+      'Shadows Into Light',
+      'Shrikhand',
+      'Space Mono',
+      'Special Elite',
+      'Spirax',
+      'Teko',
       'Tinos',
       'VT323',
-      'Shrikhand',
-      'Rajdhani',
-      'Arsenal',
-      'Yellowtail',
-      'Teko',
-      'Philosopher',
-      'Boogaloo',
-      'Coming Soon',
-      'Handlee',
-      'Bevan',
-      'Days One',
-      'Antic Slab',
-      'Ruda',
       'Vidaloka',
-      'Khand',
-      'Chewy',
-      'Great Vibes',
-      'Covered By Your Grace',
-      'Fascinate Inline',
-      'Audiowide',
-      'Fredoka One',
-      'Bangers',
-      'Nothing You Could Do',
-      'Luckiest Guy',
-      'Homemade Apple',
-      'Special Elite',
-      'Clicker Script',
-      'Aldrich',
-      'Monoton',
-      'Barrio',
-      'Press Start 2P',
-      'Fredericka the Great',
-      'Cinzel Decorative',
-      'Graduate',
-      'Love Ya Like A Sister',
-      'Allerta Stencil'
+      'Yellowtail'
     ],
 
 
     // show / hide elements as the user scrolls
-    fadeInOut : function (layer) {
+    fadeInOut : function () {
       if (PS_Cover.fadeInOutLoop) {
         PS_Cover.fadeInOutLoop.kill();
       }
 
-      var node = layer ? PS_Cover.cache.coverTools : PS_Cover.cache.Images.imageContent;
+      var node = PS_Cover.cache.Images.imageContent;
 
-      PS_Cover.fadeInOutLoop = new ForAll (layer ? PS_Cover.cache.layers : PS_Cover.cache.Images.images, function (that) {
+      PS_Cover.fadeInOutLoop = new ForAll (PS_Cover.cache.Images.images, function (that) {
         var rect = that.getBoundingClientRect(),
             visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= ((window.innerHeight || document.documentElement.clientHeight) + rect.height) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 
@@ -1059,10 +1082,6 @@
   window.addEventListener('resize', function () {
     PS_Cover.canvas.width = window.innerWidth;
     PS_Cover.draw();
-  });
-
-  PS_Cover.cache.coverTools.addEventListener('scroll', function() {
-    PS_Cover.fadeInOut(true);
   });
 
 
