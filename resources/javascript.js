@@ -1080,7 +1080,33 @@
 
   // increase / decrease canvas width and redraw when the window is resized
   window.addEventListener('resize', function () {
-    PS_Cover.canvas.width = window.innerWidth;
+    if (!document.getElementById('cover-width').value) {
+      PS_Cover.canvas.width = window.innerWidth;
+      PS_Cover.draw();
+    }
+  });
+
+  // changes the width of the canvas on input
+  document.getElementById('cover-width').addEventListener('input', function () {
+    if (this.value) {
+      PS_Cover.canvas.width = this.value;
+
+    } else {
+      PS_Cover.canvas.width = window.innerWidth;
+    }
+
+    PS_Cover.draw();
+  });
+
+  // changes the height of the canvas on input
+  document.getElementById('cover-height').addEventListener('input', function () {
+    if (this.value) {
+      PS_Cover.canvas.height = this.value;
+
+    } else {
+      PS_Cover.canvas.height = 600;
+    }
+
     PS_Cover.draw();
   });
 

@@ -57,8 +57,10 @@ a:active { color:#049; }
 
 /* COVER STYLES */
 #ps4-cover-photo {
-  border-top:1px solid #000;
-  border-bottom:1px solid #000;
+  border:1px solid #000;
+  box-sizing:border-box;
+  display:block;
+  margin:0 auto;
 }
 
 
@@ -272,10 +274,8 @@ a:active { color:#049; }
 #cover-tools label {
   font-size:16px;
   font-weight:bold;
-  text-align:right;
   display:inline-block;
   padding-right:6px;
-  width:250px;
   cursor:pointer;
 }
 
@@ -284,6 +284,15 @@ a:active { color:#049; }
 .tools-row { margin:12px 0; }
 .tools-row:last-child { margin-bottom:0; }
 .tools-row:first-child, .tools-row:first-child .tools-title { margin-top:0; }
+
+#canvas-settings .tools-row {
+  float:left;
+  width:32%;
+  min-height:60px;
+  line-height:60px;
+  white-space:nowrap;
+  margin:0 0 12px 1%;
+}
 
 .tools-title {
   color:#FFF;
@@ -485,6 +494,7 @@ a.tools-delete:active { background:#C31; }
   border:1px solid #CCC;
   display:inline-block;
   position:relative;
+  line-height:19px;
   height:20px;
   width:20px;
   margin:3px;
@@ -784,6 +794,8 @@ footer a:active { color:#FF8; }
   border:1px solid rgba(0, 0, 0, 0.175);
   box-shadow:0 6px 12px rgba(0, 0, 0, 0.175);
   font-size:14px;
+  line-height:12px;
+  white-space:normal;
   font-weight:bold;
   font-family:Arial;
   position:absolute;
@@ -1291,6 +1303,16 @@ body[data-fullscreen="true"] {
 }
 
 @media (max-width:1000px) {
+  #canvas-settings .tools-row {
+    width:100%;
+    float:none;
+  }
+
+  #canvas-settings label {
+    text-align:right;
+    width:200px;
+  }
+
   #cover-tools { right:200px; }
   #cover-tools-layer-list { width:200px; }
 }

@@ -147,9 +147,13 @@
         <div class="tools-row">
           <div class="tools-title"><i class="fa fa-paint-brush"></i> Canvas Settings</div>
           <div class="tools-inner">
-            <div class="tools-row"><label for="cover-bg-color">Background Color : </label><input id="cover-bg-color" class="color-inpicker" type="text" value="#0077CC" oninput="PS_Cover.draw();"></div>
-            <div class="tools-row"><label for="cover-show-profile">Show Demo Profile : </label><input id="cover-show-profile" type="checkbox"></div>
-            <div class="tools-row"><label for="cover-go-fullscreen">Full Screen : </label><input id="cover-go-fullscreen" type="checkbox"></div>
+            <div id="canvas-settings" class="clear">
+              <div class="tools-row"><label for="cover-bg-color">Background Color : </label><input id="cover-bg-color" class="color-inpicker" type="text" value="#0077CC" oninput="PS_Cover.draw();"></div>
+              <div class="tools-row"><label for="cover-width">Canvas Width : </label><input id="cover-width" type="number" value="" min="0" placeholder="auto"></div>
+              <div class="tools-row"><label for="cover-height">Canvas Height : </label><input id="cover-height" type="number" value="" min="0" placeholder="auto"></div>
+              <div class="tools-row"><label for="cover-show-profile">Show Demo Profile : </label><input id="cover-show-profile" type="checkbox"></div>
+              <div class="tools-row"><label for="cover-go-fullscreen">Full Screen : </label><input id="cover-go-fullscreen" type="checkbox"></div>
+            </div>
           </div>
         </div>
       </div>
