@@ -56,6 +56,11 @@ a:active { color:#049; }
 .isPS4 .ps4-hint { display:initial; }
 
 /* COVER STYLES */
+#cover-image-box {
+  position:relative;
+  overflow:hidden;
+}
+
 #ps4-cover-photo {
   border:1px solid #000;
   box-sizing:border-box;
@@ -67,10 +72,10 @@ a:active { color:#049; }
 /* DEMO PROFILE */
 #ps4-demo-profile {
   position:absolute;
+  top:1px;
   left:0;
   right:0;
   height:600px;
-  margin-top:-604px;
   visibility:visible;
   pointer-events:none;
   opacity:1;
@@ -1199,6 +1204,13 @@ a.select-image-action:active { background:#05A; }
 #tutorial-progress-text {
   right:0;
   text-align:center;
+}
+
+/* fix element display in tutoral */
+.inTutorial #cover-image-box { position:static; }
+.inTutorial #ps4-demo-profile[style*="relative"] {
+  margin-bottom:-600px;
+  z-index:12 !important;
 }
 
 /* prevent certain actions while the tutorial is in effect */
