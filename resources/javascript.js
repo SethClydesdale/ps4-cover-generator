@@ -6,6 +6,7 @@
 
     cache : {
       bgColor : document.getElementById('cover-bg-color'),
+      settings : document.getElementById('canvas-settings').getElementsByTagName('INPUT'),
       coverTools : document.getElementById('cover-tools'),
       layerSettings : document.getElementById('layer-settings'),
       layerList : document.getElementById('layer-list'),
@@ -944,9 +945,19 @@
 
 
     // cache the user's progress to localStorage
-    saveLayers : function () {
+    saveCoverImage : function () {
       if (window.localStorage) {
-        localStorage.savedLayers = PS_Cover.cache.layerList.innerHTML;
+        window.setTimeout(function () {
+          localStorage.savedLayers = PS_Cover.cache.layerList.innerHTML;
+
+          var settings = '';
+          new ForAll(PS_Cover.cache.settings, function (input) {
+            settings += input.id + ':' + (input.type == 'checkbox' ? input.checked : input.value) + (this.index == this.list.length - 1 ? '' : ';');
+
+          }).done(function () {
+            localStorage.canvasSettings = settings;
+          });
+        }, 100);
       }
     },
 
@@ -1204,15 +1215,35 @@
 
 
   // auto-saves canvas layers when one of the following events occur
-  document.addEventListener('click', PS_Cover.saveLayers);
-  document.addEventListener('keyup', PS_Cover.saveLayers);
+  document.addEventListener('click', PS_Cover.saveCoverImage);
+  document.addEventListener('keyup', PS_Cover.saveCoverImage);
 
   // load the user's progress from last time
-  if (window.localStorage && localStorage.savedLayers) {
+  if (window.localStorage && localStorage.savedLayers && localStorage.canvasSettings) {
+
+    // add the layers to the layer list and update the node caches
     PS_Cover.cache.layerList.innerHTML = localStorage.savedLayers;
     PS_Cover.cache.layers = document.querySelectorAll('.cover-layer');
     PS_Cover.cache.activeLayer = document.querySelector('.activeLayer');
 
+    // apply saved canvas settings
+    for (var settings = localStorage.canvasSettings.split(';'), i = 0, j = settings.length, prop, input; i < j; i++) {
+      prop = settings[i].split(':');
+      input = document.getElementById(prop[0]);
+
+      if (prop[1] == 'true') {
+        input.click();
+
+      } else {
+        input.value = prop[1];
+
+        if (/cover-(?:width|height)/.test(prop[0])) {
+          PS_Cover.setDimensions(input, prop[0].split('-').pop());
+        }
+      }
+    }
+
+    // update the layer count, open the active layer, and draw to the canvas
     PS_Cover.updateLayerCount();
     PS_Cover.openLayer(PS_Cover.cache.activeLayer);
     PS_Cover.draw();
