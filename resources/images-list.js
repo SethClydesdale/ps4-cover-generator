@@ -1079,6 +1079,73 @@ PS_Cover.Images.list = {
   },
 
 
+  'ratchet-and-clank' : {
+    thumb : 'rac-logo.png',
+    images : [
+      // # RENDERS
+      // Ace Hardlight
+      'ace-00.png',
+      // Big Al
+      'al-00.png',
+      // Alister
+      'alister-01.png',
+      // Clank
+      'clank-00.png',
+      'clank-01.png',
+      'clank-02.png',
+      'clank-03.png',
+      // Courtney Gears
+      'courtney-00.png',
+      'courtney-01.png',
+      // Merc
+      'merc-00.png',
+      // Nefarious
+      'nefarious-00.png',
+      'nefarious-01.png',
+      'nefarious-02.png',
+      // Qwark
+      'qwark-00.png',
+      'qwark-01.png',
+      'qwark-02.png',
+      'qwark-03.png',
+      'qwark-04.png',
+      // Ratchet
+      'ratchet-00.png',
+      'ratchet-02.png',
+      'ratchet-03.png',
+      'ratchet-04.png',
+      'ratchet-05.png',
+      'ratchet-06.png',
+      'ratchet-07.png',
+      'ratchet-08.png',
+      // Skid Mcmarks
+      'skid-00.png',
+
+      // # BACKGROUNDS
+      'racw-00.jpg',
+      'racw-01.jpg',
+      'racw-02.jpg',
+      'racw-03.jpg',
+      'racw-04.jpg',
+      'racw-05.jpg',
+      'racw-06.jpg',
+      'racw-07.jpg',
+      'racw-08.jpg',
+      'racw-09.jpg',
+      'racw-10.jpg',
+      'racw-11.jpg',
+      'racw-12.jpg',
+      'racw-13.jpg',
+      'racw-14.jpg',
+      'racw-15.jpg',
+      'racw-16.jpg',
+      'racw-17.jpg',
+      'racw-18.jpg',
+      'racw-19.jpg'
+    ]
+  },
+
+
   'street-fighter' : {
     thumb : 'sf-logo.png',
     images : [
