@@ -95,6 +95,7 @@
 
       }
 
+      PS_Cover.saveLayers();
     },
 
 
@@ -434,7 +435,7 @@
 
       // set and replace the activeLayer
       if (PS_Cover.cache.activeLayer) {
-        PS_Cover.cache.activeLayer.className = PS_Cover.cache.activeLayer.className.replace('activeLayer', '');
+        PS_Cover.cache.activeLayer.className = PS_Cover.cache.activeLayer.className.replace(' activeLayer', '');
       }
 
       caller.className += ' activeLayer';
@@ -453,6 +454,8 @@
       if (!noScroll) {
         PS_Cover.jumpToLayer(PS_Cover.cache.activeLayer);
       }
+
+      PS_Cover.saveLayers();
     },
 
 
@@ -942,6 +945,14 @@
     },
 
 
+    // cache the user's progress to localStorage
+    saveLayers : function () {
+      if (window.localStorage) {
+        localStorage.savedLayers = PS_Cover.cache.layerList.innerHTML;
+      }
+    },
+
+
     // return a random hex or rgb color
     randomColor : function (rgb) {
       var hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'],
@@ -1193,21 +1204,33 @@
     };
   }
 
-  // create example presets
-  PS_Cover.add('image', {
-    value : 'resources/images/ps4.png',
-    x : (PS_Cover.canvas.width / 2) - 100,
-    y : (PS_Cover.canvas.height / 2) - 100,
-    noScroll : 1
-  });
 
-  PS_Cover.add('text', {
-    value : 'PS4 Cover Generator',
-    color : '#FFFFFF',
-    x : (PS_Cover.canvas.width / 2) - 175,
-    y : 120,
-    noScroll : 1
-  });
+  // load the user's progress from last time
+  if (window.localStorage && localStorage.savedLayers) {
+    PS_Cover.cache.layerList.innerHTML = localStorage.savedLayers;
+    PS_Cover.cache.layers = document.querySelectorAll('.cover-layer');
+    PS_Cover.cache.activeLayer = document.querySelector('.activeLayer');
+
+    PS_Cover.updateLayerCount();
+    PS_Cover.openLayer(PS_Cover.cache.activeLayer);
+    PS_Cover.draw();
+
+  } else { // otherwise create an example
+    PS_Cover.add('image', {
+      value : 'resources/images/ps4.png',
+      x : (PS_Cover.canvas.width / 2) - 100,
+      y : (PS_Cover.canvas.height / 2) - 100,
+      noScroll : 1
+    });
+
+    PS_Cover.add('text', {
+      value : 'PS4 Cover Generator',
+      color : '#FFFFFF',
+      x : (PS_Cover.canvas.width / 2) - 175,
+      y : 120,
+      noScroll : 1
+    });
+  }
 
   replaceCheckboxes(); // replace checkboxes w/custom ones
 
