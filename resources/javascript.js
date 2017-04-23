@@ -207,11 +207,11 @@
         PS_Cover.ctx.globalAlpha = config.opacity;
       }
 
-      if (config.scale) {
+      if (typeof config.scale != 'undefined') {
         PS_Cover.ctx.scale(config.scale, config.scale);
       }
 
-      if (config.rotate) {
+      if (typeof config.rotate != 'undefined') {
         PS_Cover.ctx.translate(PS_Cover.canvas.width / 2, PS_Cover.canvas.height / 2);
         PS_Cover.ctx.rotate(config.rotate * Math.PI / 180);
         PS_Cover.ctx.translate(-PS_Cover.canvas.width / 2, -PS_Cover.canvas.height / 2);
@@ -981,7 +981,7 @@
           'fa-low-vision' : 'Adjusts the opacity (or visibility) of this layer. (In percentages)',
           'fa-eyedropper' : 'Click the color palette to select a color.',
           'fa-adjust' : 'Click the checkbox to toggle between fill and nofill.',
-          'fa-arrows' : 'Adjusts the overall size of this layer. (In percentages)',
+          'fa-arrows' : 'Adjusts the scale (overall size) of this layer. (In percentages)',
           'fa-arrows-v' : 'Adjusts the height of this layer. (In pixels)',
           'fa-arrows-h' : 'Adjusts the width of this layer. (In pixels)',
           'fa-text-height' : 'Adjusts the font size of this layer. (In pixels)',
