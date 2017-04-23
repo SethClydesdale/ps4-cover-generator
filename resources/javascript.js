@@ -952,10 +952,12 @@
             settings += input[i].id + ':' + (input[i].type == 'checkbox' ? input[i].checked : input[i].value) + (i == j - 1 ? '' : ';');
           }*/
 
-          localStorage.savedCover = JSON.stringify({
+          /*localStorage.savedCover = JSON.stringify({
             Layers : PS_Cover.cache.layerList.innerHTML,
             Settings : 'cover-bg-color:#0077CC;cover-width:;cover-height:'
-          });
+          });*/
+
+          localStorage.test = PS_Cover.cache.layerList.innerHTML;
 
         }, 100);
       }
@@ -1219,7 +1221,7 @@
   document.addEventListener('keyup', PS_Cover.saveCoverImage);
 
   // load the user's progress from last time
-  if (window.JSON && window.localStorage && localStorage.savedCover) {
+  if (false && window.JSON && window.localStorage && localStorage.savedCover) {
     var savedCover = JSON.parse(localStorage.savedCover);
 
     // add the layers to the layer list and update the node caches
