@@ -1215,8 +1215,8 @@
 
 
   // auto-saves canvas layers when one of the following events occur
-  document.addEventListener('click', PS_Cover.saveCoverImage);
-  document.addEventListener('keyup', PS_Cover.saveCoverImage);
+  /*document.addEventListener('click', PS_Cover.saveCoverImage);
+  document.addEventListener('keyup', PS_Cover.saveCoverImage);*/
 
   // load the user's progress from last time
   if (window.JSON && window.localStorage && localStorage.savedCover) {
