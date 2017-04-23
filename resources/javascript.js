@@ -95,7 +95,6 @@
 
       }
 
-      PS_Cover.saveLayers();
     },
 
 
@@ -455,7 +454,6 @@
         PS_Cover.jumpToLayer(PS_Cover.cache.activeLayer);
       }
 
-      PS_Cover.saveLayers();
     },
 
 
@@ -1204,6 +1202,10 @@
     };
   }
 
+
+  // auto-saves canvas layers when one of the following events occur
+  document.addEventListener('click', PS_Cover.saveLayers);
+  document.addEventListener('keyup', PS_Cover.saveLayers);
 
   // load the user's progress from last time
   if (window.localStorage && localStorage.savedLayers) {
