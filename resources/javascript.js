@@ -947,14 +947,17 @@
     // cache the user's progress to localStorage
     saveCoverImage : function () {
       if (window.localStorage && window.JSON) {
-        for (var input = PS_Cover.cache.settings, i = 0, j = input.length, settings = ''; i < j; i++) {
-          settings += input[i].id + ':' + (input[i].type == 'checkbox' ? input[i].checked : input[i].value) + (i == j - 1 ? '' : ';');
-        }
+        window.setTimeout(function () {
+          /*for (var input = PS_Cover.cache.settings, i = 0, j = input.length, settings = ''; i < j; i++) {
+            settings += input[i].id + ':' + (input[i].type == 'checkbox' ? input[i].checked : input[i].value) + (i == j - 1 ? '' : ';');
+          }*/
 
-        localStorage.savedCover = JSON.stringify({
-          Layers : PS_Cover.cache.layerList.innerHTML,
-          Settings : settings
-        });
+          localStorage.savedCover = JSON.stringify({
+            Layers : PS_Cover.cache.layerList.innerHTML,
+            Settings : 'cover-bg-color:#0077CC;cover-width:;cover-height:'
+          });
+
+        }, 100);
       }
     },
 
