@@ -132,7 +132,11 @@
               <a id="add-text" class="tools-add" href="#" onclick="PS_Cover.add('text');return false;"><i class="fa fa-font"></i> Add Text</a>
               <a id="add-image" class="tools-add" href="#" onclick="PS_Cover.add('image');return false;"><i class="fa fa-image"></i> Add Image</a>
               <a id="add-shape" class="tools-add" href="#" onclick="PS_Cover.add('shape');return false;"><i class="fa fa-circle"></i> Add Shape</a>
-              <a id="delete-all" class="tools-delete" href="#" onclick="PS_Cover.deleteLayers();return false;"><i class="fa fa-times"></i> Delete All</a>
+
+              <div class="right">
+                <a id="save-cover" class="tools-add" href="#"><i class="fa fa-save"></i> Save</a>
+                <a id="delete-all" class="tools-delete" href="#" onclick="PS_Cover.deleteLayers();return false;"><i class="fa fa-times"></i> Delete All</a>
+              </div>
             </div>
           </div>
         </div>
@@ -153,6 +157,7 @@
               <div class="tools-row"><label for="cover-height">Canvas Height : </label><input id="cover-height" type="number" value="" min="0" placeholder="auto"></div>
               <div class="tools-row"><label for="cover-show-profile">Show Demo Profile : </label><input id="cover-show-profile" type="checkbox"></div>
               <div class="tools-row"><label for="cover-go-fullscreen">Full Screen : </label><input id="cover-go-fullscreen" type="checkbox"></div>
+              <div class="tools-row"><label for="cover-go-fullscreen">Auto-save : </label><input id="cover-auto-save" type="checkbox" checked> (every 15s)</div>
             </div>
           </div>
         </div>

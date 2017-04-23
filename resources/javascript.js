@@ -6,6 +6,8 @@
 
     cache : {
       bgColor : document.getElementById('cover-bg-color'),
+      saveCover : document.getElementById('save-cover'),
+      autoSave : document.getElementById('cover-auto-save'),
       settings : document.getElementById('canvas-settings').getElementsByTagName('INPUT'),
       coverTools : document.getElementById('cover-tools'),
       layerSettings : document.getElementById('layer-settings'),
@@ -948,16 +950,14 @@
     saveCoverImage : function () {
       if (window.localStorage && window.JSON) {
         window.setTimeout(function () {
-          /*for (var input = PS_Cover.cache.settings, i = 0, j = input.length, settings = ''; i < j; i++) {
+          for (var input = PS_Cover.cache.settings, i = 0, j = input.length, settings = ''; i < j; i++) {
             settings += input[i].id + ':' + (input[i].type == 'checkbox' ? input[i].checked : input[i].value) + (i == j - 1 ? '' : ';');
-          }*/
+          }
 
-          /*localStorage.savedCover = JSON.stringify({
+          localStorage.savedCover = JSON.stringify({
             Layers : PS_Cover.cache.layerList.innerHTML,
-            Settings : 'cover-bg-color:#0077CC;cover-width:;cover-height:'
-          });*/
-
-          localStorage.test = PS_Cover.cache.layerList.innerHTML;
+            Settings : settings
+          });
 
         }, 100);
       }
@@ -1216,12 +1216,33 @@
   }
 
 
-  // auto-saves canvas layers when one of the following events occur
-  document.addEventListener('click', PS_Cover.saveCoverImage);
-  document.addEventListener('keyup', PS_Cover.saveCoverImage);
+  // auto-saves canvas every 15 seconds
+  window.setInterval(function() {
+    if (PS_Cover.cache.autoSave.checked) {
+      PS_Cover.cache.saveCover.click();
+    }
+  }, 15000);
+
+  // manual save button
+  PS_Cover.cache.saveCover.addEventListener('click', function (e) {
+    if (this.innerHTML == '<i class="fa fa-save"></i> Save') {
+      that = this;
+      that.innerHTML += 'd!';
+      that.setAttribute('style', 'opacity:0.6;pointer-events:none;');
+
+      PS_Cover.saveCoverImage();
+
+      window.setTimeout(function () {
+        that.innerHTML = that.innerHTML.replace('d!', '');
+        that.setAttribute('style', '');
+      }, 3000);
+    }
+
+    e.preventDefault();
+  });
 
   // load the user's progress from last time
-  if (false && window.JSON && window.localStorage && localStorage.savedCover) {
+  if (window.JSON && window.localStorage && localStorage.savedCover) {
     var savedCover = JSON.parse(localStorage.savedCover);
 
     // add the layers to the layer list and update the node caches
@@ -1234,7 +1255,7 @@
       prop = settings[i].split(':');
       input = document.getElementById(prop[0]);
 
-      if (prop[1] == 'true') {
+      if ((prop[1] == 'true' && !input.checked) || (prop[1] == 'false' && input.checked)) {
         input.click();
 
       } else {

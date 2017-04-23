@@ -475,10 +475,7 @@ a.tools-add { background:#8B5; }
 a.tools-add:hover { background:#7A4; }
 a.tools-add:active { background:#693; }
 
-a.tools-delete {
-  background:#E53;
-  float:right;
-}
+a.tools-delete { background:#E53; }
 a.tools-delete:hover { background:#D42; }
 a.tools-delete:active { background:#C31; }
 
