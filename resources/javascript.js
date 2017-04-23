@@ -946,17 +946,17 @@
 
     // cache the user's progress to localStorage
     saveCoverImage : function () {
-      if (window.localStorage) {
+      if (window.localStorage && window.JSON) {
         window.setTimeout(function () {
-          localStorage.savedLayers = PS_Cover.cache.layerList.innerHTML;
+          for (var input = PS_Cover.cache.settings, i = 0, j = input.length, settings = ''; i < j; i++) {
+            settings += input[i].id + ':' + (input[i].type == 'checkbox' ? input[i].checked : input[i].value) + (i == j - 1 ? '' : ';');
+          }
 
-          var settings = '';
-          new ForAll(PS_Cover.cache.settings, function (input) {
-            settings += input.id + ':' + (input.type == 'checkbox' ? input.checked : input.value) + (this.index == this.list.length - 1 ? '' : ';');
-
-          }).done(function () {
-            localStorage.canvasSettings = settings;
+          localStorage.savedCover = JSON.stringify({
+            Layers : PS_Cover.cache.layerList.innerHTML,
+            Settings : settings
           });
+
         }, 100);
       }
     },
@@ -1219,15 +1219,16 @@
   document.addEventListener('keyup', PS_Cover.saveCoverImage);
 
   // load the user's progress from last time
-  if (window.localStorage && localStorage.savedLayers && localStorage.canvasSettings) {
+  if (window.JSON && window.localStorage && localStorage.savedCover) {
+    var savedCover = JSON.parse(localStorage.savedCover);
 
     // add the layers to the layer list and update the node caches
-    PS_Cover.cache.layerList.innerHTML = localStorage.savedLayers;
+    PS_Cover.cache.layerList.innerHTML = savedCover.Layers;
     PS_Cover.cache.layers = document.querySelectorAll('.cover-layer');
     PS_Cover.cache.activeLayer = document.querySelector('.activeLayer');
 
     // apply saved canvas settings
-    for (var settings = localStorage.canvasSettings.split(';'), i = 0, j = settings.length, prop, input; i < j; i++) {
+    for (var settings = savedCover.Settings.split(';'), i = 0, j = settings.length, prop, input; i < j; i++) {
       prop = settings[i].split(':');
       input = document.getElementById(prop[0]);
 
