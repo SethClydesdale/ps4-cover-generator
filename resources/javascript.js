@@ -947,17 +947,14 @@
     // cache the user's progress to localStorage
     saveCoverImage : function () {
       if (window.localStorage && window.JSON) {
-        window.setTimeout(function () {
-          for (var input = PS_Cover.cache.settings, i = 0, j = input.length, settings = ''; i < j; i++) {
-            settings += input[i].id + ':' + (input[i].type == 'checkbox' ? input[i].checked : input[i].value) + (i == j - 1 ? '' : ';');
-          }
+        for (var input = PS_Cover.cache.settings, i = 0, j = input.length, settings = ''; i < j; i++) {
+          settings += input[i].id + ':' + (input[i].type == 'checkbox' ? input[i].checked : input[i].value) + (i == j - 1 ? '' : ';');
+        }
 
-          localStorage.savedCover = JSON.stringify({
-            Layers : PS_Cover.cache.layerList.innerHTML,
-            Settings : settings
-          });
-
-        }, 100);
+        localStorage.savedCover = JSON.stringify({
+          Layers : PS_Cover.cache.layerList.innerHTML,
+          Settings : settings
+        });
       }
     },
 
@@ -1215,8 +1212,8 @@
 
 
   // auto-saves canvas layers when one of the following events occur
-  /*document.addEventListener('click', PS_Cover.saveCoverImage);
-  document.addEventListener('keyup', PS_Cover.saveCoverImage);*/
+  document.addEventListener('click', PS_Cover.saveCoverImage);
+  document.addEventListener('keyup', PS_Cover.saveCoverImage);
 
   // load the user's progress from last time
   if (window.JSON && window.localStorage && localStorage.savedCover) {
