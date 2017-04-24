@@ -956,6 +956,72 @@ PS_Cover.Images.list = {
     thumb : 'persona-logo.png',
     images : [
       // # RENDERS
+      // PERSONA 1
+      // Eriko
+      'eriko-00.png',
+      'eriko-01.png',
+      // Hidehiko
+      'hidehiko-00.png',
+      'hidehiko-01.png',
+      // Maki
+      'maki-00.png',
+      'maki-01.png',
+      // Masao
+      'masao-00.png',
+      'masao-01.png',
+      // Nanjo
+      'nanjo-00.png',
+      'nanjo-01.png',
+      'nanjo-02.png',
+      // Naoya (MC)
+      'naoya-00.png',
+      'naoya-01.png',
+      // Reiji
+      'reiji-00.png',
+      'reiji-01.png',
+      // Trish
+      'trish-00.png',
+      // Yuka
+      'yuka-00.png',
+      // Yukino
+      'yukino-00.png',
+      'yukino-01.png',
+      'yukino-02.png',
+      // PERSONA 2
+      // Eikichi
+      'eikichi-00.png',
+      'eikichi-01.png',
+      'eikichi-02.png',
+      'eikichi-03.png',
+      // Jun
+      'joker-00.png',
+      'jun-00.png',
+      'jun-01.png',
+      'jun-02.png',
+      'jun-03.png',
+      // Lisa
+      'lisa-00.png',
+      'lisa-01.png',
+      'lisa-02.png',
+      'lisa-03.png',
+      'lisa-04.png',
+      // Maya
+      'maya-00.png',
+      'maya-01.png',
+      'maya-02.png',
+      'maya-03.png',
+      'maya-04.png',
+      // Tatsuya
+      'tatsuya-00.png',
+      'tatsuya-01.png',
+      'tatsuya-02.png',
+      'tatsuya-03.png',
+      'tatsuya-04.png',
+      'tatsuya-05.png',
+      // Personas
+      'apollo-00.png',
+      'maia-00.png',
+      // PERSONA 3
       // Aigis
       'aigis-00.png',
       'aigis-01.png',
@@ -966,34 +1032,113 @@ PS_Cover.Images.list = {
       'aigis-06.png',
       'aigis-07.png',
       'aigis-08.png',
+      'aigis-09.png',
+      'aigis-10.png',
+      'aigis-11.png',
+      'aigis-12.png',
+      'aigis-13.png',
+      'aigis-14.png',
       // Akihiko
       'akihiko-00.png',
-      // Chie
-      'chie-00.png',
+      'akihiko-01.png',
+      'akihiko-02.png',
+      'akihiko-03.png',
+      'akihiko-04.png',
+      'akihiko-05.png',
+      'akihiko-06.png',
+      'akihiko-07.png',
+      // Chidori
+      'chidori-00.png',
+      'chidori-01.png',
+      'chidori-02.png',
       // Elizabeth
       'elizabeth-00.png',
       'elizabeth-01.png',
       'elizabeth-02.png',
+      'elizabeth-03.png',
+      'elizabeth-04.png',
+      'elizabeth-05.png',
       // FeMC
       'femc-00.png',
-      // Izanagi
-      'izanagi-00.png',
-      'izanagi-01.png',
-      'izanagi-02.png',
+      'femc-02.png',
+      'femc-03.png',
+      'femc-04.png',
+      // Fuuka
+      'fuuka-00.png',
+      'fuuka-01.png',
+      'fuuka-02.png',
+      // Junpei
+      'junpei-00.png',
+      'junpei-01.png',
+      'junpei-02.png',
+      'junpei-03.png',
+      // Ken
+      'ken-00.png',
+      'ken-01.png',
+      'ken-02.png',
+      'ken-03.png',
+      // Koromaru
+      'koromaru-00.png',
+      'koromaru-01.png',
+      'koromaru-02.png',
+      // Metis
+      'metis-00.png',
       // Minato
       'minato-00.png',
+      'minato-01.png',
+      'minato-02.png',
+      'minato-03.png',
+      'minato-04.png',
+      'minato-05.png',
+      'minato-06.png',
+      'minato-07.png',
+      'minato-08.png',
+      'minato-09.png',
       // Mitsuru
       'mitsuru-00.png',
       'mitsuru-01.png',
       'mitsuru-02.png',
+      'mitsuru-03.png',
+      'mitsuru-04.png',
+      'mitsuru-05.png',
+      'mitsuru-06.png',
+      // Ryoji
+      'ryoji-00.png',
+      'ryoji-01.png',
+      // Shinjiro
+      'shinjiro-00.png',
+      'shinjiro-01.png',
+      // Theo
+      'theo-00.png',
+      'theo-01.png',
+      // Yukari
+      'yukari-00.png',
+      'yukari-01.png',
+      'yukari-02.png',
+      'yukari-04.png',
+      // Personas
+      'orpheus-00.png',
+      'thantos-00.png',
+      // Misc
+      'misc-02.png',
+      'misc-03.png',
+      'misc-04.png',
+      'misc-05.png',
+      // PERSONA 4
+      // Chie
+      'chie-00.png',
+      // Izanagi
+      'izanagi-00.png',
+      'izanagi-01.png',
+      'izanagi-02.png',
       // Yu
       'yu-00.png',
       'yu-01.png',
       'yu-02.png',
       'yu-03.png',
-      // Yukari
-      'yukari-00.png',
-      // Misc
+      // PERSONA 5
+
+      // MISC
       'misc-00.png',
       'misc-01.png',
 
