@@ -685,20 +685,18 @@
         + PS_Cover.templates.Images.close +
         '<div id="select-image-container">'+
           '<div id="select-image-list" class="clear">'+
-            '<a class="select-image-option" data-hidden="false" href="#" onclick="PS_Cover.Images.insert(this.firstChild);return false;"><img src="' + PS_Cover.Images.host + category + '/' + PS_Cover.Images.list[category].thumb + '" alt=""></a>'+
+            '<a class="select-image-option" href="#" onclick="PS_Cover.Images.insert(this.firstChild);return false;"><img src="' + PS_Cover.Images.host + category + '/' + PS_Cover.Images.list[category].thumb + '" alt=""></a>'+
             '<a class="select-image-action select-image-load" href="#" onclick="PS_Cover.Images.add(30); return false;">Load More</a>'+
           '</div>'+
         '</div>' +
         PS_Cover.templates.Images.request;
 
-        // fade images in / out and add more images while scrolling
+        // add more images while scrolling
         PS_Cover.cache.Images.imageContent = document.getElementById('select-image-container');
         PS_Cover.cache.Images.imageList = document.getElementById('select-image-list');
         PS_Cover.cache.Images.title = document.getElementById('select-image-title');
 
         PS_Cover.cache.Images.imageContent.addEventListener('scroll', function () {
-          //PS_Cover.fadeInOut();
-
           if (this.scrollHeight - this.scrollTop === this.clientHeight) {
             PS_Cover.Images.add(30);
           }
@@ -719,7 +717,7 @@
 
           for (; i < amount; i++) {
             if (PS_Cover.Images.list[PS_Cover.Images.catg].images[++PS_Cover.Images.index]) {
-              str += '<a class="select-image-option" data-hidden="false" href="#" onclick="PS_Cover.Images.insert(this.firstChild);return false;"><img src="' + PS_Cover.Images.host + PS_Cover.Images.catg + '/' + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].replace(/(\.[^\.]*?)$/, '_tn.jpg') + '" data-ext="' + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].split('.').pop() + '" alt=""></a>';
+              str += '<a class="select-image-option" href="#" onclick="PS_Cover.Images.insert(this.firstChild);return false;"><img src="' + PS_Cover.Images.host + PS_Cover.Images.catg + '/' + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].replace(/(\.[^\.]*?)$/, '_tn.jpg') + '" data-ext="' + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].split('.').pop() + '" alt=""></a>';
             } else {
               break;
             }
@@ -730,8 +728,6 @@
           PS_Cover.cache.Images.title.innerHTML = 'Select an Image (' + (min > max ? max : min) + '/' + max + ')';
           PS_Cover.cache.Images.imageList.lastChild.insertAdjacentHTML('beforebegin', str);
 
-          PS_Cover.cache.Images.images = PS_Cover.cache.Images.imageList.childNodes;
-          //PS_Cover.fadeInOut();
           PS_Cover.Images.adding = false;
         }
 
@@ -829,8 +825,7 @@
 
       Images : {
         close : '<a class="select-image-button select-image-close" href="#" onclick="PS_Cover.Images.close();return false;"><i class="fa fa-times"></i> Close</a>',
-        request : '<div class="select-image-request"><a class="select-image-action" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Requesting-Images" target="_blank">Request Images</a></div>',
-        placeholder : '<i class="fa fa-image select-image-placeholder"></i>',
+        request : '<div class="select-image-request"><a class="select-image-action" href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Requesting-Images" target="_blank">Request Images</a></div>'
       }
     },
 
@@ -906,30 +901,6 @@
       'Vidaloka',
       'Yellowtail'
     ],
-
-
-    // show / hide elements as the user scrolls
-    fadeInOut : function () {
-      if (PS_Cover.fadeInOutLoop) {
-        PS_Cover.fadeInOutLoop.kill();
-      }
-
-      var node = PS_Cover.cache.Images.imageContent;
-
-      PS_Cover.fadeInOutLoop = new ForAll (PS_Cover.cache.Images.images, function (that) {
-        var rect = that.getBoundingClientRect(),
-            visible = rect.top >= 0 && rect.left >= 0 && rect.bottom <= ((window.innerHeight || document.documentElement.clientHeight) + rect.height) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
-
-        if (visible && that.dataset.hidden == 'true') {
-          that.dataset.hidden = false;
-
-        } else if (!visible && that.dataset.hidden == 'false') {
-          that.dataset.hidden = true;
-        }
-      }, (node.scrollTop / (node.scrollHeight - node.clientHeight) * 100) > 50.0 ? -1 : +1).done(function () {
-        delete PS_Cover.fadeInOutLoop;
-      });
-    },
 
 
     // sets the height / width of the canvas
