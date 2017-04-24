@@ -46,7 +46,6 @@
 
           case 'image' :
             img = PS_Cover.cache.layers[i].firstChild;
-            img.crossOrigin = 'anonymous';
 
             if (!img.dataset.last || img.dataset.last != data.value) {
               img.dataset.last = data.value;
@@ -686,7 +685,7 @@
         + PS_Cover.templates.Images.close +
         '<div id="select-image-container">'+
           '<div id="select-image-list" class="clear">'+
-            '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild);return false;"><img src="' + PS_Cover.Images.host + category + '/' + PS_Cover.Images.list[category].thumb + '" alt="">' + PS_Cover.templates.Images.placeholder + '</a>'+
+            '<a class="select-image-option" data-hidden="false" href="#" onclick="PS_Cover.Images.insert(this.firstChild);return false;"><img src="' + PS_Cover.Images.host + category + '/' + PS_Cover.Images.list[category].thumb + '" alt=""></a>'+
             '<a class="select-image-action select-image-load" href="#" onclick="PS_Cover.Images.add(30); return false;">Load More</a>'+
           '</div>'+
         '</div>' +
@@ -698,7 +697,7 @@
         PS_Cover.cache.Images.title = document.getElementById('select-image-title');
 
         PS_Cover.cache.Images.imageContent.addEventListener('scroll', function () {
-          PS_Cover.fadeInOut();
+          //PS_Cover.fadeInOut();
 
           if (this.scrollHeight - this.scrollTop === this.clientHeight) {
             PS_Cover.Images.add(30);
@@ -720,7 +719,7 @@
 
           for (; i < amount; i++) {
             if (PS_Cover.Images.list[PS_Cover.Images.catg].images[++PS_Cover.Images.index]) {
-              str += '<a class="select-image-option" data-hidden="true" href="#" onclick="PS_Cover.Images.insert(this.firstChild);return false;"><img src="' + PS_Cover.Images.host + PS_Cover.Images.catg + '/' + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].replace(/(\.[^\.]*?)$/, '_tn.jpg') + '" data-ext="' + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].split('.').pop() + '" alt="">' + PS_Cover.templates.Images.placeholder + '</a>';
+              str += '<a class="select-image-option" data-hidden="false" href="#" onclick="PS_Cover.Images.insert(this.firstChild);return false;"><img src="' + PS_Cover.Images.host + PS_Cover.Images.catg + '/' + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].replace(/(\.[^\.]*?)$/, '_tn.jpg') + '" data-ext="' + PS_Cover.Images.list[PS_Cover.Images.catg].images[PS_Cover.Images.index].split('.').pop() + '" alt=""></a>';
             } else {
               break;
             }
@@ -732,7 +731,7 @@
           PS_Cover.cache.Images.imageList.lastChild.insertAdjacentHTML('beforebegin', str);
 
           PS_Cover.cache.Images.images = PS_Cover.cache.Images.imageList.childNodes;
-          PS_Cover.fadeInOut();
+          //PS_Cover.fadeInOut();
           PS_Cover.Images.adding = false;
         }
 
