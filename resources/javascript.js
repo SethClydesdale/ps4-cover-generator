@@ -459,6 +459,30 @@
     },
 
 
+    // loads a preset
+    loadPreset : function (id) {
+      switch (id) {
+        default :
+          PS_Cover.add('image', {
+            value : 'resources/images/ps4.png',
+            x : (PS_Cover.canvas.width / 2) - 100,
+            y : (PS_Cover.canvas.height / 2) - 100,
+            noScroll : 1
+          });
+
+          PS_Cover.add('text', {
+            value : 'PS4 Cover Generator',
+            color : '#FFFFFF',
+            x : (PS_Cover.canvas.width / 2) - 175,
+            y : 120,
+            noScroll : 1
+          });
+
+          break;
+      }
+    },
+
+
     // move layers up / down
     moveLayer : function (where, caller) {
       switch (where.toLowerCase()) {
@@ -1213,47 +1237,42 @@
     var savedCover = JSON.parse(localStorage.savedCover);
 
     // add the layers to the layer list and update the node caches
-    PS_Cover.cache.layerList.innerHTML = savedCover.Layers;
-    PS_Cover.cache.layers = document.querySelectorAll('.cover-layer');
-    PS_Cover.cache.activeLayer = document.querySelector('.activeLayer');
+    if (savedCover.Layers) {
+      PS_Cover.cache.layerList.innerHTML = savedCover.Layers;
+      PS_Cover.cache.layers = document.querySelectorAll('.cover-layer');
+      PS_Cover.cache.activeLayer = document.querySelector('.activeLayer');
+
+      // update the layer count and open the active layer
+      PS_Cover.updateLayerCount();
+      PS_Cover.openLayer(PS_Cover.cache.activeLayer);
+
+    } else {
+      PS_Cover.loadPreset();
+    }
 
     // apply saved canvas settings
-    for (var settings = savedCover.Settings.split(';'), i = 0, j = settings.length, prop, input; i < j; i++) {
-      prop = settings[i].split(':');
-      input = document.getElementById(prop[0]);
+    if (savedCover.Settings) {
+      for (var settings = savedCover.Settings.split(';'), i = 0, j = settings.length, prop, input; i < j; i++) {
+        prop = settings[i].split(':');
+        input = document.getElementById(prop[0]);
 
-      if ((prop[1] == 'true' && !input.checked) || (prop[1] == 'false' && input.checked)) {
-        input.click();
+        if ((prop[1] == 'true' && !input.checked) || (prop[1] == 'false' && input.checked)) {
+          input.click();
 
-      } else {
-        input.value = prop[1];
+        } else {
+          input.value = prop[1];
 
-        if (/cover-(?:width|height)/.test(prop[0])) {
-          PS_Cover.setDimensions(input, prop[0].split('-').pop());
+          if (/cover-(?:width|height)/.test(prop[0])) {
+            PS_Cover.setDimensions(input, prop[0].split('-').pop());
+          }
         }
       }
     }
 
-    // update the layer count, open the active layer, and draw to the canvas
-    PS_Cover.updateLayerCount();
-    PS_Cover.openLayer(PS_Cover.cache.activeLayer);
     PS_Cover.draw();
 
   } else { // otherwise create an example
-    PS_Cover.add('image', {
-      value : 'resources/images/ps4.png',
-      x : (PS_Cover.canvas.width / 2) - 100,
-      y : (PS_Cover.canvas.height / 2) - 100,
-      noScroll : 1
-    });
-
-    PS_Cover.add('text', {
-      value : 'PS4 Cover Generator',
-      color : '#FFFFFF',
-      x : (PS_Cover.canvas.width / 2) - 175,
-      y : 120,
-      noScroll : 1
-    });
+    PS_Cover.loadPreset();
   }
 
   replaceCheckboxes(); // replace checkboxes w/custom ones
