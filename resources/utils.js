@@ -67,10 +67,10 @@ ForAll.prototype.kill = function () {
 window.ColorInpicker = {
 
   // init the color picker
-  init : function (config) {
+  init : function (target, config) {
     config = config || {};
 
-    for (var a = document.querySelectorAll('.color-inpicker'), i = 0, j = a.length, picker, str; i < j; i++) {
+    for (var a = (target || document).querySelectorAll('.color-inpicker'), i = 0, j = a.length, picker, str; i < j; i++) {
       a[i].className = a[i].className.replace(/(?:\s|)color-inpicker/, '');
 
       picker = document.createElement('A');

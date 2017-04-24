@@ -444,7 +444,11 @@
 
       // various modifications to the layer elements are below
       replaceCheckboxes(); // replace checkboxes w/custom ones
-      ColorInpicker.init({ hide : true }); // create color pickers
+
+      // create color pickers
+      ColorInpicker.init(PS_Cover.cache.layerSettings, {
+        hide : true
+      });
 
       // ps4 specific modifications
       if (PS_Cover.isPS4) {
@@ -1276,6 +1280,11 @@
   }
 
   replaceCheckboxes(); // replace checkboxes w/custom ones
+
+  // create color pickers
+  ColorInpicker.init(document.getElementById('cover-settings'), {
+    hide : true
+  });
 
   // auto initiate the tutorial if the page hash is #tutorial
   if (window.location.hash == '#tutorial') {
