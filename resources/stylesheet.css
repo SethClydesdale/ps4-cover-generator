@@ -456,6 +456,13 @@ a:active { color:#049; }
   text-align:center;
 }
 
+/* presets */
+.tools-actions select#cover-preset {
+  height:38px;
+  line-height:38px;
+  padding:0 5px;
+}
+
 /* add */
 .tools-actions a {
   color:#FFF;

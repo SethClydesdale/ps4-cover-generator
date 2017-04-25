@@ -33,6 +33,8 @@
               rotate : +data.rotate,
               opacity : +data.opacity / 100,
               blend : data.blend,
+              x : data.x,
+              y : data.y
 
             }, function () {
               var fill = data.nofill == 'true' ? 'stroke' : 'fill';
@@ -57,6 +59,8 @@
               rotate : +data.rotate,
               opacity : +data.opacity / 100,
               blend : data.blend,
+              x : data.x,
+              y : data.y
             });
             break;
 
@@ -66,7 +70,9 @@
               scale : +data.scale / 100,
               rotate : +data.rotate,
               opacity : +data.opacity / 100,
-              blend : data.blend
+              blend : data.blend,
+              x : data.x,
+              y : data.y
 
             }, function () {
               var fill = data.nofill == 'true' ? 'stroke' : 'fill',
@@ -214,9 +220,9 @@
       }
 
       if (typeof config.rotate != 'undefined') {
-        PS_Cover.ctx.translate(PS_Cover.canvas.width / 2, PS_Cover.canvas.height / 2);
+        PS_Cover.ctx.translate(config.x, config.y);
         PS_Cover.ctx.rotate(config.rotate * Math.PI / 180);
-        PS_Cover.ctx.translate(-PS_Cover.canvas.width / 2, -PS_Cover.canvas.height / 2);
+        PS_Cover.ctx.translate(-config.x, -config.y);
       }
 
       callback();
@@ -294,11 +300,13 @@
           defaultAttrs =
           'class="cover-layer ' + type + '-layer"'+
           'data-type="' + type + '"'+
-          'data-blend=""'+
-          'data-opacity="100"'+
-          'data-rotate="0"'+
-          'data-x="' + ( settings.x || '0' ) + '"'+
-          'data-y="' + ( settings.y || '0' ) + '"',
+          'data-blend="' + ( settings.blend || '' ) + '"'+
+          'data-opacity="' + ( settings.opacity || 100 ) + '"'+
+          'data-rotate="' + ( settings.rotate || 0 ) + '"'+
+          'data-x="' + ( settings.x || 0 ) + '"'+
+          'data-y="' + ( settings.y || 0 ) + '"'+
+          'href="#"'+
+          'onclick="PS_Cover.openLayer(this); return false;"',
 
           val = settings.value || '';
 
@@ -306,7 +314,15 @@
       switch (type) {
         case 'text' :
           row.innerHTML =
-          '<a data-value="' + val + '" data-nofill="false" data-size="40" data-font="PlayStation" data-color="' + (settings.color || PS_Cover.randomColor()) + '" data-y="' + ( settings.y || '40' ) + '" ' + defaultAttrs + ' href="#" onclick="PS_Cover.openLayer(this); return false;">'+
+          '<a '+
+            'data-value="' + val + '"'+
+            'data-color="' + (settings.color || PS_Cover.randomColor()) + '"'+
+            'data-nofill="' + ( settings.nofill || false ) + '"'+
+            'data-size="' + ( settings.size || 40 ) + '"'+
+            'data-font="' + ( settings.font || 'PlayStation' ) + '"'+
+            'data-y="' + ( settings.y || '40' ) + '"'+
+            defaultAttrs+
+          '>'+
             '<i class="layer-thumb fa fa-font"></i>'+
             '<span class="layer-value">' + val + '</span>'+
           '</a>';
@@ -315,7 +331,11 @@
 
         case 'image' :
           row.innerHTML =
-          '<a data-value="' + val + '" data-scale="100" ' + defaultAttrs + ' href="#" onclick="PS_Cover.openLayer(this); return false;">'+
+          '<a '+
+            'data-value="' + val + '"'+
+            'data-scale="' + ( settings.scale || 100 ) + '"'+
+            defaultAttrs+
+          '>'+
             '<img class="layer-thumb" src="' + val + '" alt="">'+
             '<span class="layer-value">' + val.split('/').pop() + '</span>'+
           '</a>';
@@ -323,7 +343,15 @@
 
         case 'shape' :
           row.innerHTML =
-          '<a data-value="rect" data-height="' + ( settings.height || '50' ) + '" data-width="' + ( settings.width || '50' ) + '" data-color="' + PS_Cover.randomColor() + '" data-nofill="false" data-scale="100" ' + defaultAttrs + ' href="#" onclick="PS_Cover.openLayer(this); return false;">'+
+          '<a '+
+            'data-value="' + (val || 'rect') + '"'+
+            'data-color="' + PS_Cover.randomColor() + '"'+
+            'data-nofill="' + ( settings.nofill || false ) + '"'+
+            'data-scale="' + ( settings.scale || 100 ) + '"'+
+            'data-height="' + ( settings.height || '50' ) + '"'+
+            'data-width="' + ( settings.width || '50' ) + '"'+
+            defaultAttrs+
+          '>'+
             '<canvas class="layer-thumb" width="40" height="40"></canvas>'+
             '<span class="layer-value">Rectangle</span>'+
           '</a>';
@@ -336,7 +364,7 @@
       PS_Cover.cache.layers = PS_Cover.cache.layerList.querySelectorAll('.cover-layer');
 
       if (!settings.noOpen) {
-        PS_Cover.openLayer(row, settings.noScroll);
+        PS_Cover.openLayer(row);
       }
 
       PS_Cover.updateLayerCount();
@@ -345,7 +373,7 @@
 
 
     // opens the tools for editing the selected layer
-    openLayer : function (caller, noScroll, noOpen) {
+    openLayer : function (caller) {
       var data = caller.dataset,
 
           coords = PS_Cover.templates.layer_coords
@@ -456,7 +484,7 @@
       }
 
       // scoll to the current layer
-      if (!noScroll) {
+      if (!PS_Cover.loadingPreset) {
         PS_Cover.jumpToLayer(PS_Cover.cache.activeLayer);
       }
 
@@ -464,25 +492,112 @@
 
 
     // loads a preset
-    loadPreset : function (id) {
-      switch (id) {
-        default :
-          PS_Cover.add('image', {
-            value : 'resources/images/ps4.png',
-            x : (PS_Cover.canvas.width / 2) - 100,
-            y : (PS_Cover.canvas.height / 2) - 100,
-            noScroll : 1
-          });
+    loadPreset : function (caller, skipConfirmation) {
+      if (skipConfirmation || confirm('Would you like to load the ' + ( caller ? caller.options[caller.selectedIndex].innerHTML : 'default' ) + ' preset? Your current progress will be lost.')) {
+        var color = '#000000';
 
-          PS_Cover.add('text', {
-            value : 'PS4 Cover Generator',
-            color : '#FFFFFF',
-            x : (PS_Cover.canvas.width / 2) - 175,
-            y : 120,
-            noScroll : 1
-          });
+        PS_Cover.deleteLayers(true);
+        PS_Cover.loadingPreset = true;
 
-          break;
+        switch (caller ? caller.value : '') {
+          case 'gravity-rush' :
+            color = '#007700';
+
+            PS_Cover.add('image', {
+              value : 'resources/images/gravity-rush/grw-00.jpg',
+              y : -570
+            });
+
+            PS_Cover.add('image', {
+              value : 'resources/images/gravity-rush/gr-logo.png',
+              x : 0,
+              y : 60,
+              opacity : 50,
+              rotate : 340
+            });
+
+            PS_Cover.add('text', {
+              value : 'YOUR NAME HERE',
+              color : '#004400',
+              size : 30,
+              font : 'Luckiest Guy',
+              x : 30,
+              y : 400,
+              opacity : 80,
+              rotate : 270
+            });
+
+            break;
+
+
+          case 'persona-5' :
+            color = '#CC0000';
+
+            PS_Cover.add('image', {
+              value : 'resources/images/persona/p5w-00.jpg'
+            });
+
+            PS_Cover.add('text', {
+              value : 'SIGN YOUR NAME HERE',
+              color : '#000000',
+              font : 'Love Ya Like A Sister',
+              x : 85,
+              y : 140,
+              rotate : 350
+            });
+
+            break;
+
+
+          case 'uncharted-4' :
+            color = '#003377';
+
+            PS_Cover.add('image', {
+              value : 'resources/images/uncharted/uc4-00.jpg'
+            });
+
+            PS_Cover.add('image', {
+              value : 'resources/images/uncharted/uc-logo.png',
+              opacity : 80,
+              rotate : 40,
+              x : 1560,
+              y : 10
+            });
+
+            PS_Cover.add('text', {
+              value : 'YOUR NAME HERE',
+              color : '#FFFFFF',
+              font : 'Fredericka the Great',
+              x : 380,
+              y : 310
+            });
+
+            break;
+
+
+          default :
+            color = '#0077CC';
+
+            PS_Cover.add('image', {
+              value : 'resources/images/ps4.png',
+              x : (PS_Cover.canvas.width / 2) - 100,
+              y : (PS_Cover.canvas.height / 2) - 100
+            });
+
+            PS_Cover.add('text', {
+              value : 'PS4 Cover Generator',
+              color : '#FFFFFF',
+              x : (PS_Cover.canvas.width / 2) - 175,
+              y : 120
+            });
+
+            break;
+        }
+
+        PS_Cover.cache.bgColor.value = color;
+        PS_Cover.cache.bgColor.previousSibling.style.backgroundColor = color;
+        
+        PS_Cover.loadingPreset = false;
       }
     },
 
@@ -1126,6 +1241,11 @@
     PS_Cover.setDimensions(this, 'height');
   });
 
+  document.getElementById('cover-preset').addEventListener('change', function () {
+    PS_Cover.loadPreset(this);
+    this.selectedIndex = 0;
+  });
+
 
   // cover tool event handlers
   var tools = document.getElementById('cover-tools-box');
@@ -1251,7 +1371,7 @@
       PS_Cover.openLayer(PS_Cover.cache.activeLayer);
 
     } else {
-      PS_Cover.loadPreset();
+      PS_Cover.loadPreset(null, true);
     }
 
     // apply saved canvas settings
@@ -1276,7 +1396,7 @@
     PS_Cover.draw();
 
   } else { // otherwise create an example
-    PS_Cover.loadPreset();
+    PS_Cover.loadPreset(null, true);
   }
 
   replaceCheckboxes(); // replace checkboxes w/custom ones
