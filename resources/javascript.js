@@ -596,7 +596,8 @@
 
         PS_Cover.cache.bgColor.value = color;
         PS_Cover.cache.bgColor.previousSibling.style.backgroundColor = color;
-        
+        PS_Cover.draw();
+
         PS_Cover.loadingPreset = false;
       }
     },
