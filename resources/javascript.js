@@ -169,11 +169,7 @@
       if (PS_Cover.cache.updateInput.type == 'font' && !selected.dataset.loaded) {
         PS_Cover.cache.activeLayer.style.fontFamily = value;
         PS_Cover.cache.activeLayer.dataset[PS_Cover.cache.updateInput.type] = value;
-
-        FontDetect.onFontLoaded(value, function () {
-          selected.dataset.loaded = true;
-          PS_Cover.draw();
-        }, null, { msTimeout : 5000 });
+        PS_Cover.draw();
 
       } else {
         if (PS_Cover.cache.updateInput.type == 'font') {
@@ -387,16 +383,8 @@
 
       switch (data.type) {
         case 'text' :
-          for (var opts = '', i = 0, j = PS_Cover.fonts.length, loaded, cleanName; i < j; i++) {
-            cleanName = PS_Cover.fonts[i].replace(':loaded', '');
-            loaded = false;
-
-            // set loaded attr
-            if (/:loaded/.test(PS_Cover.fonts[i])) {
-              loaded = true;
-            }
-
-            opts += '<option value="' + cleanName + '"' + ( loaded ? ' data-loaded="true"' : '' ) + ( data.font == cleanName ? ' selected' : '' ) + '>' + cleanName + '</option>';
+          for (var opts = '', i = 0, j = PS_Cover.fonts.length; i < j; i++) {
+            opts += '<option value="' + PS_Cover.fonts[i] + '"' + ( data.font == PS_Cover.fonts[i] ? ' selected' : '' ) + '>' + PS_Cover.fonts[i] + '</option>';
           }
 
           PS_Cover.cache.layerSettings.innerHTML = '<div class="main-layer-input">'+
@@ -559,9 +547,9 @@
             PS_Cover.add('image', {
               value : 'resources/images/uncharted/uc-logo.png',
               opacity : 80,
-              rotate : 40,
-              x : 1560,
-              y : 10
+              rotate : 320,
+              x : 10,
+              y : 140
             });
 
             PS_Cover.add('text', {
@@ -980,8 +968,8 @@
 
     // fonts available for text
     fonts : [
-      'PlayStation:loaded',
-      'FontAwesome:loaded',
+      'PlayStation',
+      'FontAwesome',
       'Acme',
       'Aldrich',
       'Allerta Stencil',
@@ -1001,7 +989,7 @@
       'Clicker Script',
       'Coming Soon',
       'Cookie',
-      'Courier New:loaded',
+      'Courier New',
       'Covered By Your Grace',
       'Dancing Script',
       'Days One',
@@ -1195,6 +1183,16 @@
   };
 
 
+  // preload fonts
+  for (var i = 0, j = PS_Cover.fonts.length, str = '', fonts = document.createElement('DIV'); i < j; i++) {
+    str += '<p style="font-family:' + PS_Cover.fonts[i] + ';">A</p>';
+  }
+
+  fonts.id = 'font-preloader';
+  fonts.innerHTML = str;
+  document.body.appendChild(fonts);
+
+
   // inital setup of the canvas
   PS_Cover.ctx = PS_Cover.canvas.getContext('2d');
   PS_Cover.canvas.width = window.innerWidth;
@@ -1337,7 +1335,7 @@
   }
 
 
-  // auto-saves canvas every 15 seconds
+  // auto-saves the canvas every 15 seconds
   window.setInterval(function() {
     if (PS_Cover.cache.autoSave.checked) {
       PS_Cover.cache.saveCover.click();
@@ -1352,6 +1350,7 @@
       that.setAttribute('style', 'opacity:0.6;pointer-events:none;');
 
       PS_Cover.saveCoverImage();
+      PS_Cover.draw();
 
       window.setTimeout(function () {
         that.innerHTML = that.innerHTML.replace('d!', '');
