@@ -173,7 +173,7 @@
         FontDetect.onFontLoaded(value, function () {
           selected.dataset.loaded = true;
           PS_Cover.draw();
-        }, null, { msTimeout : 3000 });
+        }, null, { msTimeout : 5000 });
 
       } else {
         if (PS_Cover.cache.updateInput.type == 'font') {
@@ -595,8 +595,13 @@
         }
 
         PS_Cover.cache.bgColor.value = color;
-        PS_Cover.cache.bgColor.previousSibling.style.backgroundColor = color;
-        PS_Cover.draw();
+
+        if (PS_Cover.cache.bgColor.previousSibling.className == 'color-inpicker-box') {
+          PS_Cover.cache.bgColor.previousSibling.style.backgroundColor = color;
+        }
+
+
+        window.setTimeout(PS_Cover.draw, 100);
 
         PS_Cover.loadingPreset = false;
       }
