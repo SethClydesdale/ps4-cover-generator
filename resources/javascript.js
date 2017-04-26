@@ -29,8 +29,14 @@
 
         switch (data.type) {
           case 'text' :
+            PS_Cover.ctx.font = data.size + 'px ' + data.font;
+
             PS_Cover.transform({
+              width : PS_Cover.ctx.measureText(data.value).width,
+              height : data.size,
               rotate : +data.rotate,
+              flipH : +data.flipH,
+              flipV : +data.flipV,
               opacity : +data.opacity / 100,
               blend : data.blend,
               x : data.x,
@@ -39,7 +45,6 @@
             }, function () {
               var fill = data.nofill == 'true' ? 'stroke' : 'fill';
 
-              PS_Cover.ctx.font = data.size + 'px ' + data.font;
               PS_Cover.ctx[fill + 'Style'] = data.color;
               PS_Cover.ctx[fill + 'Text'](data.value, data.x, data.y);
             });
@@ -55,8 +60,12 @@
             }
 
             PS_Cover.loadImage(img, data.x, data.y, {
+              width : img.naturalWidth,
+              height : img.naturalHeight,
               scale : +data.scale / 100,
               rotate : +data.rotate,
+              flipH : +data.flipH,
+              flipV : +data.flipV,
               opacity : +data.opacity / 100,
               blend : data.blend,
               x : data.x,
@@ -67,8 +76,12 @@
 
           case 'shape' :
             PS_Cover.transform({
+              width : data.width,
+              height : data.height,
               scale : +data.scale / 100,
               rotate : +data.rotate,
+              flipH : +data.flipH,
+              flipV : +data.flipV,
               opacity : +data.opacity / 100,
               blend : data.blend,
               x : data.x,
@@ -221,8 +234,26 @@
         PS_Cover.ctx.translate(-config.x, -config.y);
       }
 
+      if (config.flipH || config.flipV) {
+        PS_Cover.ctx.translate(
+          config.flipH ? Math.abs(config.x - (config.width * -1)) : config.x,
+          config.flipV ? Math.abs(config.y - (config.height * -1)) : config.y
+        );
+        PS_Cover.ctx.scale(config.flipH ? -1 : 1, config.flipV ? -1 : 1);
+        PS_Cover.ctx.translate(-config.x, -config.y);
+      }
+
       callback();
       PS_Cover.ctx.restore();
+    },
+
+
+    // flips a layer vertically or horizontally
+    flipLayer : function (caller) {
+      var method = /level-up/.test(caller.className) ? 'flipV' : 'flipH';
+
+      PS_Cover.cache.activeLayer.dataset[method] = +PS_Cover.cache.activeLayer.dataset[method] ? 0 : 1;
+      PS_Cover.draw();
     },
 
 
@@ -299,6 +330,8 @@
           'data-blend="' + ( settings.blend || '' ) + '"'+
           'data-opacity="' + ( settings.opacity || 100 ) + '"'+
           'data-rotate="' + ( settings.rotate || 0 ) + '"'+
+          'data-flip-h="' + ( settings.flipH || 0 ) + '"'+
+          'data-flip-v="' + ( settings.flipV || 0 ) + '"'+
           'data-x="' + ( settings.x || 0 ) + '"'+
           'data-y="' + ( settings.y || 0 ) + '"'+
           'href="#"'+
@@ -906,6 +939,11 @@
 
       layer_controls :
       '<div class="layer-controls">'+
+
+        '<span class="layer-flip-box two-buttons">'+
+          '<a class="fa fa-level-up" href="#" onclick="PS_Cover.flipLayer(this); return false;"></a>'+
+          '<a class="fa fa-level-down fa-rotate-90" href="#" onclick="PS_Cover.flipLayer(this); return false;"></a>'+
+        '</span>'+
 
         '<span class="layer-rotate-box two-buttons">'+
           '<a class="fa fa-rotate-right" onmousedown="PS_Cover.rotateLayer(this, 1);" onmouseup="PS_Cover.rotateLayer(\'stop\');" onmouseleave="PS_Cover.rotateLayer(\'stop\');"></a>'+
