@@ -1120,6 +1120,8 @@ PS_Cover.Images.list = {
       'orpheus-00.png',
       'thantos-00.png',
       // Misc
+      'misc-00.png',
+      'misc-01.png',
       'misc-02.png',
       'misc-03.png',
       'misc-04.png',
@@ -1127,22 +1129,151 @@ PS_Cover.Images.list = {
       // PERSONA 4
       // Chie
       'chie-00.png',
-      // Izanagi
-      'izanagi-00.png',
-      'izanagi-01.png',
-      'izanagi-02.png',
+      'chie-01.png',
+      'chie-02.png',
+      'chie-03.png',
+      'chie-04.png',
+      'chie-05.png',
+      // Kanji
+      'kanji-00.png',
+      'kanji-01.png',
+      'kanji-02.png',
+      'kanji-03.png',
+      'kanji-04.png',
+      // Margaret
+      'margaret-00.png',
+      'margaret-01.png',
+      'margaret-02.png',
+      'margaret-03.png',
+      // Naoto
+      'naoto-00.png',
+      'naoto-01.png',
+      'naoto-02.png',
+      'naoto-03.png',
+      'naoto-04.png',
+      'naoto-05.png',
+      // Rise
+      'rise-00.png',
+      'rise-01.png',
+      'rise-02.png',
+      'rise-03.png',
+      'rise-04.png',
+      'rise-05.png',
+      'rise-06.png',
+      'rise-07.png',
+      // Teddie
+      'teddie-00.png',
+      'teddie-01.png',
+      'teddie-02.png',
+      'teddie-03.png',
+      'teddie-04.png',
+      'teddie-05.png',
+      'teddie-06.png',
+      'teddie-07.png',
+      // Yosuke
+      'yosuke-00.png',
+      'yosuke-01.png',
+      'yosuke-02.png',
+      'yosuke-03.png',
+      'yosuke-04.png',
+      'yosuke-05.png',
       // Yu
       'yu-00.png',
       'yu-01.png',
       'yu-02.png',
       'yu-03.png',
+      'yu-04.png',
+      'yu-05.png',
+      'yu-06.png',
+      'yu-07.png',
+      // Yukiko
+      'yukiko-00.png',
+      'yukiko-01.png',
+      'yukiko-02.png',
+      'yukiko-03.png',
+      'yukiko-04.png',
+      'yukiko-05.png',
+      // Personas
+      'izanagi-00.png',
+      'izanagi-01.png',
+      'izanagi-02.png',
+      // Misc
+      'p4-misc-00.png',
+      'p4-misc-01.png',
       // PERSONA 5
-
-      // MISC
-      'misc-00.png',
-      'misc-01.png',
+      // Akira (MC)
+      'akira-00.png',
+      'akira-01.png',
+      'akira-02.png',
+      'akira-03.png',
+      'akira-04.png',
+      'akira-05.png',
+      // Ann
+      'ann-00.png',
+      'ann-01.png',
+      'ann-02.png',
+      'ann-03.png',
+      'ann-04.png',
+      'ann-05.png',
+      // Futaba
+      'futaba-00.png',
+      'futaba-01.png',
+      'futaba-02.png',
+      'futaba-03.png',
+      // Goro
+      'goro-00.png',
+      'goro-01.png',
+      'goro-02.png',
+      'goro-03.png',
+      // Haru
+      'haru-00.png',
+      'haru-01.png',
+      'haru-02.png',
+      'haru-03.png',
+      // Makoto
+      'makoto-00.png',
+      'makoto-01.png',
+      'makoto-02.png',
+      'makoto-03.png',
+      // Morgana
+      'morgana-00.png',
+      'morgana-01.png',
+      'morgana-02.png',
+      'morgana-03.png',
+      // Ryuji
+      'ryuji-00.png',
+      'ryuji-01.png',
+      'ryuji-02.png',
+      'ryuji-03.png',
+      // Caroline and Justine
+      'twins-00.png',
+      'twins-01.png',
+      'twins-02.png',
+      'twins-03.png',
+      // Lavenza
+      'lavenza-00.png',
+      // Yusuke
+      'yusuke-00.png',
+      'yusuke-01.png',
+      'yusuke-02.png',
+      'yusuke-03.png',
+      // RECURRING
+      // Igor
+      'igor-00.png',
+      'igor-01.png',
+      'igor-02.png',
+      'igor-03.png',
 
       // # BACKGROUNDS
+      // Persona 1
+      'p1w-00.jpg',
+      'p1w-01.jpg',
+      'p1w-02.jpg',
+      'p1w-03.jpg',
+      'p1w-04.jpg',
+      'p1w-05.jpg',
+      'p1w-06.jpg',
+      'p1w-07.jpg',
       // Persona 2
       'p2w-00.jpg',
       'p2w-01.jpg',
