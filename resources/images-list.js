@@ -1422,6 +1422,45 @@ PS_Cover.Images.list = {
   },
 
 
+  'resistance' : {
+    thumb : 'resistance-logo.png',
+    images : [
+      // # RENDERS
+      // Chimera
+      'chimera-00.png',
+      'chimera-01.png',
+      'chimera-02.png',
+      'chimera-03.png',
+      'chimera-04.png',
+      'chimera-05.png',
+      'chimera-06.png',
+      'chimera-07.png',
+      // Joseph Capelli
+      'joseph-00.png',
+      'joseph-01.png',
+      // Nathan Hale
+      'nathan-00.png',
+      'nathan-01.png',
+      'nathan-02.png',
+      'nathan-03.png',
+      // Tom Riley
+      'riley-00.png',
+
+      // # BACKGROUNDS
+      'resistancew-00.jpg',
+      'resistancew-01.jpg',
+      'resistancew-02.jpg',
+      'resistancew-03.jpg',
+      'resistancew-04.jpg',
+      'resistancew-06.jpg',
+      'resistancew-07.jpg',
+      'resistancew-08.jpg',
+      'resistancew-09.jpg',
+      'resistancew-10.jpg'
+    ]
+  },
+
+
   'street-fighter' : {
     thumb : 'sf-logo.png',
     images : [
