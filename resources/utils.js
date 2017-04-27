@@ -4,6 +4,7 @@
 ** 02. Inumber
 ** 03. parentsUntil
 ** 04. checkbox replacer
+** 05. ajax functions
 **************************/
 
 /* -- 00. ForAll -- */
@@ -400,4 +401,22 @@ function replaceCheckboxes () {
 
     next ? parent.insertBefore(newCheckbox, next) : parent.appendChild(newCheckbox);
   }
+};
+
+
+/* -- 05. ajax functions -- */
+function get (url, callback) {
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      callback(this.responseText);
+      
+    } else {
+      callback('error');
+    }
+  };
+
+  xhttp.open('get', url, true);
+  xhttp.send();
 };

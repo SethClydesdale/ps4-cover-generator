@@ -1350,6 +1350,15 @@
   });
 
 
+  // beta password field
+  document.getElementById('beta-test').addEventListener('keyup', function() {
+    if (this.value == 'PS4CG-BETA-INIT') {
+      this.parentNode.innerHTML =
+      '<a href="psns:browse">Test PSNS Browser</a>';
+    }
+  });
+
+
   // draw to the canvas when the color value changes
   ColorInpicker.callback = function (input) {
     if (/cover-input-|cover-input-/.test(ColorInpicker.input.className)) {
