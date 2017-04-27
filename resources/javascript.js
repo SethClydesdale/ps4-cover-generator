@@ -1350,28 +1350,6 @@
   });
 
 
-  // beta password field
-  document.getElementById('beta-test').addEventListener('keyup', function() {
-    if (this.value == 'PS4CG-BETA-INIT') {
-      this.parentNode.innerHTML =
-      '<a href="//io.playstation.com/userinfo.json" target="_blank">//io.playstation.com/userinfo.json</a>'+
-      '<a href="//io.playstation.com/onlinefriends.json" target="_blank">//io.playstation.com/onlinefriends.json</a>'+
-      '<a href="//io.playstation.com/playstation/psn/plus/info" target="_blank">//io.playstation.com/playstation/psn/plus/info</a>'+
-      '<a href="//io.playstation.com/playstation/psn/profile/last/played/" target="_blank">//io.playstation.com/playstation/psn/profile/last/played/</a>'+
-      '<a href="//my.playstation.com/" target="_blank">//my.playstation.com/</a>'+
-      '<a href="//my.playstation.com/playstation/psn/profile/user/gameList/" target="_blank">//my.playstation.com/playstation/psn/profile/user/gameList/</a>'+
-      '<a href="//my.playstation.com/playstation/psn/profile/compare/userData" target="_blank">//my.playstation.com/playstation/psn/profile/compare/userData</a>'+
-      '<a href="//my.playstation.com/playstation/psn/profile/compare/friends/" target="_blank">//my.playstation.com/playstation/psn/profile/compare/friends/</a>'+
-      '<a href="//my.playstation.com/playstation/psn/profile/pid/get_pid" target="_blank">//my.playstation.com/playstation/psn/profile/pid/get_pid</a>'+
-      '<a href="//io.playstation.com/playstation/psn/profile/avatar/" target="_blank">//io.playstation.com/playstation/psn/profile/avatar/</a>'+
-      '<a href="//io.playstation.com/playstation/psn/resources" target="_blank">//io.playstation.com/playstation/psn/resources</a>'+
-      '<a href="https://my.playstation.com/" target="_blank">https://my.playstation.com/</a>'+
-      '<a href="//my.playstation.com/playstation/psn/profile/user/titles" target="_blank">//my.playstation.com/playstation/psn/profile/user/titles</a>'+
-      '<div style="margin-bottom:12px;"></div>';
-    }
-  });
-
-
   // draw to the canvas when the color value changes
   ColorInpicker.callback = function (input) {
     if (/cover-input-|cover-input-/.test(ColorInpicker.input.className)) {
