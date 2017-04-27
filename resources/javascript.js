@@ -33,7 +33,7 @@
 
             PS_Cover.transform({
               width : PS_Cover.ctx.measureText(data.value).width,
-              height : data.size,
+              height : -(+data.size / 1.5),
               rotate : +data.rotate,
               flipH : +data.flipH,
               flipV : +data.flipV,
