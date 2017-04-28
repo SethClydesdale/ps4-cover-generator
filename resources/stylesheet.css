@@ -552,15 +552,48 @@ input[type="number"] { width:60px; }
   cursor:pointer;
 }
 
-#fontawesome-iconlist {
+.layer-popup {
   background:#FFF;
   border:1px solid #CCC;
+  box-shadow:0 6px 12px rgba(0, 0, 0, 0.175);
+  padding:3px;
+  position:absolute;
+  z-index:1;
+}
+
+.layer-popup label {
+  width:150px;
+  text-align:right;
+  margin-right:3px;
+}
+
+#layer-shadow ~ #shadow-settings {
+  opacity:0.5;
+  pointer-events:none;
+}
+
+#layer-shadow + .pseudo-checkbox, #layer-shadow:checked ~ #shadow-settings {
+  opacity:1;
+  pointer-events:all;
+}
+
+#shadow-settings {
+  height:150px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  white-space:nowrap;
+  padding-right:15px;
+  margin-top:6px;
+}
+
+.layer-popup-row { margin-bottom:6px; }
+.layer-popup-row:last-child { margin-bottom:0; }
+
+#fontawesome-iconlist {
   height:160px;
   width:300px;
   overflow:auto;
   overflow-x:hidden;
-  position:absolute;
-  z-index:1;
 }
 
 #fontawesome-iconlist .fa-icon-opt {
@@ -805,10 +838,11 @@ footer a:active { color:#FF8; }
 #color-inpicker-box {
   color:#333;
   background:#FFF;
-  border:1px solid rgba(0, 0, 0, 0.175);
+  border:1px solid #CCC;
   box-shadow:0 6px 12px rgba(0, 0, 0, 0.175);
   font-size:14px;
   line-height:12px;
+  min-width:300px;
   white-space:normal;
   font-weight:bold;
   font-family:Arial;

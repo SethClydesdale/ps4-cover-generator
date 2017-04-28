@@ -39,6 +39,7 @@
               flipV : +data.flipV,
               opacity : +data.opacity / 100,
               blend : data.blend,
+              shadow : data.shadow,
               x : data.x,
               y : data.y
 
@@ -68,6 +69,7 @@
               flipV : +data.flipV,
               opacity : +data.opacity / 100,
               blend : data.blend,
+              shadow : data.shadow,
               x : data.x,
               y : data.y
             });
@@ -84,6 +86,7 @@
               flipV : +data.flipV,
               opacity : +data.opacity / 100,
               blend : data.blend,
+              shadow : data.shadow,
               x : data.x,
               y : data.y
 
@@ -212,9 +215,39 @@
     },
 
 
+    // updates the layer's shadow
+    updateShadow : function (caller) {
+      var color = document.getElementById('layer-shadow-color').previousSibling.style.backgroundColor,
+          opacity = +document.getElementById('layer-shadow-opacity').value / 100;
+
+      PS_Cover.cache.activeLayer.dataset.shadow =
+      (document.getElementById('layer-shadow').checked ? '' : 'D:')+
+      document.getElementById('layer-shadow-x').value+
+      '|'+
+      document.getElementById('layer-shadow-y').value+
+      '|'+
+      document.getElementById('layer-shadow-blur').value+
+      '|'+
+      (
+        /rgba/.test(color) ? color.replace(/(?:\d+\.)\d+\)/, opacity + ')') :
+                             color.replace(')', ', ' + opacity + ')').replace('rgb', 'rgba')
+      );
+
+      PS_Cover.draw();
+    },
+
+
     // adjusts the scale, rotation, etc.. of a single canvas element
     transform : function (config, callback) {
       PS_Cover.ctx.save();
+
+      if (!/^D:/.test(config.shadow)) {
+        config.shadow = config.shadow.split('|');
+        PS_Cover.ctx.shadowColor = config.shadow[3];
+        PS_Cover.ctx.shadowBlur = config.shadow[2];
+        PS_Cover.ctx.shadowOffsetX = config.shadow[0];
+        PS_Cover.ctx.shadowOffsetY = config.shadow[1];
+      }
 
       if (config.blend) {
         PS_Cover.ctx.globalCompositeOperation = config.blend;
@@ -329,6 +362,7 @@
           'data-type="' + type + '"'+
           'data-blend="' + ( settings.blend || '' ) + '"'+
           'data-opacity="' + ( settings.opacity || 100 ) + '"'+
+          'data-shadow="' + ( settings.shadow || 'D:0|0|0|rgba(0, 0, 0, 1)' ) + '"'+
           'data-rotate="' + ( settings.rotate || 0 ) + '"'+
           'data-flip-h="' + ( settings.flipH || 0 ) + '"'+
           'data-flip-v="' + ( settings.flipV || 0 ) + '"'+
@@ -404,6 +438,7 @@
     // opens the tools for editing the selected layer
     openLayer : function (caller) {
       var data = caller.dataset,
+          shadow = data.shadow.replace('D:', '').split('|'),
 
           coords = PS_Cover.templates.layer_coords
           .replace('value="0"', 'value="' + data.x + '"')
@@ -411,8 +446,13 @@
 
           shared_tools = PS_Cover.templates.shared_tools
           .replace('value="' + data.blend + '"', 'value="' + data.blend + '" selected')
-          .replace('value="100"', 'value="' + data.opacity + '"');
-
+          .replace('value="100"', 'value="' + data.opacity + '"')
+          .replace('id="layer-shadow"', 'id="layer-shadow"' + (/^D:/.test(data.shadow) ? '' : ' checked'))
+          .replace('{SHADOW_X}', shadow[0])
+          .replace('{SHADOW_Y}', shadow[1])
+          .replace('{SHADOW_BLUR}', shadow[2])
+          .replace('{SHADOW_COLOR}', shadow[3])
+          .replace('{SHADOW_OPACITY}', shadow[3] && shadow[3].replace(/rgb\(|\)/g, '').split(',').pop() * 100);
 
       switch (data.type) {
         case 'text' :
@@ -725,11 +765,10 @@
 
         if (list) {
           list.parentNode.removeChild(list);
-        } else {
-          var offset = caller.getBoundingClientRect();
 
-          PS_Cover.FontAwesome.list.style.marginTop = '-' + (160 + offset.height) + 'px';
-          PS_Cover.FontAwesome.list.style.left = offset.left + 'px';
+        } else {
+          PS_Cover.FontAwesome.list.style.left = caller.offsetLeft + caller.getBoundingClientRect().width + 'px';
+          PS_Cover.FontAwesome.list.style.top = caller.offsetTop - 60 + 'px';
           caller.parentNode.insertBefore(PS_Cover.FontAwesome.list, caller);
         }
       },
@@ -749,7 +788,7 @@
         }
 
         list.id = 'fontawesome-iconlist';
-        list.className = 'fa-icon-list';
+        list.className = 'fa-icon-list layer-popup';
         list.innerHTML = html;
 
         list.addEventListener('mouseleave', function () {
@@ -932,6 +971,23 @@
     },
 
 
+    togglePopup : function (caller) {
+      var popup = caller.nextSibling;
+
+      if (popup.className == 'layer-popup') {
+        popup.style.display = popup.style.display == 'none' ? 'block' : 'none';
+        popup.style.left = caller.offsetLeft + caller.getBoundingClientRect().width + 'px';
+        popup.style.top = (caller.offsetTop - (popup.getBoundingClientRect().height / 2) + 20) + 'px';
+
+        if (!popup.onmouseleave) {
+          popup.onmouseleave = function () {
+            this.style.display = 'none';
+          };
+        }
+      }
+    },
+
+
     // html templates
     templates : {
 
@@ -989,8 +1045,22 @@
         '<option value="destination-atop">Destination Atop</option>'+
         '<option value="copy">Copy</option>'+
       '</select>'+
+
       '<a href="#" class="fa fa-low-vision tools-icon" onclick="PS_Cover.help(this.className); return false;"></a>'+
-      '<input class="cover-input-opacity" min="0" max="100" type="number" value="100" oninput="PS_Cover.updateInput(this);">',
+      '<input class="cover-input-opacity" min="0" max="100" type="number" value="100" oninput="PS_Cover.updateInput(this);">'+
+
+      '<a href="#" class="fa fa-shadow tools-icon" onclick="PS_Cover.help(this.className); return false;">S</a>'+
+      '<a href="#" class="layer-button" onclick="PS_Cover.togglePopup(this); return false;" style="text-shadow:2px 2px 1px #999;">S</a>'+
+      '<div class="layer-popup" style="display:none;">'+
+        '<label for="layer-shadow">Enable Shadow : </label><input id="layer-shadow" type="checkbox" onchange="PS_Cover.updateShadow(this);">'+
+        '<div id="shadow-settings">'+
+          '<div class="layer-popup-row"><label for="layer-shadow-color">Shadow Color : </label><input id="layer-shadow-color" class="color-inpicker" type="text" value="{SHADOW_COLOR}" oninput="PS_Cover.updateShadow(this);"></div>'+
+          '<div class="layer-popup-row"><label for="layer-shadow-blur">Shadow Blur : </label><input id="layer-shadow-blur" type="number" min="0" value="{SHADOW_BLUR}" oninput="PS_Cover.updateShadow(this);"></div>'+
+          '<div class="layer-popup-row"><label for="layer-shadow-x">Horizontal Offset : </label><input id="layer-shadow-x" type="number" min="0" value="{SHADOW_X}" oninput="PS_Cover.updateShadow(this);"></div>'+
+          '<div class="layer-popup-row"><label for="layer-shadow-y">Vertical Offset : </label><input id="layer-shadow-y" type="number" min="0" value="{SHADOW_Y}" oninput="PS_Cover.updateShadow(this);"></div>'+
+          '<div class="layer-popup-row"><label for="layer-shadow-opacity">Shadow Opacity : </label><input id="layer-shadow-opacity" type="number" min="0" max="100" value="{SHADOW_OPACITY}" oninput="PS_Cover.updateShadow(this);"></div>'+
+        '</div>'+
+      '</div>',
 
       layer_coords :
       '<div class="layer-coords">'+
@@ -1134,6 +1204,7 @@
         alert({
           'fa-square' : 'Changes the blend mode of this layer.',
           'fa-low-vision' : 'Adjusts the opacity (or visibility) of this layer. (In percentages)',
+          'fa-shadow' : 'Adds a shadow to the selected layer and allows you to modify it.',
           'fa-eyedropper' : 'Click the color palette to select a color.',
           'fa-adjust' : 'Click the checkbox to toggle between fill and nofill.',
           'fa-arrows' : 'Adjusts the scale (overall size) of this layer. (In percentages)',
@@ -1355,6 +1426,9 @@
     if (/cover-input-|cover-input-/.test(ColorInpicker.input.className)) {
       PS_Cover.updateInput(ColorInpicker.input);
 
+    } else if (/layer-shadow/.test(ColorInpicker.input.id)) {
+      PS_Cover.updateShadow(ColorInpicker.input);
+
     } else {
       PS_Cover.draw();
     }
@@ -1368,6 +1442,9 @@
 
       if (/cover-(?:width|height)/.test(input.id)) {
         PS_Cover.setDimensions(input, input.id.split('-').pop());
+
+      } else if (/layer-shadow/.test(input.id)) {
+        PS_Cover.updateShadow(input);
       }
     };
   }
