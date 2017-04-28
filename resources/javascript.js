@@ -1054,7 +1054,7 @@
       '<div class="layer-popup" style="display:none;">'+
         '<label for="layer-shadow">Enable Shadow : </label><input id="layer-shadow" type="checkbox" onchange="PS_Cover.updateShadow(this);">'+
         '<div id="shadow-settings">'+
-          '<div class="layer-popup-row"><label for="layer-shadow-color">Shadow Color : </label><input id="layer-shadow-color" class="color-inpicker" type="text" value="{SHADOW_COLOR}" oninput="PS_Cover.updateShadow(this);"></div>'+
+          '<div class="layer-popup-row static"><label for="layer-shadow-color">Shadow Color : </label><input id="layer-shadow-color" class="color-inpicker" type="text" value="{SHADOW_COLOR}" oninput="PS_Cover.updateShadow(this);"></div>'+
           '<div class="layer-popup-row"><label for="layer-shadow-blur">Shadow Blur : </label><input id="layer-shadow-blur" type="number" min="0" value="{SHADOW_BLUR}" oninput="PS_Cover.updateShadow(this);"></div>'+
           '<div class="layer-popup-row"><label for="layer-shadow-x">Horizontal Offset : </label><input id="layer-shadow-x" type="number" min="0" value="{SHADOW_X}" oninput="PS_Cover.updateShadow(this);"></div>'+
           '<div class="layer-popup-row"><label for="layer-shadow-y">Vertical Offset : </label><input id="layer-shadow-y" type="number" min="0" value="{SHADOW_Y}" oninput="PS_Cover.updateShadow(this);"></div>'+

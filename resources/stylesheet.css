@@ -582,12 +582,16 @@ input[type="number"] { width:60px; }
   overflow-y:auto;
   overflow-x:hidden;
   white-space:nowrap;
-  position:relative;
   padding-right:15px;
   margin-top:6px;
 }
 
-.layer-popup-row { margin-bottom:6px; }
+.layer-popup-row {
+  position:relative;
+  margin-bottom:6px;
+}
+
+.layer-popup-row.static { position:static; }
 .layer-popup-row:last-child { margin-bottom:0; }
 
 #fontawesome-iconlist {
