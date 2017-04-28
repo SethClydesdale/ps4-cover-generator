@@ -310,7 +310,7 @@ window.Inumber = {
       a[i].dataset.inumbered = true;
 
       a[i].insertAdjacentHTML('afterend',
-        '<span class="Inumber-arrows" style="height:' + Math.abs(offset.top - offset.bottom) + 'px">'+
+        '<span class="Inumber-arrows" style="height:' + (Math.abs(offset.top - offset.bottom) || 52) + 'px">'+
           '<span class="Inumber-up" onmousedown="Inumber.update(this.parentNode.previousSibling, +1);" onmouseup="Inumber.stop();" onmouseleave="Inumber.stop();"></span>'+
           '<span class="Inumber-down" onmousedown="Inumber.update(this.parentNode.previousSibling, -1);" onmouseup="Inumber.stop();" onmouseleave="Inumber.stop();"></span>'+
         '</span>'
