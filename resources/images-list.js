@@ -1520,12 +1520,33 @@ PS_Cover.Images.list = {
     thumb : 'uc-logo.png',
     images : [
       // # RENDERS
+      // Charlie
+      'charlie-00.png',
       // Chloe
       'chloe-00.png',
+      'chloe-01.png',
+      'chloe-02.png',
+      'chloe-03.png',
       // Drake
       'drake-00.png',
       'drake-01.png',
       'drake-02.png',
+      'drake-03.png',
+      'drake-04.png',
+      'drake-05.png',
+      'drake-06.png',
+      'drake-07.png',
+      'drake-08.png',
+      'drake-09.png',
+      'drake-10.png',
+      'drake-11.png',
+      'drake-12.png',
+      'drake-13.png',
+      'drake-14.png',
+      'drake-15.png',
+      'drake-16.png',
+      'drake-17.png',
+      'drake-18.png',
       // Eddy
       'eddy-00.png',
       // Elena
@@ -1533,26 +1554,85 @@ PS_Cover.Images.list = {
       'elena-01.png',
       // Flynn
       'flynn-00.png',
+      // Lazarevic
+      'lazarevic-00.png',
+      'lazarevic-01.png',
+      'lazarevic-02.png',
+      // Navarro
+      'navarro-00.png',
+      // Roman
+      'roman-00.png',
+      // Sam
+      'sam-00.png',
       // Sully
       'sully-00.png',
+      'sully-01.png',
+      // Tenzin
+      'tenzin-00.png',
+      // Misc
+      'misc-00.png',
+      'misc-01.png',
+      'misc-02.png',
 
       // # BACKGROUNDS
       // UC1
       'uc-00.jpg',
+      'uc-01.jpg',
+      'uc-02.jpg',
+      'uc-03.jpg',
+      'uc-04.jpg',
+      'uc-05.jpg',
+      'uc-06.jpg',
       // UC2
       'uc2-00.jpg',
       'uc2-01.jpg',
       'uc2-02.jpg',
+      'uc2-03.jpg',
+      'uc2-04.jpg',
+      'uc2-05.jpg',
+      'uc2-06.jpg',
+      'uc2-07.jpg',
+      'uc2-08.jpg',
+      'uc2-09.jpg',
       // UC3
       'uc3-00.jpg',
       'uc3-01.jpg',
       'uc3-02.jpg',
+      'uc3-03.jpg',
+      'uc3-04.jpg',
+      'uc3-05.jpg',
+      'uc3-06.jpg',
+      'uc3-07.jpg',
+      'uc3-08.jpg',
       // UC4
       'uc4-00.jpg',
       'uc4-01.jpg',
       'uc4-02.jpg',
       'uc4-03.jpg',
-      'uc4-04.jpg'
+      'uc4-04.jpg',
+      'uc4-05.jpg',
+      'uc4-06.jpg',
+      'uc4-07.jpg',
+      'uc4-08.jpg',
+      'uc4-09.jpg',
+      'uc4-10.jpg',
+      'uc4-11.jpg',
+      'uc4-12.jpg',
+      'uc4-13.jpg',
+      'uc4-14.jpg',
+      'uc4-15.jpg',
+      'uc4-16.jpg',
+      'uc4-17.jpg',
+      'uc4-18.jpg',
+      'uc4-19.jpg',
+      'uc4-20.jpg',
+      'uc4-21.jpg',
+      'uc4-22.jpg',
+      'uc4-23.jpg',
+      'uc4-24.jpg',
+      'uc4-25.jpg',
+      'uc4-26.jpg',
+      'uc4-27.jpg'
     ]
   }
 
