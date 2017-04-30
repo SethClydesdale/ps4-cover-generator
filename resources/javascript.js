@@ -1174,7 +1174,14 @@
         if (!popup.onmouseleave) {
           popup.onmouseleave = function () {
             this.style.display = 'none';
+            PS_Cover.cache.coverTools.style.overflow = '';
           };
+        }
+
+        if (!popup.onmouseenter) {
+          popup.onmouseenter = function () {
+            PS_Cover.cache.coverTools.style.overflow = 'hidden';
+          }
         }
       }
     },
@@ -1677,7 +1684,7 @@
       } else if (/layer-shadow/.test(input.id)) {
         PS_Cover.updateShadow(input);
 
-      } else if (/layer-gradient-opacity/.test(input.className)) {
+      } else if (/gradient/.test(input.className)) {
         PS_Cover.gradient.update(input);
 
       } else {
