@@ -46,7 +46,7 @@
             }, function () {
               var fill = data.nofill == 'true' ? 'stroke' : 'fill';
 
-              PS_Cover.ctx[fill + 'Style'] = data.color;
+              PS_Cover.ctx[fill + 'Style'] = (data.gradient && !/^D:/.test(data.gradient)) ? PS_Cover.gradient.set(data) : data.color;
               PS_Cover.ctx[fill + 'Text'](data.value, data.x, data.y);
             });
             break;
@@ -92,11 +92,12 @@
 
             }, function () {
               var fill = data.nofill == 'true' ? 'stroke' : 'fill',
+                  color = (data.gradient && !/^D:/.test(data.gradient)) ? PS_Cover.gradient.set(data) : data.color,
                   thumb = PS_Cover.cache.layers[i].firstChild.getContext('2d');
 
               PS_Cover.drawShape(data.value, {
                 style : fill,
-                color : data.color,
+                color : color,
                 x : +data.x,
                 y : +data.y,
                 height : +data.height,
@@ -106,7 +107,7 @@
               thumb.clearRect(0, 0, 40, 40);
               PS_Cover.drawShape(data.value, {
                 style : fill,
-                color : data.color,
+                color : color,
                 x : /tri|arc/.test(data.value) ? 20 : 5,
                 y : data.value == 'arc' ? 20 : 5,
                 height : 30,
@@ -234,6 +235,153 @@
       );
 
       PS_Cover.draw();
+    },
+
+
+    gradient : {
+
+      // changes the gradient type
+      change : function (caller) {
+        var parent = caller.parentsUntil('.layer-popup'),
+            text = caller.parentsUntil('.main-layer-input').querySelector('.cover-input-value[type="text"]');
+
+        switch (caller.options[caller.selectedIndex].innerHTML) {
+          case 'Linear' :
+            parent.querySelector('.gradient-x-start').value = 0;
+            parent.querySelector('.gradient-y-start').value = 0;
+            parent.querySelector('.gradient-x-end').value = 100;
+            parent.querySelector('.gradient-y-end').value = 0;
+            break;
+
+          case 'Radial' :
+            parent.querySelector('.gradient-x-start').value = 50;
+            parent.querySelector('.gradient-y-start').value = 50;
+            parent.querySelector('.gradient-x-end').value = 50;
+            parent.querySelector('.gradient-y-end').value = 50;
+            parent.querySelector('.gradient-r-start').value = text ? 120 : 50;
+            parent.querySelector('.gradient-r-end').value = 0;
+            break;
+        }
+
+        PS_Cover.gradient.update(caller);
+      },
+
+
+      // updates the layer's gradient
+      update : function (caller) {
+        caller = caller.parentsUntil('.layer-popup');
+
+        var stop = caller.querySelectorAll('.color-stop'),
+            i = 0,
+            j = stop.length,
+            gradient = caller.querySelector('input[type="checkbox"]').checked ? '' : 'D:',
+            color;
+
+        for (; i < j; i++) {
+          color = stop[i].querySelector('.color-inpicker-box').style.backgroundColor;
+          opacity = stop[i].querySelector('.layer-gradient-opacity').value / 100;
+          gradient +=
+          (
+            /rgba/.test(color) ? color.replace(/(?:\d+\.)\d+\)/, opacity + ')') :
+                                 color.replace(')', ', ' + opacity + ')').replace('rgb', 'rgba')
+          ) + (i == j - 1 ? '' : '|');
+        }
+
+        PS_Cover.cache.activeLayer.dataset.gradient = gradient +';'+
+        caller.querySelector('.gradient-type').value+
+        '|'+
+        caller.querySelector('.gradient-x-start').value+
+        '|'+
+        caller.querySelector('.gradient-y-start').value+
+        '|'+
+        caller.querySelector('.gradient-x-end').value+
+        '|'+
+        caller.querySelector('.gradient-y-end').value+
+        '|'+
+        caller.querySelector('.gradient-r-start').value+
+        '|'+
+        caller.querySelector('.gradient-r-end').value;
+
+        PS_Cover.draw();
+      },
+
+
+      // returns a gradient
+      set : function (data) {
+        var settings = data.gradient.split(';'),
+        stops = settings[0].split('|'),
+        offsets = settings[1].split('|'),
+        x = data.width ? +data.width : PS_Cover.ctx.measureText(data.value).width,
+        y = data.height ? +data.height : -(+data.size / 1.5),
+        k, j;
+
+        gradient = offsets[0] == 'Linear' ?
+                   PS_Cover.ctx.createLinearGradient(
+                     +data.x + (x * offsets[1] / 100) * 2,
+                     +data.y + (y * offsets[2] / 100) * 2,
+                     +data.x + (x * offsets[3] / 100) * 2,
+                     +data.y + (y * offsets[4] / 100) * 2
+                   ) :
+                   PS_Cover.ctx.createRadialGradient(
+                     +data.x + (x * offsets[1] / 100),
+                     +data.y + (y * offsets[2] / 100),
+                     ((x + y) / 2) * offsets[5] / 100,
+                     +data.x + (y * offsets[3] / 100),
+                     +data.y + (x * offsets[4] / 100),
+                     ((x + y) / 2) * offsets[6] / 100
+                   );
+
+        for (k = 0, j = stops.length; k < j; k++) {
+          gradient.addColorStop(k / j, stops[k]);
+        }
+
+        return gradient;
+      },
+
+
+      // adds a color stop to the gradient editor
+      addColorStop : function (caller) {
+        var stops = caller.parentNode.previousSibling;
+
+        stops.insertAdjacentHTML('beforeend',
+          PS_Cover.templates.gradient.color_stop
+          .replace('{COLOR}', PS_Cover.randomColor())
+          .replace('{OPACITY}', 100)
+        );
+
+        ColorInpicker.init(stops, {
+          hide : true
+        });
+
+        PS_Cover.gradient.update(caller);
+      },
+
+
+      // removes a color stop from the gradient editor
+      deleteColorStop : function (caller) {
+        var parent = caller.parentsUntil('.gradient-stops');
+        parent.removeChild(caller.parentNode);
+
+        PS_Cover.gradient.update(parent);
+      },
+
+
+      // moves a color stop in the gradient editor
+      moveColorStop : function (caller) {
+        var parent = caller.parentsUntil('.gradient-stops'),
+            row = caller.parentNode,
+            next = row.nextSibling;
+
+        if (/fa-sort-asc/.test(caller.className)) {
+          parent.insertBefore(row, row.previousSibling);
+
+        } else {
+          (next && next.nextSibling) ? parent.insertBefore(row, next.nextSibling) :
+                                       parent.appendChild(row);
+        }
+
+        PS_Cover.gradient.update(parent);
+      }
     },
 
 
@@ -380,6 +528,7 @@
           '<a '+
             'data-value="' + val + '"'+
             'data-color="' + (settings.color || PS_Cover.randomColor()) + '"'+
+            'data-gradient="' + ( settings.gradient || 'D:rgba(255, 255, 255, 1)|rgba(102, 102, 102, 1);Horizontal|0|0|100|0|50|0' ) + '"'+
             'data-nofill="' + ( settings.nofill || false ) + '"'+
             'data-size="' + ( settings.size || 40 ) + '"'+
             'data-font="' + ( settings.font || 'PlayStation' ) + '"'+
@@ -409,6 +558,7 @@
           '<a '+
             'data-value="' + (val || 'rect') + '"'+
             'data-color="' + PS_Cover.randomColor() + '"'+
+            'data-gradient="' + ( settings.gradient || 'D:rgba(255, 255, 255, 1)|rgba(102, 102, 102, 1);Horizontal|0|0|100|0|50|0' ) + '"'+
             'data-nofill="' + ( settings.nofill || false ) + '"'+
             'data-scale="' + ( settings.scale || 100 ) + '"'+
             'data-height="' + ( settings.height || '50' ) + '"'+
@@ -452,7 +602,47 @@
           .replace('{SHADOW_Y}', shadow[1])
           .replace('{SHADOW_BLUR}', shadow[2])
           .replace('{SHADOW_COLOR}', shadow[3])
-          .replace('{SHADOW_OPACITY}', shadow[3] && shadow[3].replace(/rgb\(|\)/g, '').split(',').pop() * 100);
+          .replace('{SHADOW_OPACITY}', shadow[3] && shadow[3].replace(/rgb\(|\)/g, '').split(',').pop() * 100),
+
+          gradient = data.gradient ? PS_Cover.templates.gradient.editor : '';
+
+
+      if (gradient) {
+        var settings = data.gradient.replace('D:', '').split(';')
+            stop = settings[0].split('|'),
+            offset = settings[1].split('|')
+            i = 0,
+            j = stop.length,
+            gradients = '';
+
+        if (stop) {
+          for (; i < j; i++) {
+            gradients += PS_Cover.templates.gradient.color_stop
+                         .replace('{COLOR}', stop[i])
+                         .replace('{OPACITY}', stop[i].replace(/rgb\(|\)/g, '').split(',').pop() * 100);
+          }
+
+          gradient = gradient
+                     .replace('id="layer-gradient"', 'id="layer-gradient"' + (/^D:/.test(data.gradient) ? '' : ' checked'))
+                     .replace('{GRADIENTS}', gradients);
+
+        } else {
+          gradient = gradient.replace('{GRADIENTS}',
+            PS_Cover.templates.gradient.color_stop.replace('{COLOR}', '#FFFFFF').replace('{OPACITY}', 100)+
+            PS_Cover.templates.gradient.color_stop.replace('{COLOR}', '#666666').replace('{OPACITY}', 100)
+          );
+        }
+
+        gradient = gradient
+                  .replace('value="' + offset[0] + '"', 'value="' + offset[0] + '" selected')
+                  .replace('{START-OFFSET-X}', offset[1])
+                  .replace('{START-OFFSET-Y}', offset[2])
+                  .replace('{END-OFFSET-X}', offset[3])
+                  .replace('{END-OFFSET-Y}', offset[4])
+                  .replace('{START-OFFSET-R}', offset[5])
+                  .replace('{END-OFFSET-R}', offset[6]);
+      }
+
 
       switch (data.type) {
         case 'text' :
@@ -463,6 +653,7 @@
           PS_Cover.cache.layerSettings.innerHTML = '<div class="main-layer-input">'+
             '<input class="cover-input-value" type="text" value="' + data.value + '" oninput="PS_Cover.updateInput(this);">'+
             '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + data.color + '" oninput="PS_Cover.updateInput(this);">'+
+            gradient+
             '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( data.nofill == 'true' ? 'checked' : '' ) + '>'+
             PS_Cover.templates.layer_controls+
           '</div>'+
@@ -510,6 +701,7 @@
               opts.replace('value="' + data.value + '"', 'value="' + data.value + '" selected')+
             '</select>'+
             '<a href="#" class="fa fa-eyedropper tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-color color-inpicker" type="text" value="' + data.color + '" oninput="PS_Cover.updateInput(this);">'+
+            gradient+
             '<a href="#" class="fa fa-adjust tools-icon" onclick="PS_Cover.help(this.className); return false;"></a><input class="cover-input-nofill" type="checkbox" onchange="PS_Cover.updateInput(this);" ' + ( data.nofill == 'true' ? 'checked' : '' ) + '>'+
             PS_Cover.templates.layer_controls+
           '</div>'+
@@ -1052,8 +1244,8 @@
       '<a href="#" class="fa fa-shadow tools-icon" onclick="PS_Cover.help(this.className); return false;">S</a>'+
       '<a href="#" class="layer-button" onclick="PS_Cover.togglePopup(this); return false;" style="text-shadow:2px 2px 1px #999;">S</a>'+
       '<div class="layer-popup" style="display:none;">'+
-        '<label for="layer-shadow">Enable Shadow : </label><input id="layer-shadow" type="checkbox" onchange="PS_Cover.updateShadow(this);">'+
-        '<div id="shadow-settings">'+
+        '<label for="layer-shadow">Enable Shadow : </label><input id="layer-shadow" class="enable-popup-settings" type="checkbox" onchange="PS_Cover.updateShadow(this);">'+
+        '<div class="layer-popup-settings">'+
           '<div class="layer-popup-row static"><label for="layer-shadow-color">Shadow Color : </label><input id="layer-shadow-color" class="color-inpicker" type="text" value="{SHADOW_COLOR}" oninput="PS_Cover.updateShadow(this);"></div>'+
           '<div class="layer-popup-row"><label for="layer-shadow-blur">Shadow Blur : </label><input id="layer-shadow-blur" type="number" min="0" value="{SHADOW_BLUR}" oninput="PS_Cover.updateShadow(this);"></div>'+
           '<div class="layer-popup-row"><label for="layer-shadow-x">Horizontal Offset : </label><input id="layer-shadow-x" type="number" value="{SHADOW_X}" oninput="PS_Cover.updateShadow(this);"></div>'+
@@ -1067,6 +1259,45 @@
         '<a href="#" class="layer-coords-x tools-icon" onclick="PS_Cover.help(this.className); return false;">X</a><input class="cover-input-x" value="0" type="number" oninput="PS_Cover.updateInput(this);">'+
         '<a href="#" class="layer-coords-y tools-icon" onclick="PS_Cover.help(this.className); return false;">Y</a><input class="cover-input-y" value="0" type="number" oninput="PS_Cover.updateInput(this);">'+
       '</div>',
+
+      gradient : {
+        editor :
+        '<a href="#" class="gradient-button" onclick="PS_Cover.togglePopup(this); return false;"></a>'+
+        '<div class="layer-popup" style="display:none;">'+
+          '<label for="layer-gradient">Enable Gradient : </label><input id="layer-gradient" class="enable-popup-settings" type="checkbox" onchange="PS_Cover.gradient.update(this);">'+
+          '<div class="layer-popup-settings">'+
+            '<div class="layer-popup-row">'+
+              '<div class="layer-popup-title">Gradient Type</div>'+
+              '<select class="gradient-type" onchange="PS_Cover.gradient.change(this);">'+
+                '<option value="Linear">Linear</option>'+
+                '<option value="Radial">Radial</option>'+
+              '</select>'+
+            '</div>'+
+            '<div class="gradient-offsets clear">'+
+              '<div class="layer-popup-title">Start Offsets</div>'+
+              '<div class="layer-popup-row"><label>X</label><input class="gradient-x-start" type="number" value="{START-OFFSET-X}" oninput="PS_Cover.gradient.update(this);"></div>'+
+              '<div class="layer-popup-row"><label>Y</label><input class="gradient-y-start" type="number" value="{START-OFFSET-Y}" oninput="PS_Cover.gradient.update(this);"></div>'+
+              '<div class="layer-popup-title clear">End Offsets</div>'+
+              '<div class="layer-popup-row"><label>X</label><input class="gradient-x-end" type="number" value="{END-OFFSET-X}" oninput="PS_Cover.gradient.update(this);"></div>'+
+              '<div class="layer-popup-row"><label>Y</label><input class="gradient-y-end" type="number" value="{END-OFFSET-Y}" oninput="PS_Cover.gradient.update(this);"></div>'+
+              '<div class="layer-popup-title clear">Radius (Radial Only)</div>'+
+              '<div class="layer-popup-row"><label>X</label><input class="gradient-r-start" type="number" value="{START-OFFSET-R}" min="0" oninput="PS_Cover.gradient.update(this);"></div>'+
+              '<div class="layer-popup-row"><label>Y</label><input class="gradient-r-end" type="number" value="{END-OFFSET-R}" min="0" oninput="PS_Cover.gradient.update(this);"></div>'+
+            '</div>'+
+            '<div class="layer-popup-title">Color Stops</div>'+
+            '<div class="gradient-stops">{GRADIENTS}</div>'+
+            '<p class="center"><a class="button" href="#" onclick="PS_Cover.gradient.addColorStop(this); return false;">Add Color</a></p>'+
+          '</div>'+
+        '</div>',
+
+        color_stop : '<div class="layer-popup-row color-stop static">'+
+          '<input class="layer-gradient-color color-inpicker" type="text" value="{COLOR}" oninput="PS_Cover.gradient.update(this);">'+
+          '<input class="layer-gradient-opacity" type="number" value="{OPACITY}" min="0" max="100" oninput="PS_Cover.gradient.update(this);">'+
+          '<a class="fa fa-sort-asc color-stop-button" href="#" onclick="PS_Cover.gradient.moveColorStop(this); return false;"></a>'+
+          '<a class="fa fa-sort-desc color-stop-button" href="#" onclick="PS_Cover.gradient.moveColorStop(this); return false;"></a>'+
+          '<a class="fa fa-times color-stop-button" href="#" onclick="PS_Cover.gradient.deleteColorStop(this); return false;"></a>'+
+        '</div>'
+      },
 
       Images : {
         close : '<a class="select-image-button select-image-close" href="#" onclick="PS_Cover.Images.close();return false;"><i class="fa fa-times"></i> Close</a>',
@@ -1429,6 +1660,9 @@
     } else if (/layer-shadow/.test(ColorInpicker.input.id)) {
       PS_Cover.updateShadow(ColorInpicker.input);
 
+    } else if (/layer-gradient-color/.test(ColorInpicker.input.className)) {
+      PS_Cover.gradient.update(ColorInpicker.input);
+
     } else {
       PS_Cover.draw();
     }
@@ -1437,14 +1671,18 @@
   // draw to the canvas when the number value changes
   if (PS_Cover.isPS4) {
     Inumber.callback = function (input) {
-      PS_Cover.updateInput(input);
-      PS_Cover.draw();
-
       if (/cover-(?:width|height)/.test(input.id)) {
         PS_Cover.setDimensions(input, input.id.split('-').pop());
 
       } else if (/layer-shadow/.test(input.id)) {
         PS_Cover.updateShadow(input);
+
+      } else if (/layer-gradient-opacity/.test(input.className)) {
+        PS_Cover.gradient.update(input);
+
+      } else {
+        PS_Cover.updateInput(input);
+        PS_Cover.draw();
       }
     };
   }

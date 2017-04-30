@@ -177,12 +177,13 @@ window.ColorInpicker = {
       var rgb = that.style.backgroundColor.replace(/rgb(?:a|)\(|\)/g, '').split(','),
           bar = ColorInpicker.picker.querySelectorAll('.color-bar-inner'),
           val = ColorInpicker.picker.querySelectorAll('.color-value'),
+          popup = that.parentsUntil('.layer-popup-settings'),
           i, j;
 
       ColorInpicker.last = that;
       ColorInpicker.input = that.nextSibling;
       ColorInpicker.picker.style.left = that.getBoundingClientRect().width + that.offsetLeft + 'px';
-      ColorInpicker.picker.style.top = that.offsetTop - 65 + 'px';
+      ColorInpicker.picker.style.top = (that.offsetTop - (popup ? popup.scrollTop : 0)) - 65 + 'px';
 
       for (i = 0, j = bar.length; i < j; i++) {
         bar[i].style.backgroundColor = 'rgb(' + ( [rgb[i] + ', 0, 0', '0, ' + rgb[i] + ', 0', '0, 0, ' + rgb[i]][i] ) + ')';
@@ -362,7 +363,7 @@ Element.prototype.parentsUntil = function (selector) {
 
   while (parent && !match) {
     if (attr == 'className') {
-      for (a = parent[attr].split(' '), i = 0, j = a.length; i < j; i++) {
+      for (a = parent[attr] ? parent[attr].split(' ') : [], i = 0, j = a.length; i < j; i++) {
         if (selector == a[i]) {
           match = true;
           break;
