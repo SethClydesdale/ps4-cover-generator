@@ -43,6 +43,7 @@ PS_Cover.Tutorial.focus = function (noRemoval) {
 
     if (step.focus.jump) {
       document.body.scrollTop = a[0].offsetTop - 210;
+      document.documentElement.scrollTop = a[0].offsetTop - 210;
     }
 
     if (step.focus.event && !noRemoval) {
