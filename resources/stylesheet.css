@@ -629,8 +629,8 @@ input[type="number"] { width:60px; }
 /* header */
 header {
   color:#FFF;
-  background:#07C;
-  padding:30px;
+  background:url('images/ps4-logo.png') no-repeat 15px 50% #07C;
+  padding:20px 20px 20px 160px;
   position:relative;
   overflow:hidden;
 }
@@ -640,29 +640,20 @@ header h1 {
   font-family:'Play', Arial;
 }
 
-header h1 a { color:#FFF; }
-header h1 a:hover { color:#CCC; }
-header h1 a:active { color:#FF8; }
-
-header h1:after {
-  content:"Beta";
-  color:#FF8;
-  font-size:24px;
-  font-family:'Coming Soon';
-  display:inline-block;
-  position:relative;
-  top:-15px;
-  left:-5px;
-  transform:rotate(40deg);
+a#home-link { color:#FFF; }
+a#home-link:hover { color:#CCC; }
+a#home-link:active { color:#FF8; }
+a#home-link:before { /* makes the background image clickable */
+  content:"";
+  position:absolute;
+  height:100px;
+  width:128px;
+  left:14px;
+  top:50%;
+  margin-top:-50px;
 }
 
-header h1 { float:left; }
-.header-links {
-  margin-top:35px;
-  float:right;
-}
-
-.header-links a:first-child {
+#fork-me {
   color:#FFF;
   background:#333;
   font-size:16px;
@@ -679,7 +670,7 @@ header h1 { float:left; }
   transition:300ms;
 }
 
-.header-links a:first-child:hover {
+#fork-me:hover {
   color:#333;
   background:#FFF;
 }
@@ -1366,7 +1357,25 @@ body[data-fullscreen="true"] {
 
 /* responsiveness */
 @media (max-width:720px) {
-  header, footer { text-align:center; }
+  header {
+    padding:105px 0px 0px 0px;
+    text-align:center;
+    background-position:50% 10px;
+  }
+
+  header h1 {font-size:24px }
+
+  a#home-link:before {
+    content:"";
+    position:absolute;
+    height:100px;
+    width:128px;
+    top:60px;
+    left:50%;
+    margin-left:-65px;
+  }
+  
+  footer { text-align:center; }
   footer > div, header > *, .footer-column { float:none !important; }
 
   .footer-column {
