@@ -550,7 +550,7 @@
             'data-scale="' + ( settings.scale || 100 ) + '"'+
             defaultAttrs+
           '>'+
-            '<img class="layer-thumb" src="' + val + '" alt="">'+
+            '<img class="layer-thumb" src="' + val + '" alt="" ' + (window.location.protocol != 'file:' ? 'crossorigin="anonymous"' : '') + '>'+
             '<span class="layer-value">' + val.split('/').pop() + '</span>'+
           '</a>';
           break;
