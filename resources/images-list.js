@@ -811,6 +811,58 @@ PS_Cover.Images.list = {
       'grw-20.jpg'
     ]
   },
+  
+  
+  'horizon-zero-dawn' : {
+    thumb : 'hzd-logo.png',
+    images : [
+      // # RENDERS
+      // Aloy
+      'aloy-00.png',
+      'aloy-01.png',
+      'aloy-02.png',
+      'aloy-03.png',
+      'aloy-04.png',
+      // Robots
+      'robot-00.png',
+      'robot-01.png',
+      'robot-02.png',
+      'robot-03.png',
+      'robot-04.png',
+      
+      // # BACKGROUNDS
+      'hzdw-00.jpg',
+      'hzdw-01.jpg',
+      'hzdw-02.jpg',
+      'hzdw-03.jpg',
+      'hzdw-04.jpg',
+      'hzdw-05.jpg',
+      'hzdw-06.jpg',
+      'hzdw-07.jpg',
+      'hzdw-08.jpg',
+      'hzdw-09.jpg',
+      'hzdw-10.jpg',
+      'hzdw-11.jpg',
+      'hzdw-12.jpg',
+      'hzdw-13.jpg',
+      'hzdw-14.jpg',
+      'hzdw-15.jpg',
+      'hzdw-16.jpg',
+      'hzdw-17.jpg',
+      'hzdw-18.jpg',
+      'hzdw-19.jpg',
+      'hzdw-20.jpg',
+      'hzdw-21.jpg',
+      'hzdw-22.jpg',
+      'hzdw-23.jpg',
+      'hzdw-24.jpg',
+      'hzdw-25.jpg',
+      'hzdw-26.jpg',
+      'hzdw-27.jpg',
+      'hzdw-28.jpg',
+      'hzdw-29.jpg'
+    ]
+  },
 
 
   'infamous' : {
