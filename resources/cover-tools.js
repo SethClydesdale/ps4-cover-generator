@@ -1557,12 +1557,12 @@
 
       window.open().document.write(
         '<style>'+
-          'body{padding:0;margin:0;background:#000;display:flex;min-height:100vh;flex-direction:column;' + ( PS_Cover.isPS4 ? 'cursor:none!important' : '' ) + '}'+
+          'body{padding:0;margin:0;background:#000;display:flex;min-height:100vh;flex-direction:column;' + ( PS_Cover.isPS4 ? 'cursor:none' : '' ) + '}'+
           '#creation-info{color:#CCC;font-size:16px;font-family:Arial;padding:6px;}'+
           '#cover-result{flex:1 0 auto;text-align:center;}'+
         '</style>'+
 
-        '<div id="cover-result"><a href="' + image + '" download><img src="' + image + '" alt="PS4 Cover"></a></div>'+
+        '<div id="cover-result">' + (PS_Cover.isPS4 ? '' : '<a href="' + image + '" download>') + '<img src="' + image + '" alt="PS4 Cover">' + (PS_Cover.isPS4 ? '' : '</a>') + '</div>'+
 
         '<div id="creation-info">'+
           '<p>'+
