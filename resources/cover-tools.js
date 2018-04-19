@@ -1552,27 +1552,38 @@
 
   // open the cover in a new window so the user can take a screenshot / download the image
   document.getElementById('download-ps4-cover').addEventListener('click', function () {
-    window.open().document.write(
-      '<style>'+
-        'body{padding:0;margin:0;background:#000;display:flex;min-height:100vh;flex-direction:column;' + ( PS_Cover.isPS4 ? 'cursor:none' : '' ) + '}'+
-        '#creation-info{color:#CCC;font-size:16px;font-family:Arial;padding:6px;}'+
-        '#cover-result{flex:1 0 auto;text-align:center;}'+
-      '</style>'+
+    try {
+      var image = PS_Cover.canvas.toDataURL('image/png');
 
-      '<div id="cover-result"><img src="' + PS_Cover.canvas.toDataURL('image/png') + '" alt="PS4 Cover"></div>'+
+      window.open().document.write(
+        '<style>'+
+          'body{padding:0;margin:0;background:#000;display:flex;min-height:100vh;flex-direction:column;' + ( PS_Cover.isPS4 ? 'cursor:none' : '' ) + '}'+
+          '#creation-info{color:#CCC;font-size:16px;font-family:Arial;padding:6px;}'+
+          '#cover-result{flex:1 0 auto;text-align:center;}'+
+        '</style>'+
 
-      '<div id="creation-info">'+
-        '<p>'+
-          (
-            PS_Cover.isPS4 ?
-            'Press the SHARE button and choose SCREENSHOT to SAVE your cover image.' :
-            'Right click your cover image and choose "SAVE IMAGE" or "SAVE AS" to save it to your computer.'
-          )+
-        '</p>'+
-        '<p>Created with PS4 Cover Generator</p>'+
-        '<p>sethclydesdale.github.io/ps4-cover-generator/</p>'+
-      '</div>'
-    );
+        '<div id="cover-result"><a href="' + image + '" download><img src="' + image + '" alt="PS4 Cover"></a></div>'+
+
+        '<div id="creation-info">'+
+          '<p>'+
+            (
+              PS_Cover.isPS4 ?
+              'Press the SHARE button and choose SCREENSHOT to SAVE your cover image.' :
+              'Click your cover image to save it to your computer.'
+            )+
+          '</p>'+
+          '<p>Created with PS4 Cover Generator</p>'+
+          '<p>sethclydesdale.github.io/ps4-cover-generator/</p>'+
+        '</div>'
+      );
+      
+    } catch (error) {
+      window.open().document.write(
+        '<p style="color:red;">' + error + '</p>'+
+        '<p>Please <a href="https://github.com/SethClydesdale/ps4-cover-generator/wiki/Submitting-Suggestions-and-Feedback">contact the developer</a> for technical support.</p>'
+      );
+    }
+
   });
 
 
