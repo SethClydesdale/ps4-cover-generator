@@ -1014,7 +1014,7 @@
         
         query : '', // current query
         page : 1, // current page
-        thumbnail : 't', // thumbnail size (listed below are sizes)
+        thumbnail : 'm', // thumbnail size (listed below are sizes)
         // s = 90x90
         // b = 160x160
         // t = 160x160

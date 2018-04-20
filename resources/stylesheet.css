@@ -1107,44 +1107,13 @@ a.color-stop-button.fa-sort-desc { vertical-align:4px; }
   overflow:hidden;
   cursor:pointer;
 }
+.select-image-option:hover { opacity:0.5; }
 
 .select-image-option img {
   max-width:100%;
   max-height:100%;
 }
 
-/* image / layer placeholder */
-.select-image-placeholder {
-  color:#333;
-  font-size:64px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-}
-
-/* fadeInOut visibility */
-.select-image-option img, .select-image-placeholder {
-  transition-property:opacity, visibility;
-  transition-duration:1000ms;
-  pointer-events:none;
-}
-
-.select-image-option img, .select-image-option[data-hidden="true"] .select-image-placeholder {
-  opacity:1;
-  visibility:visible;
-}
-
-.select-image-option[data-hidden="true"] img, .select-image-placeholder {
-  opacity:0;
-  visibility:hidden;
-}
-
-.select-image-option:hover { opacity:0.5; }
 .select-image-category:hover { background-color:#DDD; }
 
 .select-image-button {
