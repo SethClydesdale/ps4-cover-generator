@@ -1217,19 +1217,14 @@ a.select-image-action:active { background:#05A; }
 /* IMGUR SEARCH */
 #imgur-search-form {
   background:#FFF;
-  border-bottom:1px solid #EEE;
+  background:rgba(255, 255, 255, 0.7);
   text-align:center;
   position:absolute;
   left:0px;
-  right:0px;
+  right:17px;
   z-index:1;
 }
-
-.notPS4 #imgur-search-form {
-  border-right:1px solid #EEE;
-  right:17px;
-}
-
+.isPS4 #imgur-search-form { right:6px; }
 #imgur-search-form + #select-image-list { margin-top:60px; }
 
 #imgur-search {
