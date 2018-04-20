@@ -1224,7 +1224,7 @@ a.select-image-action:active { background:#05A; }
   right:17px;
   z-index:1;
 }
-.isPS4 #imgur-search-form { right:6px; }
+.isPS4 #imgur-search-form { right:7px; }
 #imgur-search-form + #select-image-list { margin-top:60px; }
 
 #imgur-search {
