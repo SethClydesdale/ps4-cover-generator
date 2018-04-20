@@ -1235,6 +1235,7 @@ a.select-image-action:active { background:#05A; }
   padding:0 16px;
   margin:8px 0 0 0;
   outline:none;
+  cursor:pointer;
 }
 
 #imgur-message {
