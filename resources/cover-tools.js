@@ -1006,6 +1006,152 @@
 
     // image resources for use in cover images
     Images : {
+      
+      // imgur API
+      imgur : {
+        id : 'ed9dcc4c9eba401', // client id
+        fullyLoaded : false, // indicates if the search list has been fully loaded
+        
+        query : '', // current query
+        page : 1, // current page
+        thumbnail : 'm', // thumbnail size (listed below are sizes)
+        // s = 90x90
+        // b = 160x160
+        // t = 160x160
+        // m = 320x320
+        // l = 640x640
+        // h = 1024x1024
+        
+        
+        // set up imgur search
+        init : function () {
+          PS_Cover.cache.Images.modal.innerHTML =
+          '<h1 id="select-image-title">Imgur Search</h1>'+
+          '<a class="select-image-button select-image-back" href="#" onclick="PS_Cover.Images.close();PS_Cover.Images.call();return false;"><i class="fa fa-chevron-left"></i> Back</a>'
+          + PS_Cover.templates.Images.close +
+          '<div id="select-image-container">'+
+            '<div id="imgur-search-form"><input type="text" id="imgur-search" onkeyup="PS_Cover.Images.imgur.search(this.value);" placeholder="Search..."></div>'+
+            '<div id="select-image-list" class="clear"></div>'+
+          '</div>';
+
+          // add more images while scrolling
+          PS_Cover.cache.Images.imageContent = document.getElementById('select-image-container');
+          PS_Cover.cache.Images.imageList = document.getElementById('select-image-list');
+          PS_Cover.cache.Images.title = document.getElementById('select-image-title');
+
+          PS_Cover.cache.Images.imageContent.addEventListener('scroll', function () {
+            if (this.scrollHeight - this.scrollTop === this.clientHeight && !PS_Cover.Images.imgur.fullyLoaded) {
+              PS_Cover.Images.imgur.search(PS_Cover.Images.imgur.query, true);
+            }
+          });
+        },
+        
+        // perform a search on imgur
+        search : function (query, nextPage) {
+          
+          // initial search
+          if (!nextPage) {
+            
+            // abort ongoing timeouts
+            if (PS_Cover.Images.imgur.timeout) {
+              clearTimeout(PS_Cover.Images.imgur.timeout);
+              delete PS_Cover.Images.imgur.timeout;
+            }
+            
+            // abort ongoing searches
+            if (PS_Cover.Images.imgur.request) {
+              PS_Cover.Images.imgur.request.abort();
+              delete PS_Cover.Images.imgur.request;
+            }
+            
+            // setup search data
+            PS_Cover.Images.imgur.query = encodeURIComponent(query);
+            PS_Cover.Images.imgur.page = 1;
+            PS_Cover.cache.Images.imageList.dataset.fullyLoaded = false;
+            PS_Cover.Images.imgur.fullyLoaded = false;
+            
+            PS_Cover.cache.Images.imageList.innerHTML = '<div id="imgur-message">Loading...</div><a class="select-image-action select-image-load" href="#" onclick="PS_Cover.Images.imgur.search(PS_Cover.Images.imgur.query, true); return false;">Load More</a>';
+            
+            // wait 100ms before sending a request (in case the user is still typing)
+            PS_Cover.Images.imgur.timeout = setTimeout(function () {
+              PS_Cover.Images.imgur.add();
+              delete PS_Cover.Images.imgur.timeout; // add images to the selector
+            }, 100);
+          }
+          
+          // load more images for the query if a request isn't currently ongoing
+          else if (!PS_Cover.Images.imgur.request) {
+            PS_Cover.cache.Images.imageList.lastChild.insertAdjacentHTML('beforebegin', '<div id="imgur-message">Loading...</div>');
+            
+            PS_Cover.Images.imgur.page++; // increment the page number to load new images
+            PS_Cover.Images.imgur.add();
+          }
+        },
+        
+        
+        // add new images from imgur
+        add : function () {
+          PS_Cover.Images.imgur.request = get('https://api.imgur.com/3/gallery/search/top/' + PS_Cover.Images.imgur.page + '/?q=' + PS_Cover.Images.imgur.query + '&client_id=' + PS_Cover.Images.imgur.id, function (data) {
+            var imgur = JSON.parse(data).data,
+                placeholder = document.getElementById('imgur-message'),
+                i = 0,
+                j = imgur.length,
+                k, l,
+                str = '';
+            
+            // removes loading placeholder
+            if (placeholder) {
+              PS_Cover.cache.Images.imageList.removeChild(placeholder);
+            }
+            
+            // parse the images
+            if (j) {
+              
+              for (; i < j; i++) {
+
+                // add a single image
+                if (imgur[i].type && /image/.test(imgur[i].type)) {
+                  str += '<a class="select-image-option" href="#" onclick="PS_Cover.Images.insert(this.firstChild, true);return false;"><img src="https://i.imgur.com/' + imgur[i].id + PS_Cover.Images.imgur.thumbnail + '.' + imgur[i].type.split('/').pop() + '" alt=""></a>';
+                }
+
+                // add multiple images
+                else if (imgur[i].images) {
+                  for (k = 0, l = imgur[i].images.length; k < l; k++) {
+                    if (/image/.test(imgur[i].images[k].type)) {
+                      str += '<a class="select-image-option" href="#" onclick="PS_Cover.Images.insert(this.firstChild, true);return false;"><img src="https://i.imgur.com/' + imgur[i].images[k].id + PS_Cover.Images.imgur.thumbnail + '.' + imgur[i].images[k].type.split('/').pop() + '" alt=""></a>'
+                    }
+                  }
+                }
+              }
+
+              // add the images to the selector
+              PS_Cover.cache.Images.imageList.lastChild.insertAdjacentHTML('beforebegin', str);
+            }
+            
+            // otherwise the list has been fully loaded
+            else {
+              PS_Cover.cache.Images.imageList.dataset.fullyLoaded = true;
+              PS_Cover.Images.imgur.fullyLoaded = true;
+              
+              // if the page is = to 1, it means no results were found
+              // in which case we should notify the user
+              if (PS_Cover.Images.imgur.page == 1) {
+                PS_Cover.cache.Images.imageList.innerHTML = '<div id="imgur-message">No images could be found for this query. :(</div>';
+              }
+              
+              // otherwise let the user know they viewed all entries for this query
+              else if (!document.getElementById('imgur-message')) {
+                PS_Cover.cache.Images.imageList.lastChild.insertAdjacentHTML('beforebegin', '<div id="imgur-message">You have viewed all results for this query.</div>');
+              }
+            }
+
+            // delete the request object so new requests can be sent
+            delete PS_Cover.Images.imgur.request;
+          });
+        }
+        
+      },
+      
 
       // call and build the image overlay
       call : function (caller) {
@@ -1032,7 +1178,11 @@
 
           if (PS_Cover.Images.list) {
             PS_Cover.Images.total = [0, 0];
+            
+            // add imgur search
+            str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.imgur.init();return false;" style="background-image:url(resources/images/imgur-logo.png)"><span class="select-image-total">Search</span></a>';
 
+            // add categories
             for (i in PS_Cover.Images.list) {
               len = PS_Cover.Images.list[i].images.length + 1;
 
@@ -1141,13 +1291,23 @@
 
 
       // insert the image url into the input
-      insert : function (img) {
+      insert : function (img, imgur) {
         var input = PS_Cover.Images.caller.previousSibling,
             src = img.getAttribute('src'),
             regex = /_tn\.jpg$/;
+        
+        // convert the imgur image from a thumbnail
+        if (imgur) {
+          src = src.replace(PS_Cover.Images.imgur.thumbnail + '.', '.');
+        }
+        
+        // convert the image from a thumbnail
+        else {
+          src = regex.test(src) ? src.replace(regex, '.' + img.dataset.ext) : src;
+        }
 
         PS_Cover.Images.close();
-        input.value = regex.test(src) ? src.replace(regex, '.' + img.dataset.ext) : src;
+        input.value = src;
         PS_Cover.updateInput(input);
         PS_Cover.draw();
       },

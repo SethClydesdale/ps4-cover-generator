@@ -412,11 +412,11 @@ function get (url, callback) {
     if (this.readyState == 4 && this.status == 200) {
       callback(this.responseText);
 
-    } else {
-      callback('error');
     }
   };
 
   xhttp.open('get', url, true);
   xhttp.send();
+  
+  return xhttp;
 };
