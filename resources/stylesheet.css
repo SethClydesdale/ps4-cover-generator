@@ -1216,12 +1216,20 @@ a.select-image-action:active { background:#05A; }
 
 /* IMGUR SEARCH */
 #imgur-search-form {
+  background:#FFF;
+  border-bottom:1px solid #EEE;
   text-align:center;
-  position:fixed;
-  left:70px;
-  right:70px;
+  position:absolute;
+  left:0px;
+  right:0px;
   z-index:1;
 }
+
+.notPS4 #imgur-search-form {
+  border-right:1px solid #EEE;
+  right:17px;
+}
+
 #imgur-search-form + #select-image-list { margin-top:60px; }
 
 #imgur-search {
@@ -1233,7 +1241,7 @@ a.select-image-action:active { background:#05A; }
   line-height:50px;
   width:90%;
   padding:0 16px;
-  margin:8px 0 0 0;
+  margin:8px 0;
   outline:none;
   cursor:pointer;
 }

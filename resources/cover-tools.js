@@ -1030,7 +1030,7 @@
           '<a class="select-image-button select-image-back" href="#" onclick="PS_Cover.Images.close();PS_Cover.Images.call();return false;"><i class="fa fa-chevron-left"></i> Back</a>'
           + PS_Cover.templates.Images.close +
           '<div id="select-image-container">'+
-            '<div id="imgur-search-form"><input type="text" id="imgur-search" onkeyup="PS_Cover.Images.imgur.search(this.value);" placeholder="Search..."></div>'+
+            '<div id="imgur-search-form"><input type="text" id="imgur-search" oninput="PS_Cover.Images.imgur.search(this.value);" placeholder="Search..."></div>'+
             '<div id="select-image-list" class="clear"></div>'+
           '</div>';
 
