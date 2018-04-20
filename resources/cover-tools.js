@@ -1110,14 +1110,14 @@
               for (; i < j; i++) {
 
                 // add a single image
-                if (imgur[i].type && /image/.test(imgur[i].type)) {
+                if (imgur[i].type && /image/.test(imgur[i].type) && !/gif/.test(imgur[i].type)) {
                   str += '<a class="select-image-option" href="#" onclick="PS_Cover.Images.insert(this.firstChild, true);return false;"><img src="https://i.imgur.com/' + imgur[i].id + PS_Cover.Images.imgur.thumbnail + '.' + imgur[i].type.split('/').pop() + '" alt=""></a>';
                 }
 
                 // add multiple images
                 else if (imgur[i].images) {
                   for (k = 0, l = imgur[i].images.length; k < l; k++) {
-                    if (/image/.test(imgur[i].images[k].type)) {
+                    if (/image/.test(imgur[i].images[k].type) && !/gif/.test(imgur[i].images[k].type)) {
                       str += '<a class="select-image-option" href="#" onclick="PS_Cover.Images.insert(this.firstChild, true);return false;"><img src="https://i.imgur.com/' + imgur[i].images[k].id + PS_Cover.Images.imgur.thumbnail + '.' + imgur[i].images[k].type.split('/').pop() + '" alt=""></a>'
                     }
                   }
