@@ -948,7 +948,86 @@
         PS_Cover.cache.layerList.scrollTop = layer.offsetTop - 41;
       }
     },
+    
+    
+    // import / export functionality
+    transfer : {
+      
+      // call the image overlay to manage importing/exporting
+      call : function (o) {
+        PS_Cover.Images.call(false, true);
+        PS_Cover.cache.Images.modal.className += ' ps-import-export';
+        PS_Cover.cache.Images.modal.firstChild.innerHTML = o.title + ' Cover Image';
+        PS_Cover.cache.Images.modal.lastChild.firstChild.innerHTML = 
+          '<p class="import-export-message">' + o.message + '</p>'+
+          '<textarea id="import-export-code" ' + ( o.code ? 'onclick="this.select()"' : '' ) + '>' + (o.code || '') + '</textarea>' + (o.other || '');
+      },
+      
+      
+      // export a cover image
+      export : function () {
+        PS_Cover.transfer.call({
+          title : 'Export',
+          message : 'Copy the code below and keep it somewhere safe, so you can import or share an editable version of your cover image.',
+          code : PS_Cover.cache.layerList.innerHTML,
+          other : PS_Cover.isPS4 ? '<p class="import-export-message">On the PS4 keyboard, click the three dots "•••" to open the context menu. This will let you select the code, copy it, and paste it somewhere safe.</p>' : ''
+        });
+      },
+      
+      
+      // import a cover image
+      import : function () {
+        PS_Cover.transfer.call({
+          title : 'Import',
+          message : 'Paste the code for a cover image in the textarea below to import and edit it. Click the "Import" button to finalize the import process.',
+          other : '<div class="center">'+
+                    '<a class="select-image-action" href="#" onclick="PS_Cover.transfer.finalize(); return false;">Import</a>'+
+                  '</div>'
+        });
+      },
 
+      
+      // finalize the import process
+      finalize : function () {
+        var code = document.getElementById('import-export-code').value, active;
+        
+        // return if the code is empty
+        if (!code) {
+          return alert('You cannot import an empty cover image.');
+        }
+        
+        // return if the code is missing key data
+        if (!/cover-layer|PS_Cover/g.test(code)) {
+          return alert('You have entered an invalid cover image code. Please check the code and try again, or contact support for further assistance.');
+        }
+        
+        // ask for confirmation before importing
+        if (confirm('Are you sure you want to import this cover image? Your current cover image will be lost.')) {
+          
+          // clean out script tags, if someone placed them maliciously
+          code = code.replace(/<script>|<\/script>/g, '').replace(/\son(.*?)=".*?"/g, function (M, $1) {
+            return $1 == 'click' ? 'onclick="PS_Cover.openLayer(this); return false;"' : '';
+          });
+          
+          // close the import modal
+          PS_Cover.Images.close();
+          
+          // apply the code to the layerlist
+          PS_Cover.cache.layerList.innerHTML = code;
+          active = document.querySelector('.activeLayer'); // get the active layer
+          
+          // update PS_Cover data so it can draw the new cover image
+          PS_Cover.cache.activeLayer = active;
+          PS_Cover.cache.layers = document.querySelectorAll('.cover-layer');
+          PS_Cover.updateLayerCount();
+          PS_Cover.openLayer(active);
+          PS_Cover.draw();
+        }
+          
+      }
+      
+    },
+    
 
     // build and call the FontAwesome icon list
     // FontAwesome created by Dave Gandy : http://fontawesome.io/
@@ -1159,8 +1238,8 @@
       
 
       // call and build the image overlay
-      call : function (caller) {
-        if (!PS_Cover.Images.list) {
+      call : function (caller, emptyModal) {
+        if (!PS_Cover.Images.list && !emptyModal) {
           var script = document.createElement('SCRIPT');
           script.src = 'resources/images-list.min.js';
           document.body.appendChild(script);
@@ -1181,51 +1260,58 @@
           overlay.className = 'overlay';
           modal.id = 'select-image-modal';
 
-          if (PS_Cover.Images.list) {
-            PS_Cover.Images.total = [0, 0];
+          if (!emptyModal) { // call an empty modal for other uses
             
-            // add imgur search
-            str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.imgur.init();return false;" style="background-image:url(resources/images/imgur-logo.png)"><span class="select-image-total">Search</span></a>';
+            if (PS_Cover.Images.list) {
+              PS_Cover.Images.total = [0, 0];
 
-            // add categories
-            for (i in PS_Cover.Images.list) {
-              len = PS_Cover.Images.list[i].images.length + 1;
+              // add imgur search
+              str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.imgur.init();return false;" style="background-image:url(resources/images/imgur-logo.png)"><span class="select-image-total">Search</span></a>';
 
-              PS_Cover.Images.total[0]++;
-              PS_Cover.Images.total[1] += len;
+              // add categories
+              for (i in PS_Cover.Images.list) {
+                len = PS_Cover.Images.list[i].images.length + 1;
 
-              str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + PS_Cover.Images.host + i + '/' + PS_Cover.Images.list[i].thumb + ')"><span class="select-image-total">' + len + ' images</span></a>';
+                PS_Cover.Images.total[0]++;
+                PS_Cover.Images.total[1] += len;
+
+                str += '<a class="select-image-category" href="#" onclick="PS_Cover.Images.get(\'' + i + '\');return false;" style="background-image:url(' + PS_Cover.Images.host + i + '/' + PS_Cover.Images.list[i].thumb + ')"><span class="select-image-total">' + len + ' images</span></a>';
+              }
+            } else {
+              str +=
+                '<p class="loading"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></p>'+
+                '<p class="loading">Loading images...</p>';
             }
-          } else {
-            str +=
-              '<p class="loading"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></p>'+
-              '<p class="loading">Loading images...</p>';
+            
           }
-
-          modal.innerHTML = str + '</div></div>' + PS_Cover.templates.Images.request;
-
-          PS_Cover.cache.Images.overlay = overlay;
-          PS_Cover.cache.Images.modal = modal;
-
+          
+          modal.innerHTML = str + '</div></div>' + (emptyModal ? '' : PS_Cover.templates.Images.request);
+          
           if (caller) {
             PS_Cover.Images.caller = caller;
           }
+
+          PS_Cover.cache.Images.overlay = overlay;
+          PS_Cover.cache.Images.modal = modal;
 
           document.body.appendChild(PS_Cover.cache.Images.overlay);
           document.body.appendChild(PS_Cover.cache.Images.modal);
           document.body.style.overflow = 'hidden';
 
-          // show image selector stats
-          if (PS_Cover.Images.total) {
-            document.getElementById('select-image-stats').innerHTML = 'Choose from over <b>' + PS_Cover.Images.total[1] + '</b> images in <b>' + PS_Cover.Images.total[0] + '</b> categories.';
-          }
+          if (!emptyModal) {
+            // show image selector stats
+            if (PS_Cover.Images.total) {
+              document.getElementById('select-image-stats').innerHTML = 'Choose from over <b>' + PS_Cover.Images.total[1] + '</b> images in <b>' + PS_Cover.Images.total[0] + '</b> categories.';
+            }
 
-          if (!document.querySelector('.select-image-category')) {
-            window.setTimeout(function() {
-              PS_Cover.Images.close();
-              PS_Cover.Images.call();
-            }, 100);
+            if (!document.querySelector('.select-image-category')) {
+              window.setTimeout(function() {
+                PS_Cover.Images.close();
+                PS_Cover.Images.call();
+              }, 100);
+            }
           }
+          
         }
 
       },

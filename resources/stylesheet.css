@@ -543,6 +543,9 @@ a.tools-delete:active { background:#C31; }
 .cover-input-value[type="text"] { width:30%; }
 input[type="number"] { width:60px; }
 
+.tools-actions-row { margin:3px 0; }
+#cover-tools .tools-actions-row select { margin:0; }
+
 .layer-button {
   font-size:26px;
   display:inline-block;
@@ -673,6 +676,26 @@ a#home-link:before { /* makes the background image clickable */
 #fork-me:hover {
   color:#333;
   background:#FFF;
+}
+
+/* import/export */
+.import-export-message {
+  font-size:18px;
+  text-align:center;
+  margin:30px 0;
+}
+
+#import-export-code {
+  color:#333;
+  font-size:13px;
+  background:#FFF;
+  border:1px solid #CCC;
+  display:block;
+  width:90%;
+  height:250px;
+  margin:30px auto;
+  outline:none;
+  cursor:pointer;
 }
 
 
