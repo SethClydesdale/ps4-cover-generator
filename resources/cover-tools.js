@@ -564,7 +564,7 @@
           row.innerHTML =
           '<a '+
             'data-value="' + (val || 'rect') + '"'+
-            'data-color="' + PS_Cover.randomColor() + '"'+
+            'data-color="' + (settings.color || PS_Cover.randomColor()) + '"'+
             'data-gradient="' + ( settings.gradient || 'D:rgba(255, 255, 255, 1)|rgba(102, 102, 102, 1);Horizontal|0|0|100|0|50|0' ) + '"'+
             'data-nofill="' + ( settings.nofill || false ) + '"'+
             'data-scale="' + ( settings.scale || 100 ) + '"'+
@@ -960,7 +960,7 @@
         PS_Cover.cache.Images.modal.firstChild.innerHTML = o.title + ' Cover Image';
         PS_Cover.cache.Images.modal.lastChild.firstChild.innerHTML = 
           '<p class="import-export-message">' + o.message + '</p>'+
-          '<textarea id="import-export-code" ' + ( o.code ? 'onclick="this.select()"' : '' ) + '>' + (o.code || '') + '</textarea>' + (o.other || '');
+          '<textarea id="import-export-code">' + (o.code || '') + '</textarea>' + (o.other || '');
       },
       
       
