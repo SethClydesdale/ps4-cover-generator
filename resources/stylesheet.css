@@ -77,11 +77,12 @@ a:active { color:#049; }
   top:1px;
   left:0;
   right:0;
-  height:600px;
-  visibility:visible;
+  height:640px;
   pointer-events:none;
+  visibility:visible;
   opacity:1;
-  transition:300ms;
+  transition-property:visibility, opacity;
+  transition-duration:300ms;
 }
 
 #ps4-demo-profile.hidden {
@@ -90,7 +91,7 @@ a:active { color:#049; }
 }
 
 #overlay-profile {
-  height:285px;
+  height:325px;
   position:absolute;
   left:0;
   right:0;

@@ -15,6 +15,11 @@
       layerSettings : document.getElementById('layer-settings'),
       layerList : document.getElementById('layer-list'),
       layerTotal : document.getElementById('layer-total'),
+      
+      demo : {
+        profile : document.getElementById('ps4-demo-profile'),
+        overlay : document.getElementById('overlay-profile')
+      },
 
       Images : {},
       updateInput : {},
@@ -1552,9 +1557,22 @@
     setDimensions : function (caller, type) {
       if (caller.value) {
         PS_Cover.canvas[type] = caller.value;
+        
+        // set demo profile height
+        if (type == 'height') {
+          PS_Cover.cache.demo.profile.style.height = caller.value + 'px';
+          PS_Cover.cache.demo.overlay.style.height = (caller.value / 1.969) + 'px';
+        }
+        
 
       } else {
         PS_Cover.canvas[type] = type == 'width' ? window.innerWidth : 640;
+        
+        // set demo profile height
+        if (type == 'height') {
+          PS_Cover.cache.demo.profile.style.height = '640px';
+          PS_Cover.cache.demo.overlay.style.height = (640 / 1.969) + 'px';
+        }
       }
 
       PS_Cover.draw();
@@ -1706,6 +1724,8 @@
   PS_Cover.ctx = PS_Cover.canvas.getContext('2d');
   PS_Cover.canvas.width = window.innerWidth;
   PS_Cover.canvas.height = 640;
+  PS_Cover.cache.demo.profile.style.height = '640px';
+  PS_Cover.cache.demo.overlay.style.height = (640 / 1.969) + 'px';
 
   document.body.className += PS_Cover.isPS4 ? ' isPS4' : ' notPS4';
 
@@ -1791,7 +1811,7 @@
 
   // toggle demo profile
   document.getElementById('cover-show-profile').addEventListener('change', function () {
-    document.getElementById('ps4-demo-profile').className = this.checked ? '' : 'hidden';
+    PS_Cover.cache.demo.profile.className = this.checked ? '' : 'hidden';
   });
 
 
