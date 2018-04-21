@@ -1705,7 +1705,7 @@
   // inital setup of the canvas
   PS_Cover.ctx = PS_Cover.canvas.getContext('2d');
   PS_Cover.canvas.width = window.innerWidth;
-  PS_Cover.canvas.height = 600;
+  PS_Cover.canvas.height = 640;
 
   document.body.className += PS_Cover.isPS4 ? ' isPS4' : ' notPS4';
 
