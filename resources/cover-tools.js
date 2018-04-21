@@ -1554,7 +1554,7 @@
         PS_Cover.canvas[type] = caller.value;
 
       } else {
-        PS_Cover.canvas[type] = type == 'width' ? window.innerWidth : 600;
+        PS_Cover.canvas[type] = type == 'width' ? window.innerWidth : 640;
       }
 
       PS_Cover.draw();
