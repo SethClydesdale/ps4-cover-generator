@@ -966,10 +966,20 @@
       
       // export a cover image
       export : function () {
+        
+        // parse the code in JSON format
+        for (var i = 0, j = PS_Cover.cache.layers.length, code = [], k; i < j; i++) {
+          code[i] = {};
+          
+          for (k in PS_Cover.cache.layers[i].dataset) {
+            code[i][k] = PS_Cover.cache.layers[i].dataset[k];
+          }
+        }
+        
         PS_Cover.transfer.call({
           title : 'Export',
           message : 'Copy the code below and keep it somewhere safe, so you can import or share an editable version of your cover image.',
-          code : PS_Cover.cache.layerList.innerHTML,
+          code : JSON.stringify(code),
           other : PS_Cover.isPS4 ? '<p class="import-export-message">On the PS4 keyboard, click the three dots "•••" to open the context menu. This will let you select the code, copy it, and paste it somewhere safe.</p>' : ''
         });
       },
@@ -989,7 +999,7 @@
       
       // finalize the import process
       finalize : function () {
-        var code = document.getElementById('import-export-code').value, active;
+        var code = document.getElementById('import-export-code').value, i;
         
         // return if the code is empty
         if (!code) {
@@ -997,31 +1007,21 @@
         }
         
         // return if the code is missing key data
-        if (!/cover-layer|PS_Cover/g.test(code)) {
+        if (!/"type":".*?"/g.test(code)) {
           return alert('You have entered an invalid cover image code. Please check the code and try again, or contact support for further assistance.');
         }
         
         // ask for confirmation before importing
         if (confirm('Are you sure you want to import this cover image? Your current cover image will be lost.')) {
+          PS_Cover.cache.layerList.innerHTML = ''; // empty layer list
           
-          // clean out script tags, if someone placed them maliciously
-          code = code.replace(/<script>|<\/script>/g, '').replace(/\son(.*?)=".*?"/g, function (M, $1) {
-            return $1 == 'click' ? 'onclick="PS_Cover.openLayer(this); return false;"' : '';
-          });
+          // add new layers
+          for (code = JSON.parse(code), i = code.length - 1; i > -1; i--) {
+            PS_Cover.add(code[i].type, code[i]);
+          }
           
           // close the import modal
           PS_Cover.Images.close();
-          
-          // apply the code to the layerlist
-          PS_Cover.cache.layerList.innerHTML = code;
-          active = document.querySelector('.activeLayer'); // get the active layer
-          
-          // update PS_Cover data so it can draw the new cover image
-          PS_Cover.cache.activeLayer = active;
-          PS_Cover.cache.layers = document.querySelectorAll('.cover-layer');
-          PS_Cover.updateLayerCount();
-          PS_Cover.openLayer(active);
-          PS_Cover.draw();
         }
           
       }
