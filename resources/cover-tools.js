@@ -598,12 +598,12 @@
           shadow = data.shadow.replace('D:', '').split('|'),
 
           coords = PS_Cover.templates.layer_coords
-          .replace('value="0"', 'value="' + data.x + '"')
-          .replace('value="0"', 'value="' + data.y + '"'),
+          .replace('value="{COORD-X}"', 'value="' + data.x + '"')
+          .replace('value="{COORD-Y}"', 'value="' + data.y + '"'),
 
           shared_tools = PS_Cover.templates.shared_tools
           .replace('value="' + data.blend + '"', 'value="' + data.blend + '" selected')
-          .replace('value="100"', 'value="' + data.opacity + '"')
+          .replace('value="{OPACITY}"', 'value="' + data.opacity + '"')
           .replace('id="layer-shadow"', 'id="layer-shadow"' + (/^D:/.test(data.shadow) ? '' : ' checked'))
           .replace('{SHADOW_X}', shadow[0])
           .replace('{SHADOW_Y}', shadow[1])
@@ -754,113 +754,211 @@
     // loads a preset
     loadPreset : function (caller, skipConfirmation) {
       if (skipConfirmation || confirm('Would you like to load the ' + ( caller ? caller.options[caller.selectedIndex].innerHTML : 'default' ) + ' preset? Your current progress will be lost.')) {
-        var color = '#000000';
+        var color = '#0077CC', preset, i;
 
         PS_Cover.deleteLayers(true);
         PS_Cover.loadingPreset = true;
 
         switch (caller ? caller.value : '') {
+          case 'batman' : 
+            preset = [
+              {
+                type : 'text',
+                value : 'BATMAN',
+                color : '#000000',
+                font : 'Righteous',
+                y : 171,
+                opacity : 50,
+                rotate : 315,
+                x : 58
+              },
+              
+              {
+                type : 'shape',
+                value : 'rect',
+                color : '#999999',
+                height : 60,
+                width : 400,
+                opacity : 50,
+                rotate : 135,
+                x : 263,
+                y : -12
+              },
+              
+              {
+                type : 'image',
+                value : 'resources/images/batman/batmanw-11.jpg'
+              }
+            ];
+            break
+            
           case 'gravity-rush' :
-            color = '#007700';
-
-            PS_Cover.add('image', {
-              value : 'resources/images/gravity-rush/grw-00.jpg',
-              y : -570
-            });
-
-            PS_Cover.add('image', {
-              value : 'resources/images/gravity-rush/gr-logo.png',
-              x : 0,
-              y : 60,
-              opacity : 50,
-              rotate : 340
-            });
-
-            PS_Cover.add('text', {
-              value : 'YOUR NAME HERE',
-              color : '#004400',
-              size : 30,
-              font : 'Luckiest Guy',
-              x : 30,
-              y : 400,
-              opacity : 80,
-              rotate : 270
-            });
-
+            preset = [
+              { 
+                type : 'text',
+                value : 'YOUR NAME HERE',
+                color : '#004400',
+                size : 30,
+                font : 'Luckiest Guy',
+                x : 30,
+                y : 400,
+                opacity : 80,
+                rotate : 270
+              },
+              
+              {
+                type : 'image',
+                value : 'resources/images/gravity-rush/gr-logo.png',
+                x : 0,
+                y : 60,
+                opacity : 50,
+                rotate : 340
+              },
+              
+              {
+                type : 'image',
+                value : 'resources/images/gravity-rush/grw-00.jpg',
+                y : -530
+              }
+            ];
             break;
+            
+          case 'horizon-zero-dawn' :
+            preset = [
+              {
+                type : 'text',
+                value : 'YOUR NAME',
+                color : '#CCCCCC',
+                font : 'Righteous',
+                y : 200,
+                opacity : 50,
+                rotate : 315,
+                x : 30
+              },
 
+              {
+                type : 'shape',
+                value : 'rect',
+                color : '#0080FF',
+                height : 60,
+                width : 400,
+                opacity : 50,
+                rotate : 135,
+                x : 263,
+                y : -12
+              },
+
+              {
+                type : 'image',
+                value : 'resources/images/horizon-zero-dawn/hzd-logo.png',
+                x : 145,
+                y : 185
+              },
+
+              {
+                type : 'image',
+                value : 'resources/images/horizon-zero-dawn/robot-04.png',
+                scale : 60,
+                blend : 'overlay',
+                flipH : 1,
+                x : 2127,
+                y : 552
+              },
+
+              {
+                type : 'image',
+                value : 'resources/images/horizon-zero-dawn/robot-04.png',
+                scale : 70,
+                blend : 'overlay',
+                y : 406
+              },
+
+              {
+                type : 'image',
+                value : 'resources/images/horizon-zero-dawn/hzdw-09.jpg',
+              }
+            ];
+            break;
 
           case 'persona-5' :
-            color = '#CC0000';
-
-            PS_Cover.add('image', {
-              value : 'resources/images/persona/p5w-00.jpg'
-            });
-
-            PS_Cover.add('text', {
-              value : 'SIGN YOUR NAME HERE',
-              color : '#000000',
-              font : 'Love Ya Like A Sister',
-              x : 85,
-              y : 140,
-              rotate : 350
-            });
-
+            preset = [
+              {
+                type : 'text',
+                value : 'SIGN YOUR NAME HERE',
+                color : '#000000',
+                font : 'Love Ya Like A Sister',
+                x : 85,
+                y : 140,
+                rotate : 350
+              },
+              
+              {
+                type : 'image',
+                value : 'resources/images/persona/p5w-00.jpg'
+              }
+            ];
             break;
-
 
           case 'uncharted-4' :
-            color = '#003377';
-
-            PS_Cover.add('image', {
-              value : 'resources/images/uncharted/uc4-00.jpg'
-            });
-
-            PS_Cover.add('image', {
-              value : 'resources/images/uncharted/uc-logo.png',
-              opacity : 80,
-              rotate : 320,
-              x : 10,
-              y : 140
-            });
-
-            PS_Cover.add('text', {
-              value : 'YOUR NAME HERE',
-              color : '#FFFFFF',
-              font : 'Fredericka the Great',
-              x : 380,
-              y : 310
-            });
-
+            preset = [
+              {
+                type : 'text',
+                value : 'YOUR NAME HERE',
+                color : '#FFFFFF',
+                font : 'Fredericka the Great',
+                x : 380,
+                y : 310
+              },
+              
+              {
+                type : 'image',
+                value : 'resources/images/uncharted/uc-logo.png',
+                opacity : 80,
+                rotate : 320,
+                x : 10,
+                y : 140
+              },
+              
+              {
+                type : 'image',
+                value : 'resources/images/uncharted/uc4-00.jpg'
+              }
+            ];
             break;
-
 
           default :
-            color = '#0077CC';
-
-            PS_Cover.add('image', {
-              value : 'resources/images/ps4.png',
-              x : (PS_Cover.canvas.width / 2) - 100,
-              y : (PS_Cover.canvas.height / 2) - 100
-            });
-
-            PS_Cover.add('text', {
-              value : 'PS4 Cover Generator',
-              color : '#FFFFFF',
-              x : (PS_Cover.canvas.width / 2) - 175,
-              y : 120
-            });
-
+            preset = [
+              {
+                type : 'text',
+                value : 'PS4 Cover Generator',
+                color : '#FFFFFF',
+                x : (PS_Cover.canvas.width / 2) - 175,
+                y : 120
+              },
+              
+              {
+                type : 'image',
+                value : 'resources/images/ps4.png',
+                x : (PS_Cover.canvas.width / 2) - 100,
+                y : (PS_Cover.canvas.height / 2) - 100
+              }
+            ];
             break;
         }
+        
+        // apply the preset layers
+        for (i = preset.length - 1; i > -1; i--) {
+          PS_Cover.add(preset[i].type, preset[i]);
+        }
 
+        // apply the background color to the canvas
         PS_Cover.cache.bgColor.value = color;
 
         if (PS_Cover.cache.bgColor.previousSibling.className == 'color-inpicker-box') {
           PS_Cover.cache.bgColor.previousSibling.style.backgroundColor = color;
         }
 
-
+        // draw the update layers to the canvas
         window.setTimeout(PS_Cover.draw, 100);
 
         PS_Cover.loadingPreset = false;
@@ -917,6 +1015,11 @@
         PS_Cover.cache.layers = PS_Cover.cache.layerList.querySelectorAll('.cover-layer');
         PS_Cover.updateLayerCount();
         PS_Cover.draw();
+        
+        // show overflow if on PC
+        if (!skipConfirmation && !PS_Cover.isPS4) {
+          document.body.style.overflow = '';
+        }
       }
     },
 
@@ -968,7 +1071,8 @@
       export : function () {
         
         // default values
-        // used to exclude data that'll be applied when initialized
+        // used to exclude data that'll be applied when initialized.
+        // since the PS4 can only copy strings that are 2048 characters, this should help a lot.
         var defaults = {
           value : '',
           blend : '',
@@ -989,6 +1093,11 @@
         },
             
         code = [],
+        settings = [
+          PS_Cover.cache.settings[0].value,
+          PS_Cover.cache.settings[1].value,
+          PS_Cover.cache.settings[2].value
+        ],
         i = 0,
         j = PS_Cover.cache.layers.length,
         k;
@@ -1004,11 +1113,22 @@
           }
         }
         
+        // add canvas settings if they're not default
+        j = settings.length;
+        while (j --> 0) {
+          if (settings[j] != '#0077CC' && settings[j] != '') {
+            code[i] = settings;
+            break;
+          }
+        }
+        
+        // open overlay
         PS_Cover.transfer.call({
           title : 'Export',
           message : 'Copy the code below and keep it somewhere safe, so you can import or share an editable version of your cover image.',
           code : JSON.stringify(code),
-          other : PS_Cover.isPS4 ? '<p class="import-export-message">On the PS4 keyboard, click the three dots "•••" to open the context menu. This will let you select the code, copy it, and paste it somewhere safe.</p>' : ''
+          other : (PS_Cover.isPS4 ? '<p class="import-export-message">On the PS4 keyboard, click the three dots "•••" to open the context menu. This will let you select the code, copy it, and paste it somewhere safe.</p>' : '')+
+                  '<p class="import-export-message">Need a safe place to store your cover image? You can use <a href="http://ps4covergenerator.forumotion.com/t10-share-your-psn-profile-banners#16" target="_blank">our forum</a>!</p>'
         });
       },
       
@@ -1020,14 +1140,15 @@
           message : 'Paste the code for a cover image in the textarea below to import and edit it. Click the "Import" button to finalize the import process.',
           other : '<div class="center">'+
                     '<a class="select-image-action" href="#" onclick="PS_Cover.transfer.finalize(); return false;">Import</a>'+
-                  '</div>'
+                  '</div>'+
+                  '<p class="import-export-message">Looking for import codes? You can find some on <a href="http://ps4covergenerator.forumotion.com/t10-share-your-psn-profile-banners#16" target="_blank">our forum</a>!</p>'
         });
       },
 
       
       // finalize the import process
       finalize : function () {
-        var code = document.getElementById('import-export-code').value, i;
+        var code = document.getElementById('import-export-code').value, picker, i, j, k;
         
         // return if the code is empty
         if (!code) {
@@ -1043,9 +1164,25 @@
         if (confirm('Are you sure you want to import this cover image? Your current cover image will be lost.')) {
           PS_Cover.cache.layerList.innerHTML = ''; // empty layer list
           
-          // add new layers
+          // import the cover image
           for (code = JSON.parse(code), i = code.length - 1; i > -1; i--) {
-            PS_Cover.add(code[i].type, code[i]);
+            
+            // import canvas settings
+            if (Array.isArray(code[i])) {
+              for (j = 0, k = code[i].length; j < k; j++) {
+                PS_Cover.cache.settings[j].value = code[i][j];
+                
+                if (code[i][j].charAt(0) == '#' && PS_Cover.cache.bgColor.previousSibling.className == 'color-inpicker-box') {
+                  PS_Cover.cache.bgColor.previousSibling.style.backgroundColor = code[i][j];
+                } else {
+                  PS_Cover.setDimensions(PS_Cover.cache.settings[j], j == 1 ? 'width' : 'height');
+                }
+              }
+              
+            // import layers
+            } else {
+              PS_Cover.add(code[i].type, code[i]);
+            }
           }
           
           // close the import modal
@@ -1527,7 +1664,7 @@
       '</select>'+
 
       '<a href="#" class="fa fa-low-vision tools-icon" onclick="PS_Cover.help(this.className); return false;"></a>'+
-      '<input class="cover-input-opacity" min="0" max="100" type="number" value="100" oninput="PS_Cover.updateInput(this);">'+
+      '<input class="cover-input-opacity" min="0" max="100" type="number" value="{OPACITY}" oninput="PS_Cover.updateInput(this);">'+
 
       '<a href="#" class="fa fa-shadow tools-icon" onclick="PS_Cover.help(this.className); return false;">S</a>'+
       '<a href="#" class="layer-button" onclick="PS_Cover.togglePopup(this); return false;" style="text-shadow:2px 2px 1px #999;">S</a>'+
@@ -1544,8 +1681,8 @@
 
       layer_coords :
       '<div class="layer-coords">'+
-        '<a href="#" class="layer-coords-x tools-icon" onclick="PS_Cover.help(this.className); return false;">X</a><input class="cover-input-x" value="0" type="number" oninput="PS_Cover.updateInput(this);">'+
-        '<a href="#" class="layer-coords-y tools-icon" onclick="PS_Cover.help(this.className); return false;">Y</a><input class="cover-input-y" value="0" type="number" oninput="PS_Cover.updateInput(this);">'+
+        '<a href="#" class="layer-coords-x tools-icon" onclick="PS_Cover.help(this.className); return false;">X</a><input class="cover-input-x" value="{COORD-X}" type="number" oninput="PS_Cover.updateInput(this);">'+
+        '<a href="#" class="layer-coords-y tools-icon" onclick="PS_Cover.help(this.className); return false;">Y</a><input class="cover-input-y" value="{COORD-Y}" type="number" oninput="PS_Cover.updateInput(this);">'+
       '</div>',
 
       gradient : {
