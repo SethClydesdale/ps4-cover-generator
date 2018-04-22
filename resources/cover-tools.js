@@ -967,12 +967,40 @@
       // export a cover image
       export : function () {
         
+        // default values
+        // used to exclude data that'll be applied when initialized
+        var defaults = {
+          value : '',
+          blend : '',
+          opacity : '100',
+          scale : '100',
+          shadow : 'D:0|0|0|rgba(0, 0, 0, 1)',
+          gradient : 'D:rgba(255, 255, 255, 1)|rgba(102, 102, 102, 1);Horizontal|0|0|100|0|50|0',
+          nofill : 'false',
+          size : '40',
+          font : 'PlayStation',
+          rotate : '0',
+          flipH : '0',
+          flipV : '0',
+          height : '50',
+          width : '50',
+          x : '0',
+          y : '0'
+        },
+            
+        code = [],
+        i = 0,
+        j = PS_Cover.cache.layers.length,
+        k;
+        
         // parse the code in JSON format
-        for (var i = 0, j = PS_Cover.cache.layers.length, code = [], k; i < j; i++) {
+        for (; i < j; i++) {
           code[i] = {};
           
           for (k in PS_Cover.cache.layers[i].dataset) {
-            code[i][k] = PS_Cover.cache.layers[i].dataset[k];
+            if (PS_Cover.cache.layers[i].dataset[k] != defaults[k]) {
+              code[i][k] = PS_Cover.cache.layers[i].dataset[k];
+            }
           }
         }
         
