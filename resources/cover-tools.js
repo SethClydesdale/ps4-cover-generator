@@ -1340,8 +1340,8 @@
         
         // add new images from imgur
         add : function () {
-          PS_Cover.Images.imgur.request = get('https://api.imgur.com/3/gallery/search/top/' + PS_Cover.Images.imgur.page + '/?q=' + PS_Cover.Images.imgur.query + '&client_id=' + PS_Cover.Images.imgur.id, function (data) {
-            var imgur = JSON.parse(data).data,
+          PS_Cover.Images.imgur.request = Get('https://api.imgur.com/3/gallery/search/top/' + PS_Cover.Images.imgur.page + '/?q=' + PS_Cover.Images.imgur.query + '&client_id=' + PS_Cover.Images.imgur.id, function (response) {
+            var imgur = response.data,
                 placeholder = document.getElementById('imgur-message'),
                 i = 0,
                 j = imgur.length,
@@ -1396,7 +1396,8 @@
 
             // delete the request object so new requests can be sent
             delete PS_Cover.Images.imgur.request;
-          });
+            
+          }, 'json');
         }
         
       },
