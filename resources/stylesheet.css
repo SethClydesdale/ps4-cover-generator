@@ -1381,6 +1381,11 @@ body[data-fullscreen="true"] {
   height:calc(50% - 30px);
 }
 
+/* ADS */
+.ad-container {
+  text-align:center;
+  margin:20px 0;
+}.ad-container ins { background:red; }
 
 /* responsiveness */
 @media (max-width:720px) {
