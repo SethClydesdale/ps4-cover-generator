@@ -1,6 +1,6 @@
 // Google Analytics/Adsense
 // disabled if used locally or on another host
-//if (window.location.hostname == 'sethclydesdale.github.io') {
+if (window.location.hostname == 'sethclydesdale.github.io') {
   // Analytics
   (function (window, document, id) {
     var gtag = document.createElement('SCRIPT');
@@ -70,4 +70,4 @@
     }
     
   }(window, document, 'ca-pub-2159011770843378'));
-//}
+}
