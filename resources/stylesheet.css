@@ -666,7 +666,8 @@ a#home-link:before { /* makes the background image clickable */
   line-height:30px;
   height:30px;
   width:200px;
-  transform:rotate(45deg);
+  -webkit-transform:rotate(45deg);
+          transform:rotate(45deg);
   position:absolute;
   right:-55px;
   top:30px;
